@@ -4,10 +4,9 @@
 
     <item
         android:id="@+id/tts1"
-        android:title="삼성 TTS"
         android:layout_width="100dp"
         android:layout_height="27dp"
-        app:showAsAction="never">
+        android:title="삼성 TTS">
 
     </item>
     <item

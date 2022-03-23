@@ -4,62 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="com.example.KakaoTalktoSpeech.MainActivity">
 
     <TextView
         android:id="@+id/textMain"
-        android:layout_width="279dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="280dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="88dp"
         android:text="KakaoTalk\nto\nSpeech"
         android:textAlignment="center"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textOption"
-        android:layout_width="206dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="288dp"
-        android:text="설정"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.317"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textUsefulfeatures"
-        android:layout_width="203dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="28dp"
-        android:text="유용한 기능"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.312"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption"
-        app:layout_constraintVertical_bias="0.0" />
 
     <Switch
         android:id="@+id/tbResultItemCount"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_gravity="right"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/round_text_box"
-        android:text="사용하지 않음"
+        android:backgroundTint="#03A9F4"
+        android:text="\t\t사용 안 함"
         android:textColor="#ffffff"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
+        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textMain" />
+
+    <Button
+        android:id="@+id/btnOption"
+        android:layout_width="280dp"
+        android:layout_height="51dp"
+        android:backgroundTint="#ffffff"
+        android:text="설정"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.594" />
+
+    <Button
+        android:id="@+id/btnUsefulfeatures"
+        android:layout_width="281dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#ffffff"
+        android:text="유용한 기능"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.688" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.practiceapplication
+package com.example.kakaotalktospeech
 
 import org.junit.Test
 
