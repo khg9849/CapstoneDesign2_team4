@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 
 class MainActivity : AppCompatActivity() {
@@ -24,4 +25,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
         }
     }
+
+    override fun onNewIntent(intent: Intent?) {
+        if(intent!=null){
+            val sender=intent.getStringExtra("sender")
+            val message=intent.getStringExtra("message")
+            Toast.makeText(this,"message from $sender\n$message", Toast.LENGTH_SHORT).show()
+        }
+        super.onNewIntent(intent)
+    }
+
 }
