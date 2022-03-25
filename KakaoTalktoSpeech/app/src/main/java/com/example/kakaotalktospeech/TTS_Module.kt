@@ -12,11 +12,19 @@ class TTS_Module(val ctx: Activity) : TextToSpeech.OnInitListener {
     private var pitch: Float =1.0.toFloat()
     private var speed: Float =1.0.toFloat()
 
+    fun destroy(){
+        if (TTS != null) {
+            TTS!!.stop();
+            TTS!!.shutdown();
+        }
+    }
     fun toSpeech(text: String){
         this.text = text
         if(this.TTS==null){
+            Log.d("myTEST", "TTS module needs to be ready")
             this.TTS=TextToSpeech(ctx,this)
         }else{
+            Log.d("myTEST", "TTS module is already ready")
             speech()
         }
     }
