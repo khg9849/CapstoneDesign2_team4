@@ -23,6 +23,7 @@ class TTS_Module(val ctx: Activity) : TextToSpeech.OnInitListener {
         if(this.TTS==null){
             Log.d("myTEST", "TTS module needs to be ready")
             this.TTS=TextToSpeech(ctx,this)
+
         }else{
             Log.d("myTEST", "TTS module is already ready")
             speech()
@@ -33,6 +34,7 @@ class TTS_Module(val ctx: Activity) : TextToSpeech.OnInitListener {
         TTS!!.setPitch(pitch)
         TTS!!.setSpeechRate(speed)
         TTS!!.speak(text, TextToSpeech.QUEUE_FLUSH, null)
+        Log.d("myTEST", "speech() is finished.")
     }
 
     override fun onInit(status: Int) {
