@@ -24,7 +24,7 @@ class KakaoNotificationListener : NotificationListenerService() {
 
             if (sender!=null && message!=null&&subText==null){
                 // theses messages are not from group chat(subText==null)
-                Log.d("myTEST", "kakaotalk message is received.")
+                Log.d("myTEST", "KakaoNotificationListener - message is received.")
                // Log.d("myTEST", " - sender: $sender")
               //  Log.d("myTEST", " - message: $message")
               //  Log.d("myTEST", " - subText: $subText")

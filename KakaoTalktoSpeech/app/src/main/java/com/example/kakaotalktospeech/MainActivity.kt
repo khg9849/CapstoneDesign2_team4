@@ -5,7 +5,8 @@ import android.content.*
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import android.widget.CompoundButton
+import android.view.View
+import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,30 +14,48 @@ import androidx.core.app.NotificationManagerCompat
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
+class MainActivity : AppCompatActivity() {
 
     var switch:Switch?=null
     var switchOn=false
     var receiver: BroadcastReceiver ?= null
-
-    private var TTS: TextToSpeech? = null
-    private var text:String?=null
-    private var locale: Locale = Locale.KOREAN
-    private var pitch: Float =1.0.toFloat()
-    private var speed: Float =1.0.toFloat()
+    var ttsModule:TTS_Module?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("myTEST", "onCreate")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        switch=findViewById<Switch>(R.id.tbResultItemCount)
-        switch?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            this.switchOn=switchOn
-        }
 
+        initTTS()
         initReceiver()
         checkNotificationAccess()
+
+        switch=findViewById<Switch>(R.id.tbResultItemCount)
+        switch?.setOnCheckedChangeListener{CompoundButton, switchOn ->
+
+            this.switchOn=switchOn
+            if(switchOn){
+                val filter = IntentFilter()
+                filter.addAction("com.broadcast.notification")
+                registerReceiver(receiver, filter)
+            }
+            else{
+                unregisterReceiver(receiver)
+            }
+        }
+
+        val btnOption=findViewById<Button>(R.id.btnOption)
+        btnOption.setOnClickListener({
+            val intent = Intent(this, OptionActivity::class.java)
+            startActivity(intent)
+        })
+
+
+    }
+
+    fun initTTS(){
+        this.ttsModule= TTS_Module(applicationContext)
     }
 
     fun initReceiver(){
@@ -48,11 +67,16 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 }
             }
         }
-        val filter = IntentFilter()
-        filter.addAction("com.broadcast.notification")
-        registerReceiver(receiver, filter)
     }
-    
+
+    fun readNotification(intent: Intent) {
+        Log.d("myTEST", "readNotification")
+        val sender=intent.getStringExtra("sender")
+        val message=intent.getStringExtra("message")
+        val text=sender+"님으로부터 메시지가 도착했습니다. "+message;
+        ttsModule!!.speech(text)
+    }
+
     fun checkNotificationAccess() {
         val sets = NotificationManagerCompat.getEnabledListenerPackages(this)
         if (sets.contains(packageName)){
@@ -61,31 +85,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         else{
             Log.d("myTEST", "Doesn't have Notification Access")
             startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-        }
-    }
-
-    fun readNotification(intent: Intent) {
-        Log.d("myTEST", "readNotification")
-        val sender=intent.getStringExtra("sender")
-        val message=intent.getStringExtra("message")
-        text=sender+"님으로부터 메시지가 도착했습니다. "+message
-        speech()
-    }
-
-    fun speech(){
-        TTS=TextToSpeech(applicationContext,this)
-        TTS!!.setPitch(pitch)
-        TTS!!.setSpeechRate(speed)
-        TTS!!.setLanguage(locale)
-        Toast.makeText(this,text, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            Log.d("myTEST", "onInit - Success")
-            TTS?.speak(text, TextToSpeech.QUEUE_FLUSH, null)
-        } else {
-            Log.d("myTEST", "onInit - Failed")
         }
     }
 
@@ -137,10 +136,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     override fun onDestroy() {
         Log.d("myTEST", "onDestroy")
-        if (TTS != null) {
-            TTS!!.stop();
-            TTS!!.shutdown();
-        }
+        ttsModule?.destroy()
         super.onDestroy()
     }
 }
