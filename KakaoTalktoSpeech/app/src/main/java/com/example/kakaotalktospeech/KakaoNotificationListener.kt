@@ -15,7 +15,7 @@ class KakaoNotificationListener : NotificationListenerService() {
 
         super.onNotificationPosted(sbn)
         val packageName= sbn?.packageName
-        if(packageName.equals("com.kakao.talk")){
+        if(packageName.equals("com.kakao.talk")&&MainActivity.switchOn){
 
             val extras = sbn?.notification?.extras
             val sender= extras?.getString(Notification.EXTRA_TITLE)
@@ -23,11 +23,8 @@ class KakaoNotificationListener : NotificationListenerService() {
             val subText = extras?.getCharSequence(Notification.EXTRA_SUB_TEXT)
 
             if (sender!=null && message!=null&&subText==null){
-                // theses messages are not from group chat(subText==null)
+                // option (subText==null) exclude message from group chat
                 Log.d("myTEST", "KakaoNotificationListener - message is received.")
-               // Log.d("myTEST", " - sender: $sender")
-              //  Log.d("myTEST", " - message: $message")
-              //  Log.d("myTEST", " - subText: $subText")
 
                 val showIntent= Intent()
                 showIntent.setAction("com.broadcast.notification")
