@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             switchOn=value
             Log.d("myTEST", "switchOn is "+ switchOn)
             if(!switchOn){
-                unregisterReceiver(receiver)
+                unregisterReceiver(receiver) //not working (how to get registered receiver?)
                 isRegistered=false
                 switch?.text="사용 안 함"
             }
@@ -128,12 +128,16 @@ class MainActivity : AppCompatActivity() {
     private fun restoreState() {
         val pref=getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
+            //Log.d("myTEST", "before restore -> $switchOn, $isRegistered")
+
             val res=pref.getString("switchOn","false");
             switchOn = if (res=="true") true else false
             switch?.isChecked=switchOn
 
             val res2=pref.getString("isRegistered","");
             isRegistered=if(res2=="true") true else false
+
+            //Log.d("myTEST", "after restore -> $switchOn, $isRegistered")
         }
     }
 
