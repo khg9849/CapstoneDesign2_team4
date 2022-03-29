@@ -10,18 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KakaoTalktoSpeech">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".LoadingActivity"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity"/>
         <activity android:name="com.example.kakaotalktospeech.OptionActivity"/>
         <activity android:name="com.example.kakaotalktospeech.UsefulActivity"/>
-        <activity android:name="com.example.kakaotalktospeech.LoadingActivity"/>
 
         <service
             android:name=".KakaoNotificationListener"
