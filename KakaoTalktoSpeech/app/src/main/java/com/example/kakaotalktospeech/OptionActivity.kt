@@ -1,79 +1,79 @@
 package com.example.kakaotalktospeech
 
-import android.media.AudioManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-
+import java.util.*
 
 class OptionActivity : AppCompatActivity() {
 
-    var soundSeekbar:SeekBar?=null
-    var speedSeekbar:SeekBar?=null
-    var speedTextView:TextView?=null
-    var switchSender:Switch?=null
-    var switchSendedtext:Switch?=null
-    var switchSendedtime:Switch?=null
+    lateinit var soundSeekbar : SeekBar
+    lateinit var speedSeekbar : SeekBar
+    lateinit var speedTextView : TextView
+    lateinit var menuTTSEngine : Spinner
+    lateinit var switchSender : Switch
+    lateinit var switchSendedtext : Switch
+    lateinit var switchSendedtime : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_options)
 
-        soundSeekbar=findViewById<SeekBar>(R.id.seekSoundbar)
-        speedSeekbar=findViewById<SeekBar>(R.id.seekSpeedbar)
-        speedTextView=findViewById<TextView>(R.id.textSpeed)
+        soundSeekbar = findViewById(R.id.seekSoundbar)
+        speedSeekbar = findViewById(R.id.seekSpeedbar)
+        speedTextView = findViewById(R.id.textSpeed)
+        menuTTSEngine = findViewById(R.id.menuTTSengine)
 
-        switchSender=findViewById<Switch>(R.id.switchSender)
-        switchSendedtext=findViewById<Switch>(R.id.switchSendedtext)
-        switchSendedtime=findViewById<Switch>(R.id.switchSendedtime)
+        switchSender = findViewById(R.id.switchSender)
+        switchSendedtext = findViewById(R.id.switchSendedtext)
+        switchSendedtime = findViewById(R.id.switchSendedtime)
 
         setSeekbar()
         setSwitch()
     }
 
     private fun setSeekbar() {
-        soundSeekbar?.progress= (MainActivity.volume*10).toInt()
-        speedSeekbar?.progress= (MainActivity.speed/0.25).toInt()-1
-        speedTextView?.text= MainActivity.speed.toString()+"배속"
+        soundSeekbar?.progress = (SettingManager.volume*10).toInt()
+        speedSeekbar?.progress = (SettingManager.speed/0.2).toInt()-3
+        speedTextView?.text = String.format("%.1f", SettingManager.speed)+"배속"
+        // 현재 tts 가져오기
 
         soundSeekbar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                MainActivity.volume= (seekBar.progress.toFloat())/10
+                SettingManager.volume= (seekBar.progress.toFloat())/10
             }
         })
 
         speedSeekbar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                speedTextView?.text= ((progress+1)*0.25).toString()+"배속"
+                speedTextView?.text= String.format("%.1f", (progress+3)*0.2)+"배속"
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                MainActivity.speed=(seekBar.progress+1)*0.25.toFloat()
+                SettingManager.speed=(seekBar.progress+3)*0.2f
             }
         })
     }
 
-
-    fun setSwitch(){
-        switchSender?.isChecked=MainActivity.readSender
-        switchSendedtext?.isChecked=MainActivity.readText
-        switchSendedtime?.isChecked=MainActivity.readTime
+    private fun setSwitch(){
+        switchSender?.isChecked=SettingManager.readSender
+        switchSendedtext?.isChecked=SettingManager.readText
+        switchSendedtime?.isChecked=SettingManager.readTime
 
         switchSender?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            MainActivity.readSender=switchOn
+            SettingManager.readSender=switchOn
         }
         switchSendedtext?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            MainActivity.readText=switchOn
+            SettingManager.readText=switchOn
         }
         switchSendedtime?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            MainActivity.readTime=switchOn
+            SettingManager.readTime=switchOn
         }
     }
 }

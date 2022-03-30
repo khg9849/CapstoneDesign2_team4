@@ -1,39 +1,17 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.media.AudioManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
-        var switchOn=false
-        /* TTS option */
-        var volume=0.5.toFloat()
-        var speed=1.0.toFloat()
-        var pitch=1.0.toFloat()
-        /* TTS text option */
-        var readSender=true
-        var readText=true
-        var readTime=false
-    }
-
-    var ttsModule:TTS_Module?=null
-    var switch:Switch?=null
-    var receiver: BroadcastReceiver ?= null
-    var isRegistered=false
+    lateinit var switch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("myTEST", "onCreate")
@@ -42,71 +20,39 @@ class MainActivity : AppCompatActivity() {
 
         checkNotificationAccess()
 
-        initTTS()
-        initReceiver()
         initSwitch()
-        initBttn()
+        initBtn()
     }
 
-    fun initTTS(){
-        ttsModule= TTS_Module(applicationContext,getSystemService(AUDIO_SERVICE) as AudioManager)
-    }
-
-    fun initReceiver(){
-        receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                val sender=if(readSender) intent.getStringExtra("sender")+"님으로부터 " else ""
-                val message=if(readText) intent.getStringExtra("message") else ""
-                val time=if(readTime) getTime()+", " else ""
-                val text=time+sender+"메시지가 도착했습니다."+message
-                ttsModule!!.speech(text)
+    private fun initSwitch(){
+        switch = findViewById(R.id.tbResultItemCount)
+        switch.setOnCheckedChangeListener{_, value ->
+            SettingManager.switchOn = value
+            Log.d("myTEST", "switchOn is ${SettingManager.switchOn}")
+            if(!SettingManager.switchOn){
+                switch.text="사용 안 함"
+            }
+            else {
+                switch.text="사용 중"
             }
         }
     }
 
-    fun initSwitch(){
-        switch=findViewById<Switch>(R.id.tbResultItemCount)
-        switch?.setOnCheckedChangeListener{_, value ->
-            switchOn=value
-            Log.d("myTEST", "switchOn is "+ switchOn)
-            if(!switchOn){
-                unregisterReceiver(receiver) //not working (how to get registered receiver?)
-                isRegistered=false
-                switch?.text="사용 안 함"
-            }
-            else if(!isRegistered){
-                val filter = IntentFilter()
-                filter.addAction("com.broadcast.notification")
-                registerReceiver(receiver, filter)
-                isRegistered=true
-                switch?.text="사용 중"
-            }
-        }
-    }
-
-    fun initBttn(){
-        val btnOption=findViewById<Button>(R.id.btnOption)
-        btnOption.setOnClickListener({
+    private fun initBtn(){
+        val btnOption = findViewById<Button>(R.id.btnOption)
+        btnOption.setOnClickListener{
             val intent = Intent(this, OptionActivity::class.java)
             startActivity(intent)
-        })
+        }
 
-        val btnUsefulfeatures=findViewById<Button>(R.id.btnUsefulfeatures)
-        btnUsefulfeatures.setOnClickListener({
+        val btnUsefulfeatures = findViewById<Button>(R.id.btnUsefulfeatures)
+        btnUsefulfeatures.setOnClickListener{
             val intent = Intent(this, UsefulActivity::class.java)
             startActivity(intent)
-        })
+        }
     }
 
-    fun getTime():String{
-        val now=System.currentTimeMillis()
-        val date= Date(now)
-        val dateFormat= SimpleDateFormat("hh시 mm분")
-        val time=dateFormat.format(date)
-        return time
-    }
-
-    fun checkNotificationAccess() {
+    private fun checkNotificationAccess() {
         val sets = NotificationManagerCompat.getEnabledListenerPackages(this)
         if (sets.contains(packageName)){
             Log.d("myTEST", "Has Notification Access")
@@ -118,24 +64,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveState() {
-        val pref=getSharedPreferences("pref", Activity.MODE_PRIVATE)
+        val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
-        editor.putString("switchOn",switchOn.toString());
-        editor.putString("isRegistered",isRegistered.toString())
+        editor.putString("switchOn", ""+SettingManager.switchOn);
         editor.commit()
 }
 
     private fun restoreState() {
-        val pref=getSharedPreferences("pref", Activity.MODE_PRIVATE)
+        val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
             //Log.d("myTEST", "before restore -> $switchOn, $isRegistered")
 
             val res=pref.getString("switchOn","false");
-            switchOn = if (res=="true") true else false
-            switch?.isChecked=switchOn
-
-            val res2=pref.getString("isRegistered","");
-            isRegistered=if(res2=="true") true else false
+            SettingManager.switchOn = if (res=="true") true else false
+            switch.isChecked = SettingManager.switchOn
 
             //Log.d("myTEST", "after restore -> $switchOn, $isRegistered")
         }
@@ -165,7 +107,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         Log.d("myTEST", "onDestroy")
-        ttsModule?.destroy()
         super.onDestroy()
     }
 }

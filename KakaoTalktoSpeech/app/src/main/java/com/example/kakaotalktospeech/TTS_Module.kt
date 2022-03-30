@@ -1,5 +1,5 @@
 package com.example.kakaotalktospeech
-
+/*
 import android.content.Context
 import android.media.AudioManager
 import android.speech.tts.TextToSpeech
@@ -56,4 +56,4 @@ class TTS_Module(val ctx: Context, private val am: AudioManager) : TextToSpeech.
         }
     }
 
-}
+} */
