@@ -6,6 +6,7 @@ import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,11 +42,10 @@ class KakaoNotificationListener : NotificationListenerService() {
                     // option (subText==null) exclude message from group chat
                     Log.d("myTEST", "KakaoNotificationListener - message is received.")
 
-                    var text = ""
-                    text += if(SettingManager.readSender) "${sender}님으로부터 " else ""
+                    var text = "메시지가 도착했습니다."
+                    text = (if(SettingManager.readSender) "${sender}님으로부터 " else "")+text
                     text += if(SettingManager.readText) "$message" else ""
-                    text += if(SettingManager.readTime) ""+Date(time) else ""
-                    //text += if(SettingManager.readTime) ""+getTime() else ""
+                    text = (if(SettingManager.readTime) ""+formatTime(time) else "")+text
 
                     val ttsBundle = Bundle()
                     if(mTTS != null) {
@@ -55,17 +55,16 @@ class KakaoNotificationListener : NotificationListenerService() {
                         )
                         mTTS!!.setSpeechRate(SettingManager.speed)
                         mTTS!!.speak(text, TextToSpeech.QUEUE_FLUSH, ttsBundle, null)
+                        Toast.makeText(this,text, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
 
-    private fun getTime() : String{
-        val now=System.currentTimeMillis()
-        val date= Date(now)
-        val dateFormat= SimpleDateFormat("hh시 mm분")
-        val time=dateFormat.format(date)
-        return time
+    private fun formatTime(time:Long) : String{
+        val dateFormat= SimpleDateFormat("hh시 mm분, ")
+        val res=dateFormat.format(time)
+        return res
     }
 }

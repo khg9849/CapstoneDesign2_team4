@@ -29,12 +29,7 @@ class MainActivity : AppCompatActivity() {
         switch.setOnCheckedChangeListener{_, value ->
             SettingManager.switchOn = value
             Log.d("myTEST", "switchOn is ${SettingManager.switchOn}")
-            if(!SettingManager.switchOn){
-                switch.text="사용 안 함"
-            }
-            else {
-                switch.text="사용 중"
-            }
+            switch.text= if(!SettingManager.switchOn) "사용 안 함" else "사용 중"
         }
     }
 
@@ -74,11 +69,9 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
             //Log.d("myTEST", "before restore -> $switchOn, $isRegistered")
-
             val res=pref.getString("switchOn","false");
             SettingManager.switchOn = if (res=="true") true else false
             switch.isChecked = SettingManager.switchOn
-
             //Log.d("myTEST", "after restore -> $switchOn, $isRegistered")
         }
     }
