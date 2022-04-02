@@ -1,7 +1,9 @@
 package com.example.kakaotalktospeech
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
@@ -9,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class OptionActivity : AppCompatActivity() {
 
+    val keys=arrayOf<String>("isRunning","ttsVolume","ttsSpeed","ttsEngine","isReadingSender","isReadingText","isReadingTime")
     lateinit var soundSeekbar : SeekBar
     lateinit var speedSeekbar : SeekBar
     lateinit var speedTextView : TextView
@@ -53,6 +56,7 @@ class OptionActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         }
+        ttsSpinner.setSelection(SettingManager.ttsEngine)
 
 
     }
@@ -87,14 +91,54 @@ class OptionActivity : AppCompatActivity() {
         switchSendedtext?.isChecked=SettingManager.isReadingText
         switchSendedtime?.isChecked=SettingManager.isReadingTime
 
-        switchSender?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            SettingManager.isReadingSender=switchOn
+        switchSender?.setOnCheckedChangeListener{CompoundButton, value ->
+            SettingManager.isReadingSender=value
         }
-        switchSendedtext?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            SettingManager.isReadingText=switchOn
+        switchSendedtext?.setOnCheckedChangeListener{CompoundButton, value ->
+            SettingManager.isReadingText=value
         }
-        switchSendedtime?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            SettingManager.isReadingTime=switchOn
+        switchSendedtime?.setOnCheckedChangeListener{CompoundButton, value ->
+            SettingManager.isReadingTime=value
         }
+    }
+
+    private fun saveState() {
+        val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
+        val editor=pref.edit()
+
+        editor.putFloat(keys[1], SettingManager.ttsVolume);
+        editor.putFloat(keys[2], SettingManager.ttsSpeed);
+        editor.putInt(keys[3], SettingManager.ttsEngine);
+        editor.putBoolean(keys[4], SettingManager.isReadingSender);
+        editor.putBoolean(keys[5], SettingManager.isReadingText);
+        editor.putBoolean(keys[6], SettingManager.isReadingTime);
+        editor.commit()
+    }
+
+    private fun restoreState() {
+
+        val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
+        if(pref!=null){
+
+            SettingManager.ttsVolume =pref.getFloat(keys[1], 1.0f);
+            SettingManager.ttsSpeed =pref.getFloat(keys[2], 1.0f);
+            SettingManager.ttsEngine =pref.getInt(keys[3], 0);
+            SettingManager.isReadingSender =pref.getBoolean(keys[4], true);
+            SettingManager.isReadingText  =pref.getBoolean(keys[5], true);
+            SettingManager.isReadingTime  =pref.getBoolean(keys[6], false);
+        }
+    }
+
+
+    override fun onResume() {
+        Log.d("myTEST", "option - onResume")
+        super.onResume()
+        restoreState()
+    }
+
+    override fun onPause() {
+        Log.d("myTEST", "option - onPause")
+        super.onPause()
+        saveState()
     }
 }

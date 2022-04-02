@@ -74,21 +74,17 @@ class MainActivity : AppCompatActivity() {
     private fun saveState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
-        editor.putString("switchOn", ""+SettingManager.isRunning);
+        editor.putBoolean("isRunning", SettingManager.isRunning);
         editor.commit()
-}
+    }
 
     private fun restoreState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
-            //Log.d("myTEST", "before restore -> $switchOn, $isRegistered")
-            val res=pref.getString("switchOn","false");
-            SettingManager.isRunning = if (res=="true") true else false
+            SettingManager.isRunning=pref.getBoolean("isRunning", false);
             switch.isChecked = SettingManager.isRunning
-            //Log.d("myTEST", "after restore -> $switchOn, $isRegistered")
         }
     }
-
     override fun onStart(){
         Log.d("myTEST", "onStart")
         super.onStart()
