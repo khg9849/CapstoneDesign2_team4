@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 
 class MainActivity : AppCompatActivity() {
@@ -41,9 +40,9 @@ class MainActivity : AppCompatActivity() {
     private fun initSwitch(){
         switch = findViewById(R.id.tbResultItemCount)
         switch.setOnCheckedChangeListener{_, value ->
-            SettingManager.switchOn = value
-            Log.d("myTEST", "switchOn is ${SettingManager.switchOn}")
-            switch.text= if(!SettingManager.switchOn) "사용 안 함" else "사용 중"
+            SettingManager.isRunning = value
+            Log.d("myTEST", "switchOn is ${SettingManager.isRunning}")
+            switch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
         }
     }
 
@@ -75,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     private fun saveState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
-        editor.putString("switchOn", ""+SettingManager.switchOn);
+        editor.putString("switchOn", ""+SettingManager.isRunning);
         editor.commit()
 }
 
@@ -84,8 +83,8 @@ class MainActivity : AppCompatActivity() {
         if(pref!=null){
             //Log.d("myTEST", "before restore -> $switchOn, $isRegistered")
             val res=pref.getString("switchOn","false");
-            SettingManager.switchOn = if (res=="true") true else false
-            switch.isChecked = SettingManager.switchOn
+            SettingManager.isRunning = if (res=="true") true else false
+            switch.isChecked = SettingManager.isRunning
             //Log.d("myTEST", "after restore -> $switchOn, $isRegistered")
         }
     }

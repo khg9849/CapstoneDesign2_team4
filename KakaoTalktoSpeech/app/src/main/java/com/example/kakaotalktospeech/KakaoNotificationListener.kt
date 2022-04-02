@@ -11,38 +11,38 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class KakaoNotificationListener : NotificationListenerService() {
-    private var mTTS: TextToSpeech? = null
-    private var listTTS = arrayOf<TextToSpeech?>(null, null)
+    private var currentTTS: TextToSpeech? = null
+    private var ttsList = arrayOf<TextToSpeech?>(null, null)
     override fun onCreate() {
         super.onCreate()
         initTTS()
     }
     private fun initTTS(){
-        listTTS[0] = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
+        ttsList[0] = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
             if (i == TextToSpeech.SUCCESS) {
-                val result = mTTS!!.setLanguage(Locale.KOREAN)
+                val result = currentTTS!!.setLanguage(Locale.KOREAN)
             }
             else{
                 Log.e("myTest", "tts 연결 실패")
             }
         }, "com.google.android.tts")
-        listTTS[1] = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
+        ttsList[1] = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
             if (i == TextToSpeech.SUCCESS) {
-                val result = mTTS!!.setLanguage(Locale.KOREAN)
+                val result = currentTTS!!.setLanguage(Locale.KOREAN)
             }
             else{
                 Log.e("myTest", "tts 연결 실패")
             }
         }, "com.samsung.android.tts")
 
-        mTTS = listTTS[0]
+        currentTTS = ttsList[0]
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
-        mTTS = listTTS[SettingManager.engineTitle]
+        currentTTS = ttsList[SettingManager.ttsEngine]
 
-        if(SettingManager.switchOn) {
+        if(SettingManager.isRunning) {
             val packageName = sbn?.packageName
             if (packageName.equals("com.kakao.talk")) {
                 val extras = sbn?.notification?.extras
@@ -56,18 +56,18 @@ class KakaoNotificationListener : NotificationListenerService() {
                     Log.d("myTEST", "KakaoNotificationListener - message is received.")
 
                     var text = "메시지가 도착했습니다."
-                    text = (if(SettingManager.readSender) "${sender}님으로부터 " else "")+text
-                    text += if(SettingManager.readText) "$message" else ""
-                    text = (if(SettingManager.readTime) ""+formatTime(time) else "")+text
+                    text = (if(SettingManager.isReadingSender) "${sender}님으로부터 " else "")+text
+                    text += if(SettingManager.isReadingText) "$message" else ""
+                    text = (if(SettingManager.isReadingTime) ""+formatTime(time) else "")+text
 
                     val ttsBundle = Bundle()
-                    if(mTTS != null) {
+                    if(currentTTS != null) {
                         ttsBundle.putFloat(
                             TextToSpeech.Engine.KEY_PARAM_VOLUME,
-                            SettingManager.volume
+                            SettingManager.ttsVolume
                         )
-                        mTTS!!.setSpeechRate(SettingManager.speed)
-                        mTTS!!.speak(text, TextToSpeech.QUEUE_ADD, ttsBundle, null)
+                        currentTTS!!.setSpeechRate(SettingManager.ttsSpeed)
+                        currentTTS!!.speak(text, TextToSpeech.QUEUE_ADD, ttsBundle, null)
                         Toast.makeText(this,text, Toast.LENGTH_SHORT).show()
                     }
                 }

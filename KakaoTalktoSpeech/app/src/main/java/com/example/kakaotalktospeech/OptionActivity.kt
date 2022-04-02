@@ -47,7 +47,7 @@ class OptionActivity : AppCompatActivity() {
         ttsSpinner.adapter = ttsAdapter
         ttsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                SettingManager.engineTitle = p2
+                SettingManager.ttsEngine = p2
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
@@ -58,16 +58,16 @@ class OptionActivity : AppCompatActivity() {
     }
 
     private fun setSeekbar() {
-        soundSeekbar?.progress = (SettingManager.volume*10).toInt()
-        speedSeekbar?.progress = (SettingManager.speed/0.2).toInt()-3
-        speedTextView?.text = String.format("%.1f", SettingManager.speed)+"배속"
+        soundSeekbar?.progress = (SettingManager.ttsVolume*10).toInt()
+        speedSeekbar?.progress = (SettingManager.ttsSpeed/0.2).toInt()-3
+        speedTextView?.text = String.format("%.1f", SettingManager.ttsSpeed)+"배속"
         // 현재 tts 가져오기
 
         soundSeekbar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                SettingManager.volume= (seekBar.progress.toFloat())/10
+                SettingManager.ttsVolume= (seekBar.progress.toFloat())/10
             }
         })
 
@@ -77,24 +77,24 @@ class OptionActivity : AppCompatActivity() {
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                SettingManager.speed=(seekBar.progress+3)*0.2f
+                SettingManager.ttsSpeed=(seekBar.progress+3)*0.2f
             }
         })
     }
 
     private fun setSwitch(){
-        switchSender?.isChecked=SettingManager.readSender
-        switchSendedtext?.isChecked=SettingManager.readText
-        switchSendedtime?.isChecked=SettingManager.readTime
+        switchSender?.isChecked=SettingManager.isReadingSender
+        switchSendedtext?.isChecked=SettingManager.isReadingText
+        switchSendedtime?.isChecked=SettingManager.isReadingTime
 
         switchSender?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            SettingManager.readSender=switchOn
+            SettingManager.isReadingSender=switchOn
         }
         switchSendedtext?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            SettingManager.readText=switchOn
+            SettingManager.isReadingText=switchOn
         }
         switchSendedtime?.setOnCheckedChangeListener{CompoundButton, switchOn ->
-            SettingManager.readTime=switchOn
+            SettingManager.isReadingTime=switchOn
         }
     }
 }

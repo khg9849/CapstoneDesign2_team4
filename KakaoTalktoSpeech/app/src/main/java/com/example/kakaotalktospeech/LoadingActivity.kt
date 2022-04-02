@@ -10,7 +10,10 @@ class LoadingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loadingpage)
+        enterMainActivity()
+    }
 
+    private fun enterMainActivity(){
         val handler = Handler()
         handler.postDelayed(Runnable {
             val intent = Intent(applicationContext, MainActivity::class.java)
@@ -18,6 +21,7 @@ class LoadingActivity : AppCompatActivity() {
             finish()
         }, 1000)
     }
+
     override fun onPause() {
         super.onPause()
         finish()
