@@ -15,6 +15,9 @@ class KakaoNotificationListener : NotificationListenerService() {
     private var listTTS = arrayOf<TextToSpeech?>(null, null)
     override fun onCreate() {
         super.onCreate()
+        initTTS()
+    }
+    private fun initTTS(){
         listTTS[0] = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
             if (i == TextToSpeech.SUCCESS) {
                 val result = mTTS!!.setLanguage(Locale.KOREAN)
@@ -31,8 +34,9 @@ class KakaoNotificationListener : NotificationListenerService() {
                 Log.e("myTest", "tts 연결 실패")
             }
         }, "com.samsung.android.tts")
-    }
 
+        mTTS = listTTS[0]
+    }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)

@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 
 class MainActivity : AppCompatActivity() {
@@ -19,10 +21,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         checkNotificationAccess()
-
         initSwitch()
         initBtn()
     }
+
+    //<뒤로가기 두 번 누르면 종료
+    var lastTimeBackPressed : Long = 0
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - lastTimeBackPressed >= 1500){
+            lastTimeBackPressed = System.currentTimeMillis()
+            Toast.makeText(this, "'뒤로' 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG).show()
+        }
+        else{
+            super.onBackPressed()
+        }
+    }
+    //뒤로가기 두 번 누르면 종료/>
 
     private fun initSwitch(){
         switch = findViewById(R.id.tbResultItemCount)

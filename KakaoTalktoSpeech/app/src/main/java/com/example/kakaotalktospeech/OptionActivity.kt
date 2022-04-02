@@ -1,12 +1,11 @@
 package com.example.kakaotalktospeech
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
-import java.util.*
 
 class OptionActivity : AppCompatActivity() {
 
@@ -21,7 +20,12 @@ class OptionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_options)
-
+        var mainIntent = Intent(this, MainActivity::class.java)
+        val backBtn = findViewById<Button>(R.id.btnBacktomain)
+        backBtn.setOnClickListener({
+            mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(mainIntent)
+        })
         soundSeekbar = findViewById(R.id.seekSoundbar)
         speedSeekbar = findViewById(R.id.seekSpeedbar)
         speedTextView = findViewById(R.id.textSpeed)
@@ -30,6 +34,7 @@ class OptionActivity : AppCompatActivity() {
         switchSender = findViewById(R.id.switchSender)
         switchSendedtext = findViewById(R.id.switchSendedtext)
         switchSendedtime = findViewById(R.id.switchSendedtime)
+
 
         setSeekbar()
         setSwitch()
@@ -42,12 +47,8 @@ class OptionActivity : AppCompatActivity() {
         ttsSpinner.adapter = ttsAdapter
         ttsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Log.d(
-                    "spinner" ,"$p0 \n $p1 \n $p2 \n $p3"
-                )
-                SettingManager.engineTitle = p2;
+                SettingManager.engineTitle = p2
             }
-
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
