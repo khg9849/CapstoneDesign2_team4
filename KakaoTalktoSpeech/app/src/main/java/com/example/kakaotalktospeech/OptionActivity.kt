@@ -15,10 +15,10 @@ class OptionActivity : AppCompatActivity() {
     lateinit var soundSeekbar : SeekBar
     lateinit var speedSeekbar : SeekBar
     lateinit var speedTextView : TextView
-    lateinit var menuTTSEngine : Spinner
-    lateinit var switchSender : Switch
-    lateinit var switchSendedtext : Switch
-    lateinit var switchSendedtime : Switch
+    lateinit var ttsEngineSpinner : Spinner
+    lateinit var senderSwitch : Switch
+    lateinit var textSwitch : Switch
+    lateinit var timeSwitch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +32,11 @@ class OptionActivity : AppCompatActivity() {
         soundSeekbar = findViewById(R.id.seekSoundbar)
         speedSeekbar = findViewById(R.id.seekSpeedbar)
         speedTextView = findViewById(R.id.textSpeed)
-        menuTTSEngine = findViewById(R.id.menuTTSengine)
+        ttsEngineSpinner = findViewById(R.id.menuTTSengine)
 
-        switchSender = findViewById(R.id.switchSender)
-        switchSendedtext = findViewById(R.id.switchSendedtext)
-        switchSendedtime = findViewById(R.id.switchSendedtime)
+        senderSwitch = findViewById(R.id.switchSender)
+        textSwitch = findViewById(R.id.switchText)
+        timeSwitch = findViewById(R.id.switchTime)
 
 
         setSeekbar()
@@ -87,17 +87,17 @@ class OptionActivity : AppCompatActivity() {
     }
 
     private fun setSwitch(){
-        switchSender?.isChecked=SettingManager.isReadingSender
-        switchSendedtext?.isChecked=SettingManager.isReadingText
-        switchSendedtime?.isChecked=SettingManager.isReadingTime
+        senderSwitch?.isChecked=SettingManager.isReadingSender
+        textSwitch?.isChecked=SettingManager.isReadingText
+        timeSwitch?.isChecked=SettingManager.isReadingTime
 
-        switchSender?.setOnCheckedChangeListener{CompoundButton, value ->
+        senderSwitch?.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isReadingSender=value
         }
-        switchSendedtext?.setOnCheckedChangeListener{CompoundButton, value ->
+        textSwitch?.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isReadingText=value
         }
-        switchSendedtime?.setOnCheckedChangeListener{CompoundButton, value ->
+        timeSwitch?.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isReadingTime=value
         }
     }

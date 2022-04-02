@@ -203,7 +203,7 @@
         app:layout_constraintVertical_bias="0.62" />
 
     <Switch
-        android:id="@+id/switchSendedtext"
+        android:id="@+id/switchText"
         android:layout_width="50dp"
         android:layout_height="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -214,7 +214,7 @@
         app:layout_constraintVertical_bias="0.691" />
 
     <Switch
-        android:id="@+id/switchSendedtime"
+        android:id="@+id/switchTime"
         android:layout_width="50dp"
         android:layout_height="48dp"
         app:layout_constraintBottom_toBottomOf="parent"

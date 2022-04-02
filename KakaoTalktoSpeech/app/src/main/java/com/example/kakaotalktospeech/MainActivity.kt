@@ -12,7 +12,7 @@ import androidx.core.app.NotificationManagerCompat
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var switch : Switch
+    lateinit var runningSwitch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("myTEST", "onCreate")
@@ -38,11 +38,11 @@ class MainActivity : AppCompatActivity() {
     //뒤로가기 두 번 누르면 종료/>
 
     private fun initSwitch(){
-        switch = findViewById(R.id.tbResultItemCount)
-        switch.setOnCheckedChangeListener{_, value ->
+        runningSwitch = findViewById(R.id.tbResultItemCount)
+        runningSwitch.setOnCheckedChangeListener{ _, value ->
             SettingManager.isRunning = value
             Log.d("myTEST", "switchOn is ${SettingManager.isRunning}")
-            switch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
+            runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
         }
     }
 
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
             SettingManager.isRunning=pref.getBoolean("isRunning", false);
-            switch.isChecked = SettingManager.isRunning
+            runningSwitch.isChecked = SettingManager.isRunning
         }
     }
     override fun onStart(){
