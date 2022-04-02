@@ -12,23 +12,31 @@ import java.util.*
 
 class KakaoNotificationListener : NotificationListenerService() {
     private var mTTS: TextToSpeech? = null
-
+    private var listTTS = arrayOf<TextToSpeech?>(null, null)
     override fun onCreate() {
         super.onCreate()
-
-        mTTS = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
+        listTTS[0] = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
             if (i == TextToSpeech.SUCCESS) {
                 val result = mTTS!!.setLanguage(Locale.KOREAN)
             }
             else{
                 Log.e("myTest", "tts 연결 실패")
             }
-        })
+        }, "com.google.android.tts")
+        listTTS[1] = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
+            if (i == TextToSpeech.SUCCESS) {
+                val result = mTTS!!.setLanguage(Locale.KOREAN)
+            }
+            else{
+                Log.e("myTest", "tts 연결 실패")
+            }
+        }, "com.samsung.android.tts")
     }
 
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
+        mTTS = listTTS[SettingManager.engineTitle]
 
         if(SettingManager.switchOn) {
             val packageName = sbn?.packageName
@@ -55,7 +63,7 @@ class KakaoNotificationListener : NotificationListenerService() {
                             SettingManager.volume
                         )
                         mTTS!!.setSpeechRate(SettingManager.speed)
-                        mTTS!!.speak(text, TextToSpeech.QUEUE_FLUSH, ttsBundle, null)
+                        mTTS!!.speak(text, TextToSpeech.QUEUE_ADD, ttsBundle, null)
                         Toast.makeText(this,text, Toast.LENGTH_SHORT).show()
                     }
                 }

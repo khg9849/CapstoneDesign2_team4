@@ -7,7 +7,7 @@ class SettingManager {
         var volume : Float = 1.0f
         var speed : Float = 1.0f
         // engine
-        var engineTitle: String = "com.google.android.tts"
+        var engineTitle: Int = 0
 
         /* TTS text option */
         var readSender : Boolean = true

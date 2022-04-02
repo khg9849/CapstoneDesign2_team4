@@ -45,14 +45,7 @@ class OptionActivity : AppCompatActivity() {
                 Log.d(
                     "spinner" ,"$p0 \n $p1 \n $p2 \n $p3"
                 )
-                when(p2){
-                    0->{
-                        SettingManager.engineTitle = "com.google.android.tts"
-                    }
-                    1-> {
-                        SettingManager.engineTitle = "com.samsung.android.tts"
-                    }
-                }
+                SettingManager.engineTitle = p2;
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
