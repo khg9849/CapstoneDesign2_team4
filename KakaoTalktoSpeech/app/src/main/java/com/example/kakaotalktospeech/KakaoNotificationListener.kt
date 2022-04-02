@@ -26,6 +26,7 @@ class KakaoNotificationListener : NotificationListenerService() {
         })
     }
 
+
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
 

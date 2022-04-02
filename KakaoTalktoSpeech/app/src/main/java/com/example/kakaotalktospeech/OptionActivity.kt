@@ -1,11 +1,10 @@
 package com.example.kakaotalktospeech
 
 import android.os.Bundle
-import android.widget.SeekBar
+import android.util.Log
+import android.view.View
+import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.Spinner
-import android.widget.Switch
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
@@ -34,6 +33,34 @@ class OptionActivity : AppCompatActivity() {
 
         setSeekbar()
         setSwitch()
+        setSpinner()
+    }
+    private fun setSpinner(){
+        val ttsItem = arrayOf("구글 TTS", "삼성 TTS")
+        val ttsSpinner = findViewById<Spinner>(R.id.menuTTSengine)
+        val ttsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ttsItem)
+        ttsSpinner.adapter = ttsAdapter
+        ttsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                Log.d(
+                    "spinner" ,"$p0 \n $p1 \n $p2 \n $p3"
+                )
+                when(p2){
+                    0->{
+                        SettingManager.engineTitle = "com.google.android.tts"
+                    }
+                    1-> {
+                        SettingManager.engineTitle = "com.samsung.android.tts"
+                    }
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
+
+
     }
 
     private fun setSeekbar() {
