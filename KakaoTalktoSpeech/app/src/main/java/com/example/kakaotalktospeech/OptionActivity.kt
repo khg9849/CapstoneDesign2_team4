@@ -33,40 +33,16 @@ class OptionActivity : AppCompatActivity() {
         speedSeekbar = findViewById(R.id.seekSpeedbar)
         speedTextView = findViewById(R.id.textSpeed)
         ttsEngineSpinner = findViewById(R.id.menuTTSengine)
-
         senderSwitch = findViewById(R.id.switchSender)
         textSwitch = findViewById(R.id.switchText)
         timeSwitch = findViewById(R.id.switchTime)
 
-
         setSeekbar()
-        setSwitch()
         setSpinner()
-    }
-    private fun setSpinner(){
-        val ttsItem = arrayOf("구글 TTS", "삼성 TTS")
-        val ttsSpinner = findViewById<Spinner>(R.id.menuTTSengine)
-        val ttsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ttsItem)
-        ttsSpinner.adapter = ttsAdapter
-        ttsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                SettingManager.ttsEngine = p2
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }
-        ttsSpinner.setSelection(SettingManager.ttsEngine)
-
-
+        setSwitch()
     }
 
     private fun setSeekbar() {
-        soundSeekbar?.progress = (SettingManager.ttsVolume*10).toInt()
-        speedSeekbar?.progress = (SettingManager.ttsSpeed/0.2).toInt()-3
-        speedTextView?.text = String.format("%.1f", SettingManager.ttsSpeed)+"배속"
-        // 현재 tts 가져오기
-
         soundSeekbar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -86,11 +62,21 @@ class OptionActivity : AppCompatActivity() {
         })
     }
 
-    private fun setSwitch(){
-        senderSwitch?.isChecked=SettingManager.isReadingSender
-        textSwitch?.isChecked=SettingManager.isReadingText
-        timeSwitch?.isChecked=SettingManager.isReadingTime
+    private fun setSpinner(){
+        val ttsItem = arrayOf("구글 TTS", "삼성 TTS")
+        val ttsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ttsItem)
+        ttsEngineSpinner.adapter = ttsAdapter
+        ttsEngineSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                SettingManager.ttsEngine = p2
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
+    }
 
+    private fun setSwitch(){
         senderSwitch?.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isReadingSender=value
         }
@@ -100,6 +86,16 @@ class OptionActivity : AppCompatActivity() {
         timeSwitch?.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isReadingTime=value
         }
+    }
+
+    private fun initState(){
+        soundSeekbar?.progress = (SettingManager.ttsVolume*10).toInt()
+        speedSeekbar?.progress = (SettingManager.ttsSpeed/0.2).toInt()-3
+        speedTextView?.text = String.format("%.1f", SettingManager.ttsSpeed)+"배속"
+        ttsEngineSpinner.setSelection(SettingManager.ttsEngine)
+        senderSwitch?.isChecked=SettingManager.isReadingSender
+        textSwitch?.isChecked=SettingManager.isReadingText
+        timeSwitch?.isChecked=SettingManager.isReadingTime
     }
 
     private fun saveState() {
@@ -129,11 +125,11 @@ class OptionActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onResume() {
         Log.d("myTEST", "option - onResume")
         super.onResume()
         restoreState()
+        initState()
     }
 
     override fun onPause() {
