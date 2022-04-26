@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KakaoTalktoSpeech">
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <receiver
             android:name=".NewAppWidget"
             android:exported="true">

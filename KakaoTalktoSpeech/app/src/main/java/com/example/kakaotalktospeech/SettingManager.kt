@@ -12,5 +12,8 @@ class SettingManager {
         var isReadingSender : Boolean = true
         var isReadingText : Boolean = true
         var isReadingTime : Boolean = false
+
+        /* Useful option */
+        var isNotificationServiceRunning:Boolean=false
     }
 }
