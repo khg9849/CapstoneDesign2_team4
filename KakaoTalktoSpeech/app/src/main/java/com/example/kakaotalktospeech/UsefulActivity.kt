@@ -2,16 +2,16 @@ package com.example.kakaotalktospeech
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.Switch
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 
 class UsefulActivity : AppCompatActivity() {
 
     lateinit var notification_switch : Switch
+    lateinit var whitelistSpinner : Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,26 @@ class UsefulActivity : AppCompatActivity() {
             }
         }
 
+
+        whitelistSpinner = findViewById<Spinner>(R.id.white_list_spinner)
+        setwhitelistSpinner()
+    }
+
+
+    private fun setwhitelistSpinner(){
+        var _item : ArrayList<String> = ArrayList<String>()
+        for((key, value) in SettingManager.whiteList)
+            _item.add(key)
+        val _adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, _item)
+        whitelistSpinner.adapter = _adapter
+        whitelistSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
     }
 
     private fun saveState() {
@@ -60,6 +80,7 @@ class UsefulActivity : AppCompatActivity() {
     override fun onResume() {
         Log.d("myTEST", "useful - onResume")
         super.onResume()
+        setwhitelistSpinner()
         restoreState()
         initState()
     }

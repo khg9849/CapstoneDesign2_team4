@@ -84,5 +84,13 @@
         app:layout_constraintVertical_bias="0.329"
         />
 
+    <Spinner
+        android:id="@+id/white_list_spinner"
+        android:layout_width="410dp"
+        android:layout_height="59dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3"
+        tools:layout_editor_absoluteX="1dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
