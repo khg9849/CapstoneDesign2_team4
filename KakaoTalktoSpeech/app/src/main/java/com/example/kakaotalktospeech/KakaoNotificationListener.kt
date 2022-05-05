@@ -54,6 +54,7 @@ class KakaoNotificationListener : NotificationListenerService() {
                 if (sender != null && message != null && time != null && subText == null) {
                     // option (subText==null) exclude message from group chat
                     Log.d("myTEST", "KakaoNotificationListener - message is received.")
+                    ContactsManager.putWhiteList(sender)
 
                     var text = "메시지가 도착했습니다."
                     text = (if(SettingManager.isReadingSender) "${sender}님으로부터 " else "")+text

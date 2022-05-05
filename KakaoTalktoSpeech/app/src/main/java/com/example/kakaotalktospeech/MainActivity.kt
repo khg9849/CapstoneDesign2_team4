@@ -1,6 +1,7 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +12,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        var instance: MainActivity? = null
+        fun context(): Context {
+            return instance!!.applicationContext
+        }
+    }
 
     lateinit var runningSwitch : Switch
+    lateinit var contactsManager : ContactsManager
+
+    init{
+        Log.d("myTEST", "init")
+        instance = this
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("myTEST", "onCreate")
@@ -87,24 +100,30 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onStart(){
         Log.d("myTEST", "onStart")
+        contactsManager = ContactsManager()
+        contactsManager.makeContactsFile()
+        contactsManager.exportContactsFile()
         super.onStart()
     }
 
     override fun onRestart() {
         Log.d("myTEST", "onRestart")
         super.onRestart()
+        contactsManager.exportContactsFile()
     }
 
     override fun onResume() {
         Log.d("myTEST", "onResume")
         super.onResume()
         restoreState()
+        contactsManager.importContactsFile()
     }
 
     override fun onPause() {
         Log.d("myTEST", "onPause")
         super.onPause()
         saveState()
+        contactsManager.exportContactsFile()
     }
 
     override fun onDestroy() {
