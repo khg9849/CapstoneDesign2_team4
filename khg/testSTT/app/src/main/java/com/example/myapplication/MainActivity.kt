@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.speech.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var speechRecognizer: SpeechRecognizer
@@ -33,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         val btn : Button = findViewById(R.id.buttonSTT)
         btn.setOnClickListener{
-            Toast.makeText(applicationContext, "버튼 누름", Toast.LENGTH_SHORT).show()
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
             speechRecognizer.setRecognitionListener(recognitionListener)
             speechRecognizer.startListening(intent)
