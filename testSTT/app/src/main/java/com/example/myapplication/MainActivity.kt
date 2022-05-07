@@ -1,7 +1,10 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.bluetooth.BluetoothHeadset
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +27,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         requestPermission()
+        val br : BroadcastReceiver = ScreenBroadcastReceiver()
+        val filter: IntentFilter().apply{
+            addAction(BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT)
+
+        }
 
         var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
@@ -107,7 +115,5 @@ class MainActivity : AppCompatActivity() {
             override fun onEvent(eventType: Int, params: Bundle?) {
             }
         }
-
     }
-
 }
