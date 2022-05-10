@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Message
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
@@ -26,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         Log.d("myTEST", "init")
         instance = this
     }
+
+    val APPWIDGET_UPDATE="android.appwidget.action.APPWIDGET_UPDATE"
+    val NOTIFICATION_UPDATE_START="NOTIFICATION_UPDATE_START"
+    val NOTIFICATION_UPDATE_STOP="NOTIFICATION_UPDATE_STOP"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("myTEST", "onCreate")
@@ -56,6 +61,18 @@ class MainActivity : AppCompatActivity() {
             SettingManager.isRunning = value
             Log.d("myTEST", "switchOn is ${SettingManager.isRunning}")
             runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
+
+            // Update AppWidget
+            val intent1 = Intent(this, NewAppWidget::class.java)
+            intent1.setAction(APPWIDGET_UPDATE)
+            sendBroadcast(intent1)
+            // Update Notification Bar
+            if(SettingManager.isNotificationServiceRunning){
+                val intent2 = Intent(this, NotificationService::class.java)
+                intent2.setAction(if(SettingManager.isRunning) NOTIFICATION_UPDATE_START else NOTIFICATION_UPDATE_STOP)
+                startService(intent2)
+            }
+
         }
     }
 

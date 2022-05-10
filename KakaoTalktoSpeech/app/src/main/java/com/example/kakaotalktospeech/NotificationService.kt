@@ -18,6 +18,10 @@ class NotificationService : Service() {
     val channel_description = "channel_description"
     val channel_importance = NotificationManager.IMPORTANCE_DEFAULT
 
+    val APPWIDGET_UPDATE="android.appwidget.action.APPWIDGET_UPDATE"
+    val NOTIFICATION_UPDATE_START="NOTIFICATION_UPDATE_START"
+    val NOTIFICATION_UPDATE_STOP="NOTIFICATION_UPDATE_STOP"
+
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
     }
@@ -44,19 +48,30 @@ class NotificationService : Service() {
         }
 
         when(intent?.action){
-            "Start"->{
-                Toast.makeText(this,"Start is Clicked",Toast.LENGTH_SHORT).show()
-                SettingManager.isRunning=true
+            NOTIFICATION_UPDATE_START->{
+               SettingManager.isRunning=true
                 makeNotification()
             }
-            "Stop"->{
-                Toast.makeText(this,"Stop is Clicked",Toast.LENGTH_SHORT).show()
+            NOTIFICATION_UPDATE_STOP->{
                 SettingManager.isRunning=false
                 makeNotification()
             }
         }
+
+        // Update AppWidget
+        val intent1 = Intent(this, NewAppWidget::class.java)
+        intent1.setAction(APPWIDGET_UPDATE)
+        sendBroadcast(intent1)
+
+        // Update pref
+        val pref=MainActivity.context().getSharedPreferences("pref",Activity.MODE_PRIVATE)
+        val editor=pref.edit()
+        editor.putBoolean("isRunning", SettingManager.isRunning);
+        editor.commit()
+
         return super.onStartCommand(intent, flags, startId)
     }
+
 
     override fun onDestroy() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -74,24 +89,23 @@ class NotificationService : Service() {
         builder.setContentTitle("KakaoTalkToSpeech")
         if (SettingManager.isRunning) {
             builder.setContentText("APP is running")
-            builder.addAction(makeButtonInNotification("Stop"))
+            builder.addAction(makeButtonInNotification(NOTIFICATION_UPDATE_STOP,"STOP"))
         }
         else{
             builder.setContentText("APP is not running")
-            builder.addAction(makeButtonInNotification("Start"))
+            builder.addAction(makeButtonInNotification(NOTIFICATION_UPDATE_START,"START"))
         }
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(notificationId,builder.build())
     }
 
-    fun makeButtonInNotification(action:String): NotificationCompat.Action {
+    fun makeButtonInNotification(action:String,btnTitle:String): NotificationCompat.Action {
         val intent = Intent(baseContext, NotificationService::class.java)
         intent.setAction(action)
         val pendingIntent =
             PendingIntent.getService(baseContext, 1, intent, 0)
         val iconId=android.R.drawable.ic_media_pause
-        val btnTitle=action
         return NotificationCompat.Action.Builder(iconId,btnTitle,pendingIntent).build()
     }
 

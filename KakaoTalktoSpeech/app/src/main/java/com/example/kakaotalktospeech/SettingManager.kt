@@ -1,8 +1,13 @@
 package com.example.kakaotalktospeech
 
+import android.content.Intent
+import kotlin.properties.Delegates
+
 class SettingManager {
+
     companion object{
         var isRunning : Boolean = false
+
         /* TTS option */
         var ttsVolume : Float = 1.0f
         var ttsSpeed : Float = 1.0f
