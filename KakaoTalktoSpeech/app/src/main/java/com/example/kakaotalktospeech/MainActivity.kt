@@ -1,14 +1,19 @@
 package com.example.kakaotalktospeech
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("myTEST", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        requestPermission()
         checkNotificationAccess()
         initSwitch()
         initBtn()
@@ -85,6 +90,15 @@ class MainActivity : AppCompatActivity() {
             runningSwitch.isChecked = SettingManager.isRunning
         }
     }
+
+    private fun requestPermission(){
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.RECORD_AUDIO), 0)
+        }
+    }
+
     override fun onStart(){
         Log.d("myTEST", "onStart")
         super.onStart()

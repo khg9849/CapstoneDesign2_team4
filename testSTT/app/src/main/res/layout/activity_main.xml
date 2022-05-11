@@ -31,13 +31,13 @@
 
     <TextView
         android:id="@+id/tvResult"
-        android:layout_width="244dp"
-        android:layout_height="91dp"
+        android:layout_width="298dp"
+        android:layout_height="320dp"
         android:text="결과"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSTT"
-        app:layout_constraintVertical_bias="0.217" />
+        app:layout_constraintVertical_bias="0.375" />
 </androidx.constraintlayout.widget.ConstraintLayout>

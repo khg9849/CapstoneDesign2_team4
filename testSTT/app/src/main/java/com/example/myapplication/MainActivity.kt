@@ -1,10 +1,9 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothHeadset
-import android.content.BroadcastReceiver
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -28,10 +27,17 @@ class MainActivity : AppCompatActivity() {
 
         requestPermission()
         val br : BroadcastReceiver = ScreenBroadcastReceiver()
-        val filter: IntentFilter().apply{
-            addAction(BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT)
+        lateinit var filter : IntentFilter
 
+        filter = IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_ON)
+            addAction(BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT)
+            addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)
+            addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
         }
+
+
+        registerReceiver(br, filter)
 
         var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
@@ -41,7 +47,6 @@ class MainActivity : AppCompatActivity() {
 
         val btn : Button = findViewById(R.id.buttonSTT)
         btn.setOnClickListener{
-            Toast.makeText(applicationContext, "버튼 누름", Toast.LENGTH_SHORT).show()
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
             speechRecognizer.setRecognitionListener(recognitionListener)
             speechRecognizer.startListening(intent)

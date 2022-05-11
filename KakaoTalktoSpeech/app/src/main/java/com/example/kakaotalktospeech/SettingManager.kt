@@ -15,5 +15,9 @@ class SettingManager {
 
         /* Useful option */
         var isNotificationServiceRunning:Boolean=false
+
+        /* STT Option*/
+        var isSTTRunning : Boolean = false
+
     }
 }
