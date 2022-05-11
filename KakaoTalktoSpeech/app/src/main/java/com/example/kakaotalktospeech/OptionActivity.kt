@@ -1,13 +1,19 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
+import java.util.*
+import kotlin.concurrent.schedule
 
 class OptionActivity : AppCompatActivity() {
 
@@ -63,12 +69,16 @@ class OptionActivity : AppCompatActivity() {
     }
 
     private fun setSpinner(){
-        val ttsItem = arrayOf("구글 TTS", "삼성 TTS")
+        val ttsItem = arrayOf("삼성 TTS", "구글 TTS")
         val ttsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ttsItem)
         ttsEngineSpinner.adapter = ttsAdapter
         ttsEngineSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                SettingManager.ttsEngine = p2
+                Log.v("myTEST", "item select")
+                if(SettingManager.ttsEngine != p2) {
+                    SettingManager.ttsEngine = p2
+                    myService?.changeTTS()
+                }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
@@ -93,6 +103,10 @@ class OptionActivity : AppCompatActivity() {
         speedSeekbar?.progress = (SettingManager.ttsSpeed/0.2).toInt()-3
         speedTextView?.text = String.format("%.1f", SettingManager.ttsSpeed)+"배속"
         ttsEngineSpinner.setSelection(SettingManager.ttsEngine)
+        /*
+        Timer().schedule(5000){
+            myService?.changeTTS()
+        }*/ // 저장된 tts로 생성되게 만들어야됨
         senderSwitch?.isChecked=SettingManager.isReadingSender
         textSwitch?.isChecked=SettingManager.isReadingText
         timeSwitch?.isChecked=SettingManager.isReadingTime
@@ -102,32 +116,60 @@ class OptionActivity : AppCompatActivity() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
 
-        editor.putFloat(keys[1], SettingManager.ttsVolume);
-        editor.putFloat(keys[2], SettingManager.ttsSpeed);
-        editor.putInt(keys[3], SettingManager.ttsEngine);
-        editor.putBoolean(keys[4], SettingManager.isReadingSender);
-        editor.putBoolean(keys[5], SettingManager.isReadingText);
-        editor.putBoolean(keys[6], SettingManager.isReadingTime);
+        editor.putFloat(keys[1], SettingManager.ttsVolume)
+        editor.putFloat(keys[2], SettingManager.ttsSpeed)
+        editor.putInt(keys[3], SettingManager.ttsEngine)
+        editor.putBoolean(keys[4], SettingManager.isReadingSender)
+        editor.putBoolean(keys[5], SettingManager.isReadingText)
+        editor.putBoolean(keys[6], SettingManager.isReadingTime)
         editor.commit()
     }
 
     private fun restoreState() {
-
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
+            SettingManager.ttsVolume =pref.getFloat(keys[1], 1.0f)
+            SettingManager.ttsSpeed =pref.getFloat(keys[2], 1.0f)
+            SettingManager.ttsEngine =pref.getInt(keys[3], 0)
+            SettingManager.isReadingSender =pref.getBoolean(keys[4], true)
+            SettingManager.isReadingText  =pref.getBoolean(keys[5], true)
+            SettingManager.isReadingTime  =pref.getBoolean(keys[6], false)
+        }
+    }
 
-            SettingManager.ttsVolume =pref.getFloat(keys[1], 1.0f);
-            SettingManager.ttsSpeed =pref.getFloat(keys[2], 1.0f);
-            SettingManager.ttsEngine =pref.getInt(keys[3], 0);
-            SettingManager.isReadingSender =pref.getBoolean(keys[4], true);
-            SettingManager.isReadingText  =pref.getBoolean(keys[5], true);
-            SettingManager.isReadingTime  =pref.getBoolean(keys[6], false);
+    var myService:KakaoNotificationListener? = null
+    var isConService = false
+    val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.v("myTEST", "binder 생성")
+            val b = service as KakaoNotificationListener.MyServiceBinder
+            myService = b.getService()
+            isConService = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isConService = false
+        }
+    }
+
+    fun serviceBind()
+    {
+        val intent = Intent(this, KakaoNotificationListener::class.java)
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    fun serviceUnBind()
+    {
+        if (isConService) {
+            unbindService(serviceConnection)
+            isConService = false
         }
     }
 
     override fun onResume() {
         Log.d("myTEST", "option - onResume")
         super.onResume()
+        serviceBind()
         restoreState()
         initState()
     }
@@ -136,5 +178,6 @@ class OptionActivity : AppCompatActivity() {
         Log.d("myTEST", "option - onPause")
         super.onPause()
         saveState()
+        serviceUnBind()
     }
 }

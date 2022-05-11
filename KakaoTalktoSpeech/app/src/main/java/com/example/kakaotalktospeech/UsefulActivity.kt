@@ -1,17 +1,30 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
-import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.IBinder
+import android.util.Log
+import android.widget.Button
+import android.widget.SeekBar
+import android.widget.Switch
+import java.util.*
+import kotlin.concurrent.schedule
 
 class UsefulActivity : AppCompatActivity() {
-
     lateinit var notification_switch : Switch
     lateinit var whitelistSpinner : Spinner
+    lateinit var ttsStopBtn : Button
+    lateinit var ttsShutdownBtn : Button
+    lateinit var ttsPauseBtn : Button
+    lateinit var ttsRestartBtn : Button
+    lateinit var ttsQSwitch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +51,39 @@ class UsefulActivity : AppCompatActivity() {
             }
         }
 
+        ttsStopBtn = findViewById(R.id.stopBtn)
+        ttsShutdownBtn = findViewById(R.id.shutdownBtn)
+        ttsPauseBtn = findViewById(R.id.pauseBtn)
+        ttsRestartBtn = findViewById(R.id.restartBtn)
+        ttsQSwitch = findViewById(R.id.ttsQSwitch)
+
+        setButton()
+        setSwitch()
 
         whitelistSpinner = findViewById<Spinner>(R.id.white_list_spinner)
         setwhitelistSpinner()
     }
 
+    private fun setButton() {
+        ttsStopBtn.setOnClickListener {
+            myService?.stopTTS()
+        }
+        ttsShutdownBtn.setOnClickListener {
+            myService?.shutdownTTS()
+        }
+        ttsPauseBtn.setOnClickListener {
+            myService?.pauseTTS()
+        }
+        ttsRestartBtn.setOnClickListener {
+            myService?.restartTTS()
+        }
+    }
+
+    private fun setSwitch() {
+        ttsQSwitch?.setOnCheckedChangeListener { CompoundButton, value ->
+            SettingManager.ttsQueueDelete = value
+        }
+    }
 
     private fun setwhitelistSpinner(){
         var _item : ArrayList<String> = ArrayList<String>()
@@ -65,6 +106,7 @@ class UsefulActivity : AppCompatActivity() {
         val editor=pref.edit()
 
         editor.putBoolean("isNotificationServiceRunning", SettingManager.isNotificationServiceRunning);
+        editor.putBoolean("ttsQueueDelete", SettingManager.ttsQueueDelete)
         editor.commit()
     }
 
@@ -72,15 +114,49 @@ class UsefulActivity : AppCompatActivity() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
             SettingManager.isNotificationServiceRunning =pref.getBoolean("isNotificationServiceRunning", false);
+            SettingManager.ttsQueueDelete = pref.getBoolean("ttsQueueDelete", true)
         }
     }
+
     private fun initState(){
         notification_switch.isChecked = SettingManager.isNotificationServiceRunning
+        ttsQSwitch?.isChecked=SettingManager.ttsQueueDelete
     }
+
+    var myService:KakaoNotificationListener? = null
+    var isConService = false
+    val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.v("myTEST", "binder 생성")
+            val b = service as KakaoNotificationListener.MyServiceBinder
+            myService = b.getService()
+            isConService = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isConService = false
+        }
+    }
+
+    fun serviceBind()
+    {
+        val intent = Intent(this, KakaoNotificationListener::class.java)
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    fun serviceUnBind()
+    {
+        if (isConService) {
+            unbindService(serviceConnection)
+            isConService = false
+        }
+    }
+
     override fun onResume() {
         Log.d("myTEST", "useful - onResume")
         super.onResume()
         setwhitelistSpinner()
+        serviceBind()
         restoreState()
         initState()
     }
@@ -89,5 +165,6 @@ class UsefulActivity : AppCompatActivity() {
         Log.d("myTEST", "useful - onPause")
         super.onPause()
         saveState()
+        serviceUnBind()
     }
 }

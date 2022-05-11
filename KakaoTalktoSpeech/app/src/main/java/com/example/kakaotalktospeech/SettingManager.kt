@@ -2,6 +2,7 @@ package com.example.kakaotalktospeech
 
 import android.content.Intent
 import kotlin.properties.Delegates
+import android.speech.tts.TextToSpeech
 
 class SettingManager {
 
@@ -12,6 +13,7 @@ class SettingManager {
         var ttsVolume : Float = 1.0f
         var ttsSpeed : Float = 1.0f
         var ttsEngine: Int = 0
+        var ttsQueueDelete : Boolean = true
 
         /* TTS text option */
         var isReadingSender : Boolean = true

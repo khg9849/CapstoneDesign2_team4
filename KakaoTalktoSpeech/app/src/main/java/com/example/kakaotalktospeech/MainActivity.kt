@@ -1,10 +1,13 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.Message
+import android.os.IBinder
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
@@ -37,9 +40,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        serviceStart()
+
         checkNotificationAccess()
         initSwitch()
         initBtn()
+    }
+
+    fun serviceStart()
+    {
+        val intent = Intent(this, KakaoNotificationListener::class.java)
+        startService(intent)
     }
 
     //<뒤로가기 두 번 누르면 종료
