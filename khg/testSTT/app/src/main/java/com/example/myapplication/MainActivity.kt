@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.bluetooth.BluetoothAssignedNumbers
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothHeadset
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -32,16 +34,15 @@ class MainActivity : AppCompatActivity() {
         requestPermission()
 
         val br : BroadcastReceiver = BroadcastReceiver()
-        lateinit var filter : IntentFilter
 
-        filter = IntentFilter().apply {
-            addAction(Intent.ACTION_SCREEN_ON)
-            addAction(BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT)
-            addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)
-            addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
-            addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
-            addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-        }
+        val filter = IntentFilter()
+        filter.addAction(Intent.ACTION_SCREEN_ON)
+        filter.addAction(BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT)
+        filter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)
+        filter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+        filter.addCategory(BluetoothHeadset.VENDOR_SPECIFIC_HEADSET_EVENT_COMPANY_ID_CATEGORY+"."+ BluetoothAssignedNumbers.PLANTRONICS);
 
         registerReceiver(br, filter)
 
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         ttsbtn.setOnClickListener({
             i++
             tts?.playSilentUtterance(500, TextToSpeech.QUEUE_ADD, null)
-            tts?.speak("$i 번 누름", TextToSpeech.QUEUE_ADD, null, null)
+            tts?.speak("$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름", TextToSpeech.QUEUE_ADD, null, null)
 
         })
 

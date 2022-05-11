@@ -42,7 +42,6 @@ class SpeechToText {
     lateinit var recognitionListener: RecognitionListener
 
     fun CallStt(){
-
         setCalllistener()
         CallspeechRecognizer = SpeechRecognizer.createSpeechRecognizer(Sttcontext)
         CallspeechRecognizer.setRecognitionListener(CallrecognitionListener)
@@ -108,7 +107,7 @@ class SpeechToText {
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
                 }
-                if(txt.equals("대답")) {
+                if(txt.equals("노티야")) {
                     val ttsBundle = Bundle()
                     if(currentTTS != null) {
                         ttsBundle.putFloat(

@@ -39,14 +39,7 @@ class BroadcastReceiver: BroadcastReceiver() {
     }
     fun registerReceiver(context: Context?)
     {
-        val filter = IntentFilter()
-        filter.addAction(Intent.ACTION_SCREEN_ON)
-        filter.addAction(BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT)
-        filter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)
-        filter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
-        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
-        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-        filter.addCategory(BluetoothHeadset.VENDOR_SPECIFIC_HEADSET_EVENT_COMPANY_ID_CATEGORY+"."+ BluetoothAssignedNumbers.PLANTRONICS);
+
 
     }
 
