@@ -95,7 +95,7 @@ class NewAppWidget : AppWidgetProvider() {
         intent.action = PENDING_ACTION
         intent.putExtra("viewId", id)
 
-        return PendingIntent.getBroadcast(context, id, intent, 0)
+        return PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_IMMUTABLE)
     }
 
 }

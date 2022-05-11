@@ -72,25 +72,15 @@
         android:id="@+id/notification_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:minHeight="48dp"
         android:text="Notification Bar"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintHorizontal_bias="0.172"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.329"
-        />
-
-    <Spinner
-        android:id="@+id/white_list_spinner"
-        android:layout_width="410dp"
-        android:layout_height="59dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintVertical_bias="0.944" />
 
     <Button
         android:id="@+id/stopBtn"
@@ -156,5 +146,14 @@
         app:layout_constraintHorizontal_bias="0.562"
         app:layout_constraintStart_toEndOf="@+id/ttsQDelete"
         app:layout_constraintTop_toBottomOf="@+id/restartBtn" />
+
+    <Spinner
+        android:id="@+id/white_list_spinner"
+        android:layout_width="410dp"
+        android:layout_height="59dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
