@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         requestPermission()
 
-        /*val br : BroadcastReceiver = BroadcastReceiver()
+        val br : BroadcastReceiver = BroadcastReceiver()
         lateinit var filter : IntentFilter
 
         filter = IntentFilter().apply {
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR")*/
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR")
 
         val btn : Button = findViewById(R.id.buttonSTT)
         val ttsbtn : Button = findViewById(R.id.buttonTTS)

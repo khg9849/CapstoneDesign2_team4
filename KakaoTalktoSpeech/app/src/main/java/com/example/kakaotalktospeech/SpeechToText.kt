@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.widget.Toast
 import java.util.*
 import kotlin.collections.ArrayList
@@ -13,9 +14,21 @@ import android.content.Intent as Intent
 class SpeechToText {
 
     var check:Boolean = true;
-
     private val Sttintent: Intent
     private val Sttcontext: Context
+
+    private var currentTTS: TextToSpeech? = null
+    private fun initTTS(){
+        currentTTS = TextToSpeech(Sttcontext, TextToSpeech.OnInitListener { i ->
+            if (i == TextToSpeech.SUCCESS) {
+                val result = currentTTS!!.setLanguage(Locale.KOREAN)
+            }
+            else{
+                Log.e("myTest", "tts 연결 실패")
+            }
+        }, "com.google.android.tts")
+
+    }
 
     constructor(intent: Intent, context: Context){
         this.Sttintent = intent
@@ -29,6 +42,7 @@ class SpeechToText {
     lateinit var recognitionListener: RecognitionListener
 
     fun CallStt(){
+
         setCalllistener()
         CallspeechRecognizer = SpeechRecognizer.createSpeechRecognizer(Sttcontext)
         CallspeechRecognizer.setRecognitionListener(CallrecognitionListener)
@@ -36,7 +50,7 @@ class SpeechToText {
     }
 
     private fun startStt(){
-
+        initTTS()
         if(check) {
             setlistener()
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(Sttcontext)
@@ -94,8 +108,16 @@ class SpeechToText {
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
                 }
-                if(txt.equals("아아")) {
-
+                if(txt.equals("대답")) {
+                    val ttsBundle = Bundle()
+                    if(currentTTS != null) {
+                        ttsBundle.putFloat(
+                            TextToSpeech.Engine.KEY_PARAM_VOLUME,
+                            SettingManager.ttsVolume
+                        )
+                        currentTTS!!.setSpeechRate(SettingManager.ttsSpeed)
+                        currentTTS!!.speak("부르셨나요", TextToSpeech.QUEUE_ADD, ttsBundle, null)
+                    }
                     startStt()
                 }
                 else{
@@ -117,7 +139,7 @@ class SpeechToText {
             }
 
             override fun onBeginningOfSpeech() {
-                check = false;
+                check = false
             }
             override fun onRmsChanged(rmsdB: Float) {
             }
