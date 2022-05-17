@@ -12,6 +12,8 @@ import android.widget.RemoteViews
 
 class ActionManager {
     companion object{
+        val SWITCH_UPDATE="com.example.action.SWITCH_UPDATE"
+
         val WIDGET_UPDATE="android.appwidget.action.APPWIDGET_UPDATE"
         var WIDGET_CLICKED = "com.example.pendingintent.Pending_Action"
 

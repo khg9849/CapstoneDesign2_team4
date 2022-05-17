@@ -13,6 +13,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_UPDATE
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_STOP
+import com.example.kakaotalktospeech.ActionManager.Companion.SWITCH_UPDATE
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
 import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
 
@@ -71,10 +72,15 @@ class MainActivity : AppCompatActivity() {
             Log.d("myTEST", "switchOn is ${SettingManager.isRunning}")
             runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
 
+            val intent = Intent(this, MainActivity::class.java)
+            intent.setAction(SWITCH_UPDATE)
+            sendBroadcast(intent)
+
             sendUpdateWidgetIntent(this)
             updateNotification(this)
         }
     }
+
 
     private fun initBtn(){
         val btnOption = findViewById<Button>(R.id.btnOption)
@@ -99,6 +105,16 @@ class MainActivity : AppCompatActivity() {
             Log.d("myTEST", "Doesn't have Notification Access")
             startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
         }
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        Log.d("myTEST","hasFocus: "+hasFocus)
+        if(hasFocus){
+            runningSwitch.isChecked = SettingManager.isRunning
+            runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
+        }
+
     }
 
     private fun saveState() {

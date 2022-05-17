@@ -26,8 +26,10 @@ class NotificationService : Service() {
 
         // Create and register the NotificationChannel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val mChannel = NotificationChannel(channel_id, "channel_name", NotificationManager.IMPORTANCE_DEFAULT)
+            val mChannel = NotificationChannel(channel_id, "channel_name", NotificationManager.IMPORTANCE_LOW)
             mChannel.description = "channel_description"
+            mChannel.vibrationPattern = longArrayOf(0) // turn off vibration
+            mChannel.enableVibration(true)
             notificationManager.createNotificationChannel(mChannel)
         }
     }
