@@ -5,9 +5,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
-
+import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_UPDATE
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_STOP
 
 class NotificationService : Service() {
     var notificationId=1
@@ -17,10 +18,6 @@ class NotificationService : Service() {
     val channel_name = "channel_name"
     val channel_description = "channel_description"
     val channel_importance = NotificationManager.IMPORTANCE_DEFAULT
-
-    val APPWIDGET_UPDATE="android.appwidget.action.APPWIDGET_UPDATE"
-    val NOTIFICATION_UPDATE_START="NOTIFICATION_UPDATE_START"
-    val NOTIFICATION_UPDATE_STOP="NOTIFICATION_UPDATE_STOP"
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
@@ -60,7 +57,7 @@ class NotificationService : Service() {
 
         // Update AppWidget
         val intent1 = Intent(this, NewAppWidget::class.java)
-        intent1.setAction(APPWIDGET_UPDATE)
+        intent1.setAction(WIDGET_UPDATE)
         sendBroadcast(intent1)
 
         // Update pref

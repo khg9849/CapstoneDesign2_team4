@@ -7,10 +7,13 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.widget.RemoteViews
 import android.widget.Toast
+import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_UPDATE
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_STOP
+import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_CLICKED
 import kotlin.Int
 
 
@@ -19,11 +22,7 @@ import kotlin.Int
  */
 class NewAppWidget : AppWidgetProvider() {
 
-    val APPWIDGET_UPDATE="android.appwidget.action.APPWIDGET_UPDATE"
-    var PENDING_ACTION = "com.example.testsetonclickpendingintent.Pending_Action"
 
-    val NOTIFICATION_UPDATE_START="NOTIFICATION_UPDATE_START"
-    val NOTIFICATION_UPDATE_STOP="NOTIFICATION_UPDATE_STOP"
 
     fun setON(views:RemoteViews){
         views.setInt(R.id.bttn_on, "setTextColor", Color.BLACK);
@@ -48,7 +47,7 @@ class NewAppWidget : AppWidgetProvider() {
         val action = intent.action
         Toast.makeText(context, "action: " + action, Toast.LENGTH_SHORT).show();
 
-        if(action==APPWIDGET_UPDATE){
+        if(action==WIDGET_UPDATE){
             if(SettingManager.isRunning===true){
                 setON(views)
             }
@@ -56,7 +55,7 @@ class NewAppWidget : AppWidgetProvider() {
                 setOFF(views)
             }
         }
-        else if (action == PENDING_ACTION) {
+        else if (action == WIDGET_CLICKED) {
                 val viewId=intent.getIntExtra("viewId",0)
                 if(viewId==R.id.bttn_on){
                     setON(views)
@@ -92,7 +91,7 @@ class NewAppWidget : AppWidgetProvider() {
     // 호출한 객체에 PendingIntent를 부여
     private fun getPendingIntent(context: Context, id: Int): PendingIntent? {
         val intent = Intent(context, NewAppWidget::class.java)
-        intent.action = PENDING_ACTION
+        intent.action = WIDGET_CLICKED
         intent.putExtra("viewId", id)
 
         return PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_IMMUTABLE)

@@ -1,19 +1,18 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.Message
-import android.os.IBinder
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
+import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_UPDATE
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_STOP
 
 class MainActivity : AppCompatActivity() {
     companion object{
@@ -31,9 +30,6 @@ class MainActivity : AppCompatActivity() {
         instance = this
     }
 
-    val APPWIDGET_UPDATE="android.appwidget.action.APPWIDGET_UPDATE"
-    val NOTIFICATION_UPDATE_START="NOTIFICATION_UPDATE_START"
-    val NOTIFICATION_UPDATE_STOP="NOTIFICATION_UPDATE_STOP"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("myTEST", "onCreate")
@@ -75,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
             // Update AppWidget
             val intent1 = Intent(this, NewAppWidget::class.java)
-            intent1.setAction(APPWIDGET_UPDATE)
+            intent1.setAction(WIDGET_UPDATE)
             sendBroadcast(intent1)
             // Update Notification Bar
             if(SettingManager.isNotificationServiceRunning){
