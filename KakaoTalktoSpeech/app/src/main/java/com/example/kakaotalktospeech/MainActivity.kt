@@ -13,6 +13,8 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_UPDATE
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_STOP
+import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
+import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
 
 class MainActivity : AppCompatActivity() {
     companion object{
@@ -69,17 +71,8 @@ class MainActivity : AppCompatActivity() {
             Log.d("myTEST", "switchOn is ${SettingManager.isRunning}")
             runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
 
-            // Update AppWidget
-            val intent1 = Intent(this, NewAppWidget::class.java)
-            intent1.setAction(WIDGET_UPDATE)
-            sendBroadcast(intent1)
-            // Update Notification Bar
-            if(SettingManager.isNotificationServiceRunning){
-                val intent2 = Intent(this, NotificationService::class.java)
-                intent2.setAction(if(SettingManager.isRunning) NOTIFICATION_UPDATE_START else NOTIFICATION_UPDATE_STOP)
-                startService(intent2)
-            }
-
+            sendUpdateWidgetIntent(this)
+            updateNotification(this)
         }
     }
 
