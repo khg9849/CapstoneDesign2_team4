@@ -53,7 +53,7 @@ class OptionActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                SettingManager.ttsVolume= (seekBar.progress.toFloat())/10
+                SettingManager.ttsVolume= seekBar.progress
             }
         })
 
@@ -99,7 +99,7 @@ class OptionActivity : AppCompatActivity() {
     }
 
     private fun initState(){
-        soundSeekbar?.progress = (SettingManager.ttsVolume*10).toInt()
+        soundSeekbar?.progress = SettingManager.ttsVolume
         speedSeekbar?.progress = (SettingManager.ttsSpeed/0.2).toInt()-3
         speedTextView?.text = String.format("%.1f", SettingManager.ttsSpeed)+"배속"
         ttsEngineSpinner.setSelection(SettingManager.ttsEngine)
@@ -116,7 +116,7 @@ class OptionActivity : AppCompatActivity() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
 
-        editor.putFloat(keys[1], SettingManager.ttsVolume)
+        editor.putInt(keys[1], SettingManager.ttsVolume)
         editor.putFloat(keys[2], SettingManager.ttsSpeed)
         editor.putInt(keys[3], SettingManager.ttsEngine)
         editor.putBoolean(keys[4], SettingManager.isReadingSender)
@@ -128,7 +128,7 @@ class OptionActivity : AppCompatActivity() {
     private fun restoreState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
-            SettingManager.ttsVolume =pref.getFloat(keys[1], 1.0f)
+            SettingManager.ttsVolume =pref.getInt(keys[1], 5)
             SettingManager.ttsSpeed =pref.getFloat(keys[2], 1.0f)
             SettingManager.ttsEngine =pref.getInt(keys[3], 0)
             SettingManager.isReadingSender =pref.getBoolean(keys[4], true)

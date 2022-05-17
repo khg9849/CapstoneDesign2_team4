@@ -104,7 +104,7 @@ class NotificationService : Service() {
         val intent = Intent(baseContext, NotificationService::class.java)
         intent.setAction(action)
         val pendingIntent =
-            PendingIntent.getService(baseContext, 1, intent, 0)
+            PendingIntent.getService(baseContext, 1, intent, PendingIntent.FLAG_IMMUTABLE)
         val iconId=android.R.drawable.ic_media_pause
         return NotificationCompat.Action.Builder(iconId,btnTitle,pendingIntent).build()
     }

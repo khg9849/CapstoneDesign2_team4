@@ -7,6 +7,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.media.AudioManager
+import android.media.AudioManager.STREAM_MUSIC
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
