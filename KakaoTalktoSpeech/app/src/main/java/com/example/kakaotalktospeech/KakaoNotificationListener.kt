@@ -215,7 +215,7 @@ class KakaoNotificationListener : NotificationListenerService() {
         if(preAudio == -1) {
             preAudio = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         }
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (SettingManager.ttsVolume), 0)
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, SettingManager.ttsVolume, 0)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val requestResult = audioManager.requestAudioFocus(audioFocusRequest)
             if(requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
@@ -225,8 +225,10 @@ class KakaoNotificationListener : NotificationListenerService() {
     }
 
     private fun abandonFocus(){
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, preAudio, 0)
-        preAudio = -1
+        if(preAudio != -1) {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, preAudio, 0)
+            preAudio = -1
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             audioManager.abandonAudioFocusRequest(audioFocusRequest)
         }
