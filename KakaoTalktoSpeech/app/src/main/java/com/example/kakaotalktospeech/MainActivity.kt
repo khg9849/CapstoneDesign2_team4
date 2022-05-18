@@ -1,14 +1,20 @@
 package com.example.kakaotalktospeech
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+
+
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_UPDATE
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
@@ -16,6 +22,7 @@ import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE
 import com.example.kakaotalktospeech.ActionManager.Companion.SWITCH_UPDATE
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
 import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
     companion object{
@@ -39,14 +46,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        requestPermission()
         serviceStart()
-
         checkNotificationAccess()
         initSwitch()
         initBtn()
     }
 
-    fun serviceStart()
+    private fun serviceStart()
     {
         val intent = Intent(this, KakaoNotificationListener::class.java)
         startService(intent)
@@ -131,6 +138,26 @@ class MainActivity : AppCompatActivity() {
             runningSwitch.isChecked = SettingManager.isRunning
         }
     }
+
+    private fun requestPermission(){
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.RECORD_AUDIO), 0)
+        }
+
+        //메시지 전송 권한 요청
+        val MY_PERMISSION_ACCESS_ALL = 100
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            var permissions = arrayOf(
+                android.Manifest.permission.SEND_SMS
+            )
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
+        }
+    }
+
     override fun onStart(){
         Log.d("myTEST", "onStart")
         contactsManager = ContactsManager()
