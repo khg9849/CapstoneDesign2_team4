@@ -43,12 +43,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         requestPermission()
+        serviceStart()
         checkNotificationAccess()
         initSwitch()
         initBtn()
     }
 
-    fun serviceStart()
+    private fun serviceStart()
     {
         val intent = Intent(this, KakaoNotificationListener::class.java)
         startService(intent)

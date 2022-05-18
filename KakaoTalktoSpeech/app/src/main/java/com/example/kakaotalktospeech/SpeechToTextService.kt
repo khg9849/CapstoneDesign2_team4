@@ -37,10 +37,10 @@ class SpeechToTextService : Service(){
 
     private fun showGuest(){
         val stt = SpeechToText(intent , applicationContext)
-        if(SettingManager.isSTTRunning) {
-            stt.CallStt()
-            waitGuest() // 코드 실행뒤에 계속해서 반복하도록 작업한다.
-        }
+
+        stt.CallStt()
+        waitGuest() // 코드 실행뒤에 계속해서 반복하도록 작업한다.
+
     }
 
 }
