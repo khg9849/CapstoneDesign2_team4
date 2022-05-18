@@ -97,6 +97,17 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.RECORD_AUDIO), 0)
         }
+
+        //메시지 전송 권한 요청
+        val MY_PERMISSION_ACCESS_ALL = 100
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            var permissions = arrayOf(
+                android.Manifest.permission.SEND_SMS
+            )
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
+        }
     }
 
     override fun onStart(){

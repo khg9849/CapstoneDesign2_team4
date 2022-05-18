@@ -13,6 +13,7 @@ class UsefulActivity : AppCompatActivity() {
 
     lateinit var notification_switch : Switch
     lateinit var speechtotext_switch : Switch
+    lateinit var sendmsg_button : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +54,13 @@ class UsefulActivity : AppCompatActivity() {
             }
         }
 
+        sendmsg_button = findViewById(R.id.btnStt)
+        val stt = SpeechToText(mainIntent , applicationContext)
+        sendmsg_button.setOnClickListener{
+            Toast.makeText(this,"button", Toast.LENGTH_SHORT).show()
+            stt.startSttToSend()
+        }
     }
-
     private fun saveState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()

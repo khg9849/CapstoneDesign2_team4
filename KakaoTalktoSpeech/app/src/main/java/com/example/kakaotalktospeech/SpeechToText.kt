@@ -13,9 +13,10 @@ import android.content.Intent as Intent
 
 class SpeechToText {
 
-    var check:Boolean = true;
+    var check:Boolean = true
     private val Sttintent: Intent
     private val Sttcontext: Context
+    private lateinit var resultText: String
 
     private var currentTTS: TextToSpeech? = null
     private fun initTTS(){
@@ -38,6 +39,9 @@ class SpeechToText {
     lateinit var CallspeechRecognizer: SpeechRecognizer
     lateinit var CallrecognitionListener: RecognitionListener
 
+    lateinit var SendspeechRecognizer: SpeechRecognizer
+    lateinit var SendrecognitionListener: RecognitionListener
+
     lateinit var speechRecognizer: SpeechRecognizer
     lateinit var recognitionListener: RecognitionListener
 
@@ -48,7 +52,7 @@ class SpeechToText {
         CallspeechRecognizer.startListening(Sttintent)
     }
 
-    private fun startStt(){
+    fun startStt(){
         initTTS()
         if(check) {
             setlistener()
@@ -57,7 +61,12 @@ class SpeechToText {
             speechRecognizer.startListening(Sttintent)
         }
     }
-
+    fun startSttToSend(){
+        sendMessagefromSTT()
+        SendspeechRecognizer = SpeechRecognizer.createSpeechRecognizer(Sttcontext)
+        SendspeechRecognizer.setRecognitionListener(SendrecognitionListener)
+        SendspeechRecognizer.startListening(Sttintent)
+    }
 
     private fun setCalllistener() {
         CallrecognitionListener = object : RecognitionListener {
@@ -182,11 +191,72 @@ class SpeechToText {
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
                 }
-                Toast.makeText(Sttcontext, "$txt", Toast.LENGTH_SHORT).show()
-                if(txt.equals("시간 꺼 줘")){
-                    Toast.makeText(Sttcontext, "시간 읽어주기를 끕니다.", Toast.LENGTH_SHORT).show()
-                    SettingManager.isReadingTime = false
+
+                resultText = txt
+
+                Toast.makeText(Sttcontext, "$resultText", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onPartialResults(partialResults: Bundle?) {
+            }
+            override fun onEvent(eventType: Int, params: Bundle?) {
+            }
+        }
+
+    }
+    private fun sendMessagefromSTT() {
+        SendrecognitionListener = object : RecognitionListener {
+            override fun onReadyForSpeech(params: Bundle?) {
+            }
+
+            override fun onBeginningOfSpeech() {
+            }
+            override fun onRmsChanged(rmsdB: Float) {
+            }
+            override fun onBufferReceived(buffer: ByteArray?) {
+            }
+            override fun onEndOfSpeech() {
+            }
+
+            override fun onError(error: Int) {
+                var message: String
+                when (error) {
+                    SpeechRecognizer.ERROR_AUDIO ->
+                        message = "오디오 에러"
+                    SpeechRecognizer.ERROR_CLIENT ->
+                        message = "클라이언트 에러"
+                    SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS ->
+                        message = "퍼미션 없음"
+                    SpeechRecognizer.ERROR_NETWORK ->
+                        message = "네트워크 에러"
+                    SpeechRecognizer.ERROR_NETWORK_TIMEOUT ->
+                        message = "네트워크 타임아웃"
+                    SpeechRecognizer.ERROR_NO_MATCH ->
+                        message = "찾을 수 없음"
+                    SpeechRecognizer.ERROR_RECOGNIZER_BUSY ->
+                        message = "RECOGNIZER가 바쁨"
+                    SpeechRecognizer.ERROR_SERVER ->
+                        message = "서버가 이상함"
+                    SpeechRecognizer.ERROR_SPEECH_TIMEOUT ->
+                        message = "말하는 시간초과"
+                    else ->
+                        message = "알 수 없는 오류"
                 }
+            }
+
+            override fun onResults(results: Bundle?) {
+                //Toast.makeText(Sttcontext, "결과나옴", Toast.LENGTH_SHORT).show()
+                var txt : String = ""
+                var matches: ArrayList<String> = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) as ArrayList<String>
+                val sendMSG = SendMessageActivity()
+                for (i in 0 until matches.size) {
+                    txt = txt + matches[i]
+                }
+
+                resultText = txt
+                sendMSG.sendMessage(resultText)
+                Toast.makeText(Sttcontext, "$resultText", Toast.LENGTH_SHORT).show()
+
             }
 
             override fun onPartialResults(partialResults: Bundle?) {

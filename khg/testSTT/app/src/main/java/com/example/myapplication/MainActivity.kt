@@ -14,6 +14,7 @@ import android.os.Handler
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.view.KeyEvent
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -42,8 +43,10 @@ class MainActivity : AppCompatActivity() {
         filter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-        filter.addCategory(BluetoothHeadset.VENDOR_SPECIFIC_HEADSET_EVENT_COMPANY_ID_CATEGORY+"."+ BluetoothAssignedNumbers.PLANTRONICS);
-
+        filter.addCategory(BluetoothHeadset.VENDOR_SPECIFIC_HEADSET_EVENT_COMPANY_ID_CATEGORY+"."+ BluetoothAssignedNumbers.PLANTRONICS)
+        filter.addAction(Intent.ACTION_ALL_APPS)
+        filter.addAction(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_CMD_TYPE)
+        filter.addAction(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_CMD)
         registerReceiver(br, filter)
 
         var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
@@ -60,20 +63,18 @@ class MainActivity : AppCompatActivity() {
         tts = TextToSpeech(this){ status ->
             if(status != TextToSpeech.ERROR){
                 tts?.setLanguage(Locale.KOREAN)
-                tts?.setPitch(speed)
+                tts?.setPitch(pitch)
                 tts?.setSpeechRate(speed)
             }
         }
 
         btn.setOnClickListener{
-            val sint = Intent(this, MyService::class.java)
-            startService(sint)
-
+            /*val sint = Intent(this, MyService::class.java)
+            startService(sint)*/
+            registerReceiver(br,filter)
         }
         ttsbtn.setOnClickListener({
             i++
-            tts?.playSilentUtterance(500, TextToSpeech.QUEUE_ADD, null)
-            tts?.speak("$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름$i 번 누름", TextToSpeech.QUEUE_ADD, null, null)
 
         })
 

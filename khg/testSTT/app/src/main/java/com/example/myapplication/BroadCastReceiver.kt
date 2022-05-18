@@ -17,9 +17,9 @@ class BroadcastReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         var cur_action : String = ""
 
-        cur_action += intent.getAction()
+        cur_action += intent.action
         Log.e("myAction", "current action: " + cur_action)
-        when(cur_action){
+        /*when(cur_action){
             Intent.ACTION_SCREEN_ON ->
                 Toast.makeText(context, "Screen On", Toast.LENGTH_SHORT).show()
             BluetoothDevice.ACTION_ACL_CONNECTED ->
@@ -34,12 +34,12 @@ class BroadcastReceiver: BroadcastReceiver() {
             else ->
                 Toast.makeText(context, "another, $cur_action", Toast.LENGTH_SHORT).show()
 
-        }
+        }*/
+        Toast.makeText(context, "another, $cur_action", Toast.LENGTH_SHORT).show()
 
     }
     fun registerReceiver(context: Context?)
     {
-
 
     }
 
