@@ -23,5 +23,6 @@ class SettingManager {
         /* Useful option */
         var isNotificationServiceRunning:Boolean=false
         var whiteList : HashMap<String, Int> = HashMap<String, Int>()
+
     }
 }

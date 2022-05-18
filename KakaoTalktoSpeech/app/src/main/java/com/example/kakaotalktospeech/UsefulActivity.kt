@@ -12,10 +12,10 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Button
-import android.widget.SeekBar
 import android.widget.Switch
 import java.util.*
-import kotlin.concurrent.schedule
+import android.widget.Toast
+
 
 class UsefulActivity : AppCompatActivity() {
     lateinit var notification_switch : Switch
@@ -25,6 +25,8 @@ class UsefulActivity : AppCompatActivity() {
     lateinit var ttsPauseBtn : Button
     lateinit var ttsRestartBtn : Button
     lateinit var ttsQSwitch : Switch
+
+    lateinit var sendmsg_button : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,7 @@ class UsefulActivity : AppCompatActivity() {
         })
 
         val intent = Intent(this, NotificationService::class.java)
-
+        val sintent = Intent(this, SpeechToTextService::class.java)
         notification_switch = findViewById<Switch>(R.id.notification_switch)
         notification_switch.setOnCheckedChangeListener{ CompoundButton, value ->
             if(value){
@@ -59,6 +61,13 @@ class UsefulActivity : AppCompatActivity() {
 
         setButton()
         setSwitch()
+
+        sendmsg_button = findViewById(R.id.btnStt)
+        val stt = SpeechToText(mainIntent , applicationContext)
+        sendmsg_button.setOnClickListener{
+            Toast.makeText(this,"button", Toast.LENGTH_SHORT).show()
+            stt.startSttToSend()
+        }
 
         whitelistSpinner = findViewById<Spinner>(R.id.white_list_spinner)
         setwhitelistSpinner()
@@ -101,6 +110,7 @@ class UsefulActivity : AppCompatActivity() {
         }
     }
 
+
     private fun saveState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
@@ -113,7 +123,7 @@ class UsefulActivity : AppCompatActivity() {
     private fun restoreState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
-            SettingManager.isNotificationServiceRunning =pref.getBoolean("isNotificationServiceRunning", false);
+            SettingManager.isNotificationServiceRunning =pref.getBoolean("isNotificationServiceRunning", false)
             SettingManager.ttsQueueDelete = pref.getBoolean("ttsQueueDelete", true)
         }
     }
