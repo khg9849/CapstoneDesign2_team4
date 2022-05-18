@@ -2,10 +2,11 @@ package com.example.kakaotalktospeech
 
 import android.app.Notification
 import android.content.Intent
-import android.os.Binder
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
+import android.media.AudioManager
+import android.os.*
+import android.provider.MediaStore
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.speech.tts.TextToSpeech
@@ -21,11 +22,18 @@ class KakaoNotificationListener : NotificationListenerService() {
     lateinit var ttsList : List<TextToSpeech.EngineInfo>
     private var ttsQ: LinkedList<String> = LinkedList()
     private var isPause : Boolean = false
+    private lateinit var audioManager : AudioManager
+    private var preAudio : Int = -1
+    private lateinit var audioListener : AudioManager.OnAudioFocusChangeListener
+    private lateinit var audioAttributes: AudioAttributes
+    private lateinit var audioFocusRequest: AudioFocusRequest
 
     override fun onCreate() {
         super.onCreate()
         Log.v("myTEST", "service oncreate")
         initTTS()
+        initAudioFocus()
+        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -51,6 +59,26 @@ class KakaoNotificationListener : NotificationListenerService() {
         fun getService(): KakaoNotificationListener = this@KakaoNotificationListener
     }
 
+    private fun initAudioFocus(){
+        audioListener = object : AudioManager.OnAudioFocusChangeListener{
+            override fun onAudioFocusChange(p0: Int) {
+                when(p0){
+                    AudioManager.AUDIOFOCUS_LOSS -> {
+                        shutdownTTS()
+                        Log.d("myTEST", "audio focus 소실, tts shutdown")
+                    }
+                }
+            }
+        }
+
+        audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build()
+        audioFocusRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN).setAudioAttributes(audioAttributes).setAcceptsDelayedFocusGain(false).setOnAudioFocusChangeListener(audioListener).setWillPauseWhenDucked(true).build()
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+    }
+
     private fun initTTS(){
         tts = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
             if(i == TextToSpeech.SUCCESS){
@@ -67,6 +95,7 @@ class KakaoNotificationListener : NotificationListenerService() {
             }
             override fun onDone(p0: String?) {
                 ttsQ.poll()
+                abandonFocus()
             }
             override fun onError(p0: String?) {
 
@@ -76,7 +105,6 @@ class KakaoNotificationListener : NotificationListenerService() {
         ttsList = tts.engines
     }
 
-    val ttsBundle = Bundle()
     fun changeTTS() {
         tts.stop()
         tts = TextToSpeech(this, TextToSpeech.OnInitListener { i ->
@@ -94,6 +122,7 @@ class KakaoNotificationListener : NotificationListenerService() {
             }
             override fun onDone(p0: String?) {
                 ttsQ.poll()
+                abandonFocus()
             }
             override fun onError(p0: String?) {
 
@@ -113,12 +142,7 @@ class KakaoNotificationListener : NotificationListenerService() {
 
     private fun speakQueue(){
         for(i in ttsQ){
-            ttsBundle.putFloat(
-                TextToSpeech.Engine.KEY_PARAM_VOLUME,
-                SettingManager.ttsVolume
-            )
-            tts!!.setSpeechRate(SettingManager.ttsSpeed)
-            tts!!.speak(i, TextToSpeech.QUEUE_ADD, ttsBundle, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID)
+            getFocusAndSpeak(i)
         }
     }
 
@@ -131,17 +155,20 @@ class KakaoNotificationListener : NotificationListenerService() {
 
     fun stopTTS(){
         tts.stop()
+        abandonFocus()
         ttsQ.poll()
         speakQueue()
     }
 
     fun shutdownTTS(){
         tts.stop()
+        abandonFocus()
         deleteQueue()
     }
 
     fun pauseTTS(){
         tts.stop()
+        abandonFocus()
         isPause = true
     }
 
@@ -173,18 +200,37 @@ class KakaoNotificationListener : NotificationListenerService() {
                     text = (if(SettingManager.isReadingTime) ""+formatTime(time) else "")+text
 
                     if(tts != null) {
-                        ttsBundle.putFloat(
-                            TextToSpeech.Engine.KEY_PARAM_VOLUME,
-                            SettingManager.ttsVolume
-                        )
                         tts!!.setSpeechRate(SettingManager.ttsSpeed)
                         ttsQ.add(text)
                         if(!isPause) {
-                            tts!!.speak(text, TextToSpeech.QUEUE_ADD, ttsBundle, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID)
+                            getFocusAndSpeak(text)
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun getFocusAndSpeak(text : String){
+        if(preAudio == -1) {
+            preAudio = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        }
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, SettingManager.ttsVolume, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val requestResult = audioManager.requestAudioFocus(audioFocusRequest)
+            if(requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+                tts!!.speak(text, TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID)
+            }
+        }
+    }
+
+    private fun abandonFocus(){
+        if(preAudio != -1) {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, preAudio, 0)
+            preAudio = -1
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioManager.abandonAudioFocusRequest(audioFocusRequest)
         }
     }
 

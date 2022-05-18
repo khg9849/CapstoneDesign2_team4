@@ -10,7 +10,7 @@ class SettingManager {
         var isRunning : Boolean = false
 
         /* TTS option */
-        var ttsVolume : Float = 1.0f
+        var ttsVolume : Int = 5
         var ttsSpeed : Float = 1.0f
         var ttsEngine: Int = 0
         var ttsQueueDelete : Boolean = true
