@@ -6,6 +6,9 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
+import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
+import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
+import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
 import java.util.*
 import kotlin.collections.ArrayList
 import android.content.Intent as Intent
@@ -193,7 +196,40 @@ class SpeechToText {
                 /*
                 여기에 옵션 조절 코드 작성
                  */
-                
+                val varName="isRunning"
+                val tempValue1=false
+                val tempValue2=10
+                val tempValue3=0.5f
+
+                when(varName){
+                    "IsRunning"->{
+                        SettingManager.isRunning = tempValue1
+                        sendUpdateWidgetIntent(MainActivity.context())
+                        updateNotification(MainActivity.context())
+                        updatePreferences()
+                    }
+                    /* TTS option */
+                    "ttsVolume"->{
+                        SettingManager.ttsVolume=tempValue2
+                    }
+                    "ttsSpeed"->{
+                        SettingManager.ttsSpeed=tempValue3
+                    }
+                    "ttsEngine"->{
+                        SettingManager.ttsEngine=0
+                    }
+                    /* TTS text option */
+                    "isReadingSender"->{
+                        SettingManager.isReadingSender=tempValue1
+                    }
+                    "isReadingText"->{
+                        SettingManager.isReadingText=tempValue1
+                    }
+                    "isReadingTime"->{
+                        SettingManager.isReadingTime=tempValue1
+                    }
+                }
+
             }
 
             override fun onPartialResults(partialResults: Bundle?) {
