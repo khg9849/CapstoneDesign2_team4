@@ -1,5 +1,4 @@
 package com.example.kakaotalktospeech
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.speech.RecognitionListener
@@ -42,8 +41,8 @@ class SpeechToText {
     lateinit var SendspeechRecognizer: SpeechRecognizer
     lateinit var SendrecognitionListener: RecognitionListener
 
-    lateinit var speechRecognizer: SpeechRecognizer
-    lateinit var recognitionListener: RecognitionListener
+    lateinit var OptionspeechRecognizer: SpeechRecognizer
+    lateinit var OptionrecognitionListener: RecognitionListener
 
     fun CallStt(){
         setCalllistener()
@@ -52,13 +51,13 @@ class SpeechToText {
         CallspeechRecognizer.startListening(Sttintent)
     }
 
-    fun startStt(){
+    fun startSttToControlOption(){
         initTTS()
         if(check) {
-            setlistener()
-            speechRecognizer = SpeechRecognizer.createSpeechRecognizer(Sttcontext)
-            speechRecognizer.setRecognitionListener(recognitionListener)
-            speechRecognizer.startListening(Sttintent)
+            setOptionlistener()
+            OptionspeechRecognizer = SpeechRecognizer.createSpeechRecognizer(Sttcontext)
+            OptionspeechRecognizer.setRecognitionListener(OptionrecognitionListener)
+            OptionspeechRecognizer.startListening(Sttintent)
         }
     }
     fun startSttToSend(){
@@ -73,7 +72,6 @@ class SpeechToText {
             override fun onReadyForSpeech(params: Bundle?) {
                 //Toast.makeText(Sttcontext, "음성호출 인식 중", Toast.LENGTH_SHORT).show()
             }
-
             override fun onBeginningOfSpeech() {
             }
             override fun onRmsChanged(rmsdB: Float) {
@@ -116,19 +114,20 @@ class SpeechToText {
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
                 }
-                if(txt.equals("노티야")) {
-                    val ttsBundle = Bundle()
+                if(txt.equals("옵션")) {
+                    /*val ttsBundle = Bundle()
                     if(currentTTS != null) {
                         ttsBundle.putFloat(
                             TextToSpeech.Engine.KEY_PARAM_VOLUME,
-                            SettingManager.ttsVolume
+                            1.0F
                         )
                         currentTTS!!.setSpeechRate(SettingManager.ttsSpeed)
-                        currentTTS!!.speak("부르셨나요", TextToSpeech.QUEUE_ADD, ttsBundle, null)
-                    }
-                    startStt()
+                        currentTTS!!.speak("옵션을 선택해주세요", TextToSpeech.QUEUE_ADD, ttsBundle, null)
+                    }*/
+                    startSttToControlOption()
                 }
-                else{
+                else if(txt.equals("메시지 전송")){
+                    startSttToSend()
                     //Toast.makeText(Sttcontext, "$txt 를 호출함", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -140,8 +139,8 @@ class SpeechToText {
         }
 
     }
-    private fun setlistener() {
-        recognitionListener = object : RecognitionListener {
+    private fun setOptionlistener() {
+        OptionrecognitionListener = object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
                 Toast.makeText(Sttcontext, "원하는 기능을 말해주세요.", Toast.LENGTH_SHORT).show()
             }
@@ -190,11 +189,11 @@ class SpeechToText {
                 var matches: ArrayList<String> = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) as ArrayList<String>
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
-                }
-
-                resultText = txt
-
-                Toast.makeText(Sttcontext, "$resultText", Toast.LENGTH_SHORT).show()
+                }//말한 내용이 txt에 담김
+                /*
+                여기에 옵션 조절 코드 작성
+                 
+                 */
             }
 
             override fun onPartialResults(partialResults: Bundle?) {
