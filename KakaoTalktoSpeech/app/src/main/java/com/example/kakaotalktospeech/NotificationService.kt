@@ -39,7 +39,6 @@ class NotificationService : Service() {
 
         if(isChanneled==false){
             setNotificationChannel()
-            makeNotification()
             isChanneled=true
         }
 

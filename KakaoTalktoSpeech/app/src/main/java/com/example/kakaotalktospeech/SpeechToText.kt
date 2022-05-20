@@ -192,8 +192,8 @@ class SpeechToText {
                 }//말한 내용이 txt에 담김
                 /*
                 여기에 옵션 조절 코드 작성
-                 
                  */
+                
             }
 
             override fun onPartialResults(partialResults: Bundle?) {

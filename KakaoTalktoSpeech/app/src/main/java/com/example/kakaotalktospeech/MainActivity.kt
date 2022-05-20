@@ -23,6 +23,7 @@ import com.example.kakaotalktospeech.ActionManager.Companion.SWITCH_UPDATE
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
 import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
 import androidx.core.content.ContextCompat
+import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 class MainActivity : AppCompatActivity() {
     companion object{
@@ -76,12 +77,7 @@ class MainActivity : AppCompatActivity() {
         runningSwitch = findViewById(R.id.tbResultItemCount)
         runningSwitch.setOnCheckedChangeListener{ _, value ->
             SettingManager.isRunning = value
-            Log.d("myTEST", "switchOn is ${SettingManager.isRunning}")
             runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
-
-            val intent = Intent(this, MainActivity::class.java)
-            intent.setAction(SWITCH_UPDATE)
-            sendBroadcast(intent)
 
             sendUpdateWidgetIntent(this)
             updateNotification(this)
@@ -116,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        Log.d("myTEST","hasFocus: "+hasFocus)
+//        Log.d("myTEST", "MainActivity-onWindowFocusChanged: "+hasFocus)
         if(hasFocus){
             runningSwitch.isChecked = SettingManager.isRunning
             runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
@@ -159,7 +155,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStart(){
-        Log.d("myTEST", "onStart")
+//        Log.d("myTEST", "MainActivity-onStart")
         contactsManager = ContactsManager()
         contactsManager.makeContactsFile()
         contactsManager.exportContactsFile()
@@ -167,27 +163,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRestart() {
-        Log.d("myTEST", "onRestart")
+//        Log.d("myTEST", "MainActivity-onRestart")
         super.onRestart()
         contactsManager.exportContactsFile()
     }
 
     override fun onResume() {
-        Log.d("myTEST", "onResume")
+//        Log.d("myTEST", "MainActivity-onResume")
         super.onResume()
         restoreState()
         contactsManager.importContactsFile()
     }
 
     override fun onPause() {
-        Log.d("myTEST", "onPause")
+//        Log.d("myTEST", "MainActivity-onPause")
         super.onPause()
         saveState()
         contactsManager.exportContactsFile()
     }
 
     override fun onDestroy() {
-        Log.d("myTEST", "onDestroy")
+//        Log.d("myTEST", "MainActivity-onDestroy")
         super.onDestroy()
     }
 }

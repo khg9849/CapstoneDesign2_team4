@@ -44,13 +44,13 @@ class UsefulActivity : AppCompatActivity() {
         val intent = Intent(this, NotificationService::class.java)
         val sintent = Intent(this, SpeechToTextService::class.java)
         notification_switch = findViewById<Switch>(R.id.notification_switch)
+        notification_switch.isChecked = SettingManager.isNotificationServiceRunning
         notification_switch.setOnCheckedChangeListener{ CompoundButton, value ->
+            SettingManager.isNotificationServiceRunning=value
             if(value){
-                SettingManager.isNotificationServiceRunning=true
                 startService(intent)
             }
             else{
-                SettingManager.isNotificationServiceRunning=false
                 stopService(intent)
             }
         }
