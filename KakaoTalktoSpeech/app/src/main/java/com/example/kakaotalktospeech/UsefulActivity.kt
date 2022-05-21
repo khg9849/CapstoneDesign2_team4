@@ -68,7 +68,8 @@ class UsefulActivity : AppCompatActivity() {
         val stt = SpeechToText(mainIntent , applicationContext)
         sendmsg_button.setOnClickListener{
             Toast.makeText(this,"button", Toast.LENGTH_SHORT).show()
-            stt.startSttToSend()
+//            stt.startSttToSend()
+            stt.startSttToControlOption()
         }
 
         whitelistSpinner = findViewById<Spinner>(R.id.white_list_spinner)
@@ -116,6 +117,14 @@ class UsefulActivity : AppCompatActivity() {
     private fun saveState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
+
+        val keys=arrayOf<String>("isRunning","ttsVolume","ttsSpeed","ttsEngine","isReadingSender","isReadingText","isReadingTime")
+        editor.putInt(keys[1], SettingManager.ttsVolume)
+        editor.putFloat(keys[2], SettingManager.ttsSpeed)
+        editor.putInt(keys[3], SettingManager.ttsEngine)
+        editor.putBoolean(keys[4], SettingManager.isReadingSender)
+        editor.putBoolean(keys[5], SettingManager.isReadingText)
+        editor.putBoolean(keys[6], SettingManager.isReadingTime)
 
         editor.putBoolean("isNotificationServiceRunning", SettingManager.isNotificationServiceRunning);
         editor.putBoolean("ttsQueueDelete", SettingManager.ttsQueueDelete)

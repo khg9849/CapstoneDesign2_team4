@@ -117,6 +117,7 @@ class SpeechToText {
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
                 }
+
                 if(txt.equals("옵션")) {
                     /*val ttsBundle = Bundle()
                     if(currentTTS != null) {
@@ -193,16 +194,17 @@ class SpeechToText {
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
                 }//말한 내용이 txt에 담김
+                Log.d("sttTEST","onResults()-txt:"+txt)
                 /*
                 여기에 옵션 조절 코드 작성
                  */
-                val varName="isRunning"
+                val varName="isReadingSender"
                 val tempValue1=false
                 val tempValue2=10
                 val tempValue3=0.5f
 
                 when(varName){
-                    "IsRunning"->{
+                    "isRunning"->{
                         SettingManager.isRunning = tempValue1
                         sendUpdateWidgetIntent(MainActivity.context())
                         updateNotification(MainActivity.context())
@@ -287,7 +289,6 @@ class SpeechToText {
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
                 }
-
                 resultText = txt
                 sendMSG.sendMessage(resultText)
                 Toast.makeText(Sttcontext, "$resultText", Toast.LENGTH_SHORT).show()
