@@ -42,6 +42,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".OptionActivity" />
         <activity android:name=".UsefulActivity" />
+        <activity android:name=".ListActivity" />
 
         <service
             android:name=".KakaoNotificationListener"

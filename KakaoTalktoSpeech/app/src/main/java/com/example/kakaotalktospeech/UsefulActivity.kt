@@ -1,32 +1,28 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
-import android.view.View
-import android.widget.*
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.media.AudioManager
-import android.media.AudioManager.STREAM_MUSIC
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
-import java.util.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 
 class UsefulActivity : AppCompatActivity() {
     lateinit var notification_switch : Switch
-    lateinit var whitelistSpinner : Spinner
+    //lateinit var whitelistSpinner : Spinner
     lateinit var ttsStopBtn : Button
     lateinit var ttsShutdownBtn : Button
     lateinit var ttsPauseBtn : Button
     lateinit var ttsRestartBtn : Button
     lateinit var ttsQSwitch : Switch
+    lateinit var whitelistButton : Button
 
     lateinit var sendmsg_button : Button
 
@@ -72,8 +68,13 @@ class UsefulActivity : AppCompatActivity() {
             stt.startSttToControlOption()
         }
 
-        whitelistSpinner = findViewById<Spinner>(R.id.white_list_spinner)
-        setwhitelistSpinner()
+        val listIntent = Intent(this, ListActivity::class.java)
+        whitelistButton = findViewById<Button>(R.id.btnList)
+        whitelistButton.setOnClickListener {
+            listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(listIntent)
+        }
+        //setwhitelistSpinner()
     }
 
     private fun setButton() {
@@ -97,6 +98,7 @@ class UsefulActivity : AppCompatActivity() {
         }
     }
 
+    /*
     private fun setwhitelistSpinner(){
         var _item : ArrayList<String> = ArrayList<String>()
         for((key, value) in SettingManager.whiteList)
@@ -112,6 +114,7 @@ class UsefulActivity : AppCompatActivity() {
             }
         }
     }
+    */
 
 
     private fun saveState() {
@@ -176,7 +179,7 @@ class UsefulActivity : AppCompatActivity() {
     override fun onResume() {
         Log.d("myTEST", "useful - onResume")
         super.onResume()
-        setwhitelistSpinner()
+        //setwhitelistSpinner()
         serviceBind()
         restoreState()
         initState()
