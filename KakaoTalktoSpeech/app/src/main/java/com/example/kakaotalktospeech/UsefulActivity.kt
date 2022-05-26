@@ -23,7 +23,6 @@ import kotlin.collections.ArrayList
 
 class UsefulActivity : AppCompatActivity() {
     lateinit var notification_switch : Switch
-    lateinit var whitelistSpinner : Spinner
     lateinit var ttsStopBtn : Button
     lateinit var ttsShutdownBtn : Button
     lateinit var ttsPauseBtn : Button
