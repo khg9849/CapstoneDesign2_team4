@@ -1,12 +1,16 @@
 package com.example.kakaotalktospeech
+import android.content.ComponentName
 import android.content.Context
+import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.speech.RecognitionListener
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
 import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
 import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
@@ -15,7 +19,7 @@ import kotlin.collections.ArrayList
 import android.content.Intent as Intent
 import android.media.AudioManager as AudioManager
 
-class SpeechToText {
+class SpeechToText : AppCompatActivity {
 
     var check:Boolean = true
     private val activationKeyword : String = "테스트"
@@ -28,12 +32,14 @@ class SpeechToText {
     private val stopKeyword : String = "멈춰"
     private val restartKeyword : String = "다시"
 
+    private val useful = UsefulActivity()
+
     private var doActivate : Int = 0;
 
     private val Sttintent: Intent
     private val Sttcontext: Context
     private val audioManager: AudioManager
-    private lateinit var resultText: String
+    private var resultText: String = ""
 
 
     private var sttCounter : Int = 3
@@ -267,8 +273,10 @@ class SpeechToText {
                         } else {
                             when (doActivate) {
                                 1 -> {
+                                    Log.v("myTEST", ""+SettingManager.testSender)
                                     speakTTS(txt + "라고 보낼게요")
-                                    doActivate = 0
+                                    SettingManager.testMessage = txt
+                                    doActivate = 4
                                     //메시지 답장기능
                                 }
                                 2 -> {
@@ -297,6 +305,10 @@ class SpeechToText {
                                     }
                                     doActivate = 0
                                 }
+                                4->{
+                                    useful.myTestFunc()
+                                    doActivate = 0
+                                }
                             }
                         }
                     }
@@ -305,6 +317,28 @@ class SpeechToText {
                 override fun onPartialResults(partialResults: Bundle?) {}
                 override fun onEvent(eventType: Int, params: Bundle?) {}
         }
+    }
+
+
+    var myService:KakaoNotificationListener? = null
+    var isConService = false
+    val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.v("myTEST", "binder 생성")
+            val b = service as KakaoNotificationListener.MyServiceBinder
+            myService = b.getService()
+            isConService = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isConService = false
+        }
+    }
+
+    fun serviceBind()
+    {
+        val intent = Intent(this, KakaoNotificationListener::class.java)
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
 }

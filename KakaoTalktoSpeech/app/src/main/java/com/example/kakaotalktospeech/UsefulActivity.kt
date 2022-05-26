@@ -90,6 +90,7 @@ class UsefulActivity : AppCompatActivity() {
     private fun setButton() {
         ttsStopBtn.setOnClickListener {
             myService?.stopTTS()
+            myTestFunc()
         }
         ttsShutdownBtn.setOnClickListener {
             myService?.shutdownTTS()
@@ -184,6 +185,10 @@ class UsefulActivity : AppCompatActivity() {
             unbindService(serviceConnection)
             isConService = false
         }
+    }
+
+    fun myTestFunc() {
+        myService?.reply(SettingManager.testMessage)
     }
 
     override fun onResume() {

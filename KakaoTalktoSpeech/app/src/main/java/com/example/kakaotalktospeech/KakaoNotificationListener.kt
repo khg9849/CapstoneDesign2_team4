@@ -181,7 +181,12 @@ class KakaoNotificationListener : NotificationListenerService() {
     }
 
     fun recentsender() : String {
-        return recentSender
+        if(recentSender == null){
+            return "test";
+        }
+        else {
+            return recentSender
+        }
     }
 
     fun reply(message : String){
@@ -211,6 +216,8 @@ class KakaoNotificationListener : NotificationListenerService() {
                         if(act.title.toString().toLowerCase().contains("reply") || act.title.toString().toLowerCase().contains("답장")){
                             recentAct = act
                             recentSender = sender!!
+                            SettingManager.testSender = recentSender
+                            Log.e("myTEST", ""+recentSender)
                         }
                     }
                 }
