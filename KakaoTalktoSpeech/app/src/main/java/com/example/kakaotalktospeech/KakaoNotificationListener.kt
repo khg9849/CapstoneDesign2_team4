@@ -1,6 +1,7 @@
 package com.example.kakaotalktospeech
 
 import android.app.Notification
+import android.app.RemoteInput
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
@@ -27,6 +28,8 @@ class KakaoNotificationListener : NotificationListenerService() {
     private lateinit var audioListener : AudioManager.OnAudioFocusChangeListener
     private lateinit var audioAttributes: AudioAttributes
     private lateinit var audioFocusRequest: AudioFocusRequest
+    private lateinit var recentAct : Notification.Action
+    private lateinit var recentSender : String
 
     override fun onCreate() {
         super.onCreate()
@@ -177,6 +180,19 @@ class KakaoNotificationListener : NotificationListenerService() {
         speakQueue()
     }
 
+    fun recentsender() : String {
+        return recentSender
+    }
+
+    fun reply(message : String){
+        val sendIntent = Intent()
+        var msg = Bundle()
+        for(inputable in recentAct.remoteInputs)
+            msg.putCharSequence(inputable.resultKey, message)
+        RemoteInput.addResultsToIntent(recentAct.remoteInputs, sendIntent, msg)
+        recentAct.actionIntent.send(this, 0, sendIntent)
+    }
+
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
 
@@ -188,6 +204,16 @@ class KakaoNotificationListener : NotificationListenerService() {
                 val message = extras?.getCharSequence(Notification.EXTRA_TEXT)
                 val time = sbn?.notification?.`when`
                 val subText = extras?.getCharSequence(Notification.EXTRA_SUB_TEXT)
+
+                val wExt : Notification.WearableExtender = Notification.WearableExtender(sbn?.notification)
+                for(act in wExt.actions){
+                    if(act.remoteInputs != null && act.remoteInputs.size > 0){
+                        if(act.title.toString().toLowerCase().contains("reply") || act.title.toString().toLowerCase().contains("답장")){
+                            recentAct = act
+                            recentSender = sender!!
+                        }
+                    }
+                }
 
                 if (sender != null && message != null && time != null && subText == null) {
                     // option (subText==null) exclude message from group chat
