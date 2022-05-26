@@ -171,18 +171,22 @@ class SpeechToText {
                 Log.e("myTEST", "onReady Activate")
                 muteRecognition(false)
             }
+
             override fun onBeginningOfSpeech() {
                 Log.e("myTEST", "onBeginning Activate")
             }
+
             override fun onRmsChanged(rmsdB: Float) {
             }
+
             override fun onBufferReceived(buffer: ByteArray?) {
             }
+
             override fun onEndOfSpeech() {
             }
 
             override fun onError(error: Int) {
-                lateinit var message : String
+                lateinit var message: String
                 when (error) {
                     SpeechRecognizer.ERROR_AUDIO ->
                         message = "오디오 에러"
@@ -211,108 +215,96 @@ class SpeechToText {
 
             override fun onResults(results: Bundle?) {
                 Log.e("myTEST", "onResults Activate")
-                var txt : String = ""
+                var txt: String = ""
 
-                var matches: ArrayList<String> = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) as ArrayList<String>
+                var matches: ArrayList<String> =
+                    results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) as ArrayList<String>
                 for (i in 0 until matches.size) {
                     txt = txt + matches[i]
 
-                if(txt != null){
-                    muteRecognition(true)
-                    if(doActivate==0) {
-                        if (txt.isNotEmpty()) {
-                            if (txt.contains(messageKeyword)) { // 메시지 답장 기능
-                                doActivate = 1
-                                sttCounter = 5
-                                speakTTS("뭐라고 보낼까요?")
-                                ActivatespeechRecognizer.startListening(Sttintent)
-                                Log.e("myTEST", "메시지 답장 활성화")
-                            }
-                            else if (txt.contains(allonKeyword) || txt.contains(alloffKeyword)) { // tts 전체 on/off
-                                if(txt.contains(allonKeyword)) { //전체 옵션 on/off기능
-                                    speakTTS("노티를 다시 킬게요")
-                                    //여기에 전체옵션 on/off추가
-                                }
-                                else {
-                                    speakTTS("노티를 끌게요")
-                                    //여기도
-                                }
-                                Log.e("myTEST", "옵션 조절 활성화")
-                            }
-                            else if (txt.contains(speedKeyword)) { // tts 속도 조절 기능
-                                doActivate = 2
-                                sttCounter = 5
-                                speakTTS("속도를 얼마로 조절할까요?")
-                                ActivatespeechRecognizer.startListening(Sttintent)
-                                Log.e("myTEST", "속도 조절 활성화")
-                            }
-                            else if (txt.contains(volumeKeyword)) { // tts 볼륨 조절 기능
-                                doActivate = 3
-                                sttCounter = 5
-                                speakTTS("볼륨을 얼마로 조정할까요??")
-                                ActivatespeechRecognizer.startListening(Sttintent)
-                                Log.e("myTEST", "볼륨 조절 활성화")
-                            }
-                            else if (txt.contains(stopKeyword)) { // tts 정지 기능
-                            }
-                            else if (txt.contains(restartKeyword)) { // 방금 온 메시지 다시 재생하는 기능
-                            }
-                            else { // 인식이 안됐을 때
-                                if (sttCounter < 0) {
+                    if (txt != null) {
+                        muteRecognition(true)
+                        if (doActivate == 0) {
+                            if (txt.isNotEmpty()) {
+                                if (txt.contains(messageKeyword)) { // 메시지 답장 기능
+                                    doActivate = 1
                                     sttCounter = 5
-                                } else {
-                                    sttCounter--
+                                    speakTTS("뭐라고 보낼까요?")
+                                    ActivatespeechRecognizer.startListening(Sttintent)
+                                    Log.e("myTEST", "메시지 답장 활성화")
+                                } else if (txt.contains(allonKeyword) || txt.contains(alloffKeyword)) { // tts 전체 on/off
+                                    if (txt.contains(allonKeyword)) { //전체 옵션 on/off기능
+                                        speakTTS("노티를 다시 킬게요")
+                                        //여기에 전체옵션 on/off추가
+                                    } else {
+                                        speakTTS("노티를 끌게요")
+                                        //여기도
+                                    }
+                                    Log.e("myTEST", "옵션 조절 활성화")
+                                } else if (txt.contains(speedKeyword)) { // tts 속도 조절 기능
+                                    doActivate = 2
+                                    sttCounter = 5
+                                    speakTTS("속도를 얼마로 조절할까요?")
+                                    ActivatespeechRecognizer.startListening(Sttintent)
+                                    Log.e("myTEST", "속도 조절 활성화")
+                                } else if (txt.contains(volumeKeyword)) { // tts 볼륨 조절 기능
+                                    doActivate = 3
+                                    sttCounter = 5
+                                    speakTTS("볼륨을 얼마로 조정할까요??")
+                                    ActivatespeechRecognizer.startListening(Sttintent)
+                                    Log.e("myTEST", "볼륨 조절 활성화")
+                                } else if (txt.contains(stopKeyword)) { // tts 정지 기능
+                                } else if (txt.contains(restartKeyword)) { // 방금 온 메시지 다시 재생하는 기능
+                                } else { // 인식이 안됐을 때
+                                    if (sttCounter < 0) {
+                                        sttCounter = 5
+                                    } else {
+                                        sttCounter--
+                                    }
                                 }
+                                muteRecognition(false)
                             }
-                            muteRecognition(false)
-                        }
-                    }
-                    else{
-                        when(doActivate){
-                            1 -> {
-                                speakTTS(txt+"라고 보낼게요")
-                                doActivate = 0
-                                //메시지 답장기능
-                            }
-                            2 -> {
-                                //속도 조절
-                                if(txt.contains("최대")){
-                                    speakTTS("속도를 최대로 올릴게요")
-
+                        } else {
+                            when (doActivate) {
+                                1 -> {
+                                    speakTTS(txt + "라고 보낼게요")
+                                    doActivate = 0
+                                    //메시지 답장기능
                                 }
-                                else if(txt.contains("최소")){
+                                2 -> {
+                                    //속도 조절
+                                    if (txt.contains("최대")) {
+                                        speakTTS("속도를 최대로 올릴게요")
 
-                                    speakTTS("속도를 최소로 낮출게요")
+                                    } else if (txt.contains("최소")) {
 
-                                }
-                                else {
+                                        speakTTS("속도를 최소로 낮출게요")
 
-                                }
-                                doActivate = 0
-                            }
-                            3->{
-                                //볼륨 조절
-                                if(txt.contains("최대로")){
-                                    speakTTS("볼륨을 최대로 올릴게요")
-                                }
-                                else if(txt.contains("최소로")){
+                                    } else {
 
-                                    speakTTS("볼륨을 최소로 낮출게요")
+                                    }
+                                    doActivate = 0
                                 }
-                                else {
+                                3 -> {
+                                    //볼륨 조절
+                                    if (txt.contains("최대로")) {
+                                        speakTTS("볼륨을 최대로 올릴게요")
+                                    } else if (txt.contains("최소로")) {
 
+                                        speakTTS("볼륨을 최소로 낮출게요")
+                                    } else {
+
+                                    }
+                                    doActivate = 0
                                 }
-                                doActivate = 0
                             }
                         }
                     }
                 }
             }
-
-            override fun onPartialResults(partialResults: Bundle?) {}
-            override fun onEvent(eventType: Int, params: Bundle?) {}
+                override fun onPartialResults(partialResults: Bundle?) {}
+                override fun onEvent(eventType: Int, params: Bundle?) {}
         }
-
     }
 
 }
