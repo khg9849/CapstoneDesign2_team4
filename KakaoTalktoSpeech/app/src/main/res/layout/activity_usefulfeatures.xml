@@ -155,9 +155,22 @@
         android:text="sttStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.783"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/divider3"
-        app:layout_constraintVertical_bias="0.485" />
+        app:layout_constraintVertical_bias="0.524" />
+
+    <Switch
+        android:id="@+id/switchStt"
+        android:layout_width="163dp"
+        android:layout_height="45dp"
+        android:text="STT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3"
+        app:layout_constraintVertical_bias="0.504" />
 
     <Button
         android:id="@+id/btnList"

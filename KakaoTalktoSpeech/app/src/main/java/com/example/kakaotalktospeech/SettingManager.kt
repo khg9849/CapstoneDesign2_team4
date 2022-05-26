@@ -20,6 +20,10 @@ class SettingManager {
         var isReadingText : Boolean = true
         var isReadingTime : Boolean = false
 
+        /*STT option*/
+        var isSttActivate : Boolean = false
+        var isSttWorking : Boolean = false
+
         /* Useful option */
         var isNotificationServiceRunning:Boolean=false
         var whiteList : HashMap<String, Int> = HashMap<String, Int>()
