@@ -1,34 +1,33 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
-import android.view.View
-import android.widget.*
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.media.AudioManager
-import android.media.AudioManager.STREAM_MUSIC
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
-import android.widget.Button
-import android.widget.Switch
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import java.util.*
-import android.widget.Toast
+import kotlin.collections.ArrayList
 
 
 class UsefulActivity : AppCompatActivity() {
     lateinit var notification_switch : Switch
+
     lateinit var whitelistSpinner : Spinner
     lateinit var ttsStopBtn : Button
     lateinit var ttsShutdownBtn : Button
     lateinit var ttsPauseBtn : Button
     lateinit var ttsRestartBtn : Button
     lateinit var ttsQSwitch : Switch
-
-    lateinit var sendmsg_button : Button
+    lateinit var sttSwitch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +41,6 @@ class UsefulActivity : AppCompatActivity() {
         })
 
         val intent = Intent(this, NotificationService::class.java)
-        val sintent = Intent(this, SpeechToTextService::class.java)
         notification_switch = findViewById<Switch>(R.id.notification_switch)
         notification_switch.setOnCheckedChangeListener{ CompoundButton, value ->
             if(value){
@@ -64,11 +62,17 @@ class UsefulActivity : AppCompatActivity() {
         setButton()
         setSwitch()
 
-        sendmsg_button = findViewById(R.id.btnStt)
-        val stt = SpeechToText(mainIntent , applicationContext)
-        sendmsg_button.setOnClickListener{
-            Toast.makeText(this,"button", Toast.LENGTH_SHORT).show()
-            stt.startSttToSend()
+        sttSwitch = findViewById(R.id.switchStt)
+        val sttintent = Intent(this, SpeechToTextService::class.java)
+        sttSwitch.setOnCheckedChangeListener{ CompoundButton, value ->
+            if(value){
+                SettingManager.isSttActivate = true
+                startService(sttintent)
+            }
+            else{
+                SettingManager.isSttActivate = false
+                stopService(sttintent)
+            }
         }
 
         whitelistSpinner = findViewById<Spinner>(R.id.white_list_spinner)
