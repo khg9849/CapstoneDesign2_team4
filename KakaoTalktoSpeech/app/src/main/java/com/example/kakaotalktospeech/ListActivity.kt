@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class ListActivity: AppCompatActivity() {
-    private var adapter: RecyclerAdapter? = null
+    //private var adapter: RecyclerAdapter? = null
     private var dataList: ArrayList<RecyclerItem> = ArrayList<RecyclerItem>()
-    private var exitbtn : Button? = null
+    //private var exitbtn : Button? = null
+
+    //RecycleView 참고 출처:
+    //https://blog.yena.io/studynote/2017/12/06/Android-Kotlin-RecyclerView1.html
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +39,10 @@ class ListActivity: AppCompatActivity() {
         Log.d("ListActivity", "init1")
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val adapter = RecyclerAdapter(this, dataList)
+        val adapter = RecyclerAdapter(this, dataList) { item ->
+            //RecycleView의 item을 클릭하면 발생하는 이벤트를 정의하는 부분
+            Log.d("ListActivity", item.getTitle() + item.getContent())
+        }
         recyclerView.adapter = adapter
 
         //ListView Adapter와는 다르게, RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정해주어야 한다.
@@ -57,7 +63,13 @@ class ListActivity: AppCompatActivity() {
 
             dataList.add(data)
         }
-        dataList
+
+        //친구 이름 순으로 정렬
+        //dataList.sortBy { it.getTitle() }
+
+        //친구 연락 횟수 순으로 정렬
+        //dataList.sortBy { it.getContent() }
+
 
         // adapter의 값이 변경되었다는 것을 알려줍니다.
         adapter!!.notifyDataSetChanged()

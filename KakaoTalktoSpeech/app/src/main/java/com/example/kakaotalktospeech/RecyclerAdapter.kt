@@ -9,15 +9,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
+//코틀린 RecycleView Click event 처리:
+//https://blog.yena.io/studynote/2017/12/07/Android-Kotlin-RecyclerView2.html
 
-class RecyclerAdapter(val context: Context, val listData: ArrayList<RecyclerItem>) :
+
+class RecyclerAdapter(val context: Context, val listData: ArrayList<RecyclerItem>, val itemClick: (RecyclerItem) -> Unit) :
     RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder>() {
     // adapter에 들어갈 list 입니다.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate 시킵니다.
         // return 인자는 ViewHolder 입니다.
         val view = LayoutInflater.from(context).inflate(R.layout.item, parent, false)
-        return ItemViewHolder(view)
+        return ItemViewHolder(view, itemClick)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -37,7 +40,7 @@ class RecyclerAdapter(val context: Context, val listData: ArrayList<RecyclerItem
 
     // RecyclerView의 핵심인 ViewHolder 입니다.
     // 여기서 subView를 setting 해줍니다.
-    inner class ItemViewHolder(itemView: View) :
+    inner class ItemViewHolder(itemView: View, itemClick: (RecyclerItem) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val textView1: TextView
         private val textView2: TextView
@@ -53,6 +56,7 @@ class RecyclerAdapter(val context: Context, val listData: ArrayList<RecyclerItem
 
             textView1.setText(data.getTitle())
             textView2.setText(data.getContent().toString())
+            itemView.setOnClickListener { itemClick(data) }
         }
 
         init {
