@@ -3,16 +3,19 @@ package com.example.kakaotalktospeech
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
 class ListActivity: AppCompatActivity() {
-    //private var adapter: RecyclerAdapter? = null
+    private var adapter: RecyclerAdapter? = null
     private var dataList: ArrayList<RecyclerItem> = ArrayList<RecyclerItem>()
-    //private var exitbtn : Button? = null
 
     //RecycleView 참고 출처:
     //https://blog.yena.io/studynote/2017/12/06/Android-Kotlin-RecyclerView1.html
@@ -38,8 +41,47 @@ class ListActivity: AppCompatActivity() {
     private fun init() {
         Log.d("ListActivity", "init1")
 
+        val orderbySpinner = findViewById<Spinner>(R.id.order_by)
+        orderbySpinner.adapter = ArrayAdapter.createFromResource(this, R.array.itemList, android.R.layout.simple_spinner_item)
+        orderbySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when(position){
+                    //<item>기본</item>
+                    0 -> {
+                        dataList.sortBy { it.getResId() }
+                        adapter!!.notifyDataSetChanged()
+                    }
+                    //<item>오름차순</item>
+                    1 -> {
+                        dataList.sortBy { it.getTitle() }
+                        adapter!!.notifyDataSetChanged()
+                    }
+                    //<item>내림차순</item>
+                    2 -> {
+                        dataList.sortByDescending { it.getTitle() }
+                        adapter!!.notifyDataSetChanged()
+                    }
+                    //<item>연락횟수 내림차순</item>
+                    3 -> {
+                        dataList.sortByDescending { it.getContent() }
+                        adapter!!.notifyDataSetChanged()
+                    }
+                }
+
+            }
+        }
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val adapter = RecyclerAdapter(this, dataList) { item ->
+        adapter = RecyclerAdapter(this, dataList) { item ->
             //RecycleView의 item을 클릭하면 발생하는 이벤트를 정의하는 부분
             Log.d("ListActivity", item.getTitle() + item.getContent())
         }
@@ -64,17 +106,20 @@ class ListActivity: AppCompatActivity() {
             dataList.add(data)
         }
 
-        //친구 이름 순으로 정렬
-        //dataList.sortBy { it.getTitle() }
-
-        //친구 연락 횟수 순으로 정렬
-        //dataList.sortBy { it.getContent() }
-
-
         // adapter의 값이 변경되었다는 것을 알려줍니다.
         adapter!!.notifyDataSetChanged()
 
         Log.d("ListActivity", "init2")
+    }
+
+    override fun onResume(){
+        super.onResume()
+        Log.d("ListActivity", "onResume")
+    }
+
+    fun updateList(){
+        Log.d("ListActivity", "updateList")
+
     }
 
     override fun onDestroy() {

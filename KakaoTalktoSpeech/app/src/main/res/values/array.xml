@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="itemList">
+        <item>기본</item>
+        <item>오름차순</item>
+        <item>내림차순</item>
+        <item>연락횟수순</item>
+    </string-array>
+
+</resources>

@@ -49,4 +49,16 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp" />
 
+    <Spinner
+        android:id="@+id/order_by"
+        android:layout_width="138dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.886"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
