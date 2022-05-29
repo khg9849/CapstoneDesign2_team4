@@ -6,8 +6,10 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
-import android.os.*
-import android.provider.MediaStore
+import android.os.Binder
+import android.os.Build
+import android.os.Bundle
+import android.os.IBinder
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.speech.tts.TextToSpeech
@@ -218,19 +220,27 @@ class KakaoNotificationListener : NotificationListenerService() {
                 if (sender != null && message != null && time != null && subText == null) {
                     // option (subText==null) exclude message from group chat
                     Log.d("myTEST", "KakaoNotificationListener - message is received.")
+
+                    //sender가 처음이라면 친구목록에 새로 넣고, 이미있다면 횟수를 1 증가
                     ContactsManager.putWhiteList(sender)
 
-                    var text = "메시지가 도착했습니다."
-                    text = (if(SettingManager.isReadingSender) "${sender}님으로부터 " else "")+text
-                    text += if(SettingManager.isReadingText) "$message" else ""
-                    text = (if(SettingManager.isReadingTime) ""+formatTime(time) else "")+text
+                    //sender의 연락 수신이 허용됬을때만 수신처리
+                    if(ContactsManager.checkWhiteList(sender)){
+                        var text = "메시지가 도착했습니다."
+                        text = (if(SettingManager.isReadingSender) "${sender}님으로부터 " else "")+text
+                        text += if(SettingManager.isReadingText) "$message" else ""
+                        text = (if(SettingManager.isReadingTime) ""+formatTime(time) else "")+text
 
-                    if(tts != null) {
-                        tts!!.setSpeechRate(SettingManager.ttsSpeed)
-                        ttsQ.add(text)
-                        if(!isPause) {
-                            getFocusAndSpeak(text)
+                        if(tts != null) {
+                            tts!!.setSpeechRate(SettingManager.ttsSpeed)
+                            ttsQ.add(text)
+                            if(!isPause) {
+                                getFocusAndSpeak(text)
+                            }
                         }
+                    }
+                    else{
+                        Log.d("myTest", "don't receive")
                     }
                 }
             }
