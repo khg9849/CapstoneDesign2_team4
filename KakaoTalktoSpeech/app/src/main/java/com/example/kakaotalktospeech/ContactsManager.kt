@@ -34,10 +34,27 @@ class ContactsManager : Application() {
 
     companion object{
         fun putWhiteList(name : String){
-            if(SettingManager.whiteList.containsKey(name))
-                SettingManager.whiteList.put(name, SettingManager.whiteList.get(name)!!.toInt() + 1)
-            else
-                SettingManager.whiteList.put(name, 1)
+
+
+
+            if(SettingManager.whiteList.containsKey(name)){
+                var list: ArrayList<Int>? = SettingManager.whiteList.get(name)
+                var idx1 = list!!.get(0) //연락을 수신한 횟수
+                var idx2 = list.get(1) //이 사람의 연락을 수신처리할 것인지 on/off
+
+                var changeList = ArrayList<Int>()
+                changeList.add(idx1 + 1)
+                changeList.add(idx2)
+
+                SettingManager.whiteList.put(name, changeList)
+            }
+            else{
+                var list = ArrayList<Int>()
+                list.add(1) //연락 수신 횟수 = 1
+                list.add(1) //연락을 수신할 처리 1 = true
+
+                SettingManager.whiteList.put(name, list)
+            }
         }
     }
 
@@ -67,7 +84,15 @@ class ContactsManager : Application() {
         lineList.forEach {
             Log.d("ContactsManager", "it : " + it)
             val arr = it.split(":")
-            SettingManager.whiteList.put(arr[0],arr[1].toInt())
+
+            //file에 작성되는 format
+            //":" 뒤에 오는 숫자의 일의자리는 1 또는 0으로 구성하여 연락을 수신할 지 결정하는 Boolean으로 사용됨
+            val idx1 = arr[1].toInt() / 10 //몇 번 연락 수신했는가?
+            val idx2 = arr[1].toInt() % 10 //연락수신을 허용하였는가? (if 1 == true, else 0 == false)
+            var list = ArrayList<Int>()
+            list.add(idx1)
+            list.add(idx2)
+            SettingManager.whiteList.put(arr[0],list)
         }
         bufferedReader.close()
 
@@ -81,7 +106,10 @@ class ContactsManager : Application() {
 
         file.writeText("")
         for ((key, value) in SettingManager.whiteList) {
-            val str = "${key}:${value}\n"
+            val checkList = value
+            val _value = checkList[0] * 10 + checkList[1]
+
+            val str = "${key}:${_value}\n"
             Log.d("ContactsManager", "lineList name&cnt : " + str)
             file.appendText(str)
         }

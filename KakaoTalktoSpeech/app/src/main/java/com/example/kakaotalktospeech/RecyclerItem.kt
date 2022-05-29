@@ -3,6 +3,7 @@ package com.example.kakaotalktospeech
 class RecyclerItem {
     private var title: String? = null
     private var content: Int? = null
+    private var state: Boolean = true
     private var resId = 0
 
     fun getTitle(): String? {
@@ -27,5 +28,13 @@ class RecyclerItem {
 
     fun setResId(resId: Int) {
         this.resId = resId
+    }
+
+    fun setState(s: Boolean){
+        this.state = s
+    }
+
+    fun getState(): Boolean{
+        return state
     }
 }

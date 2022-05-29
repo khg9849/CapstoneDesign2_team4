@@ -1,9 +1,5 @@
 package com.example.kakaotalktospeech
 
-import android.content.Intent
-import kotlin.properties.Delegates
-import android.speech.tts.TextToSpeech
-
 class SettingManager {
 
     companion object{
@@ -26,7 +22,7 @@ class SettingManager {
 
         /* Useful option */
         var isNotificationServiceRunning:Boolean=false
-        var whiteList : HashMap<String, Int> = HashMap<String, Int>()
+        var whiteList : HashMap<String, ArrayList<Int>> = HashMap<String, ArrayList<Int>>()
 
 
     }

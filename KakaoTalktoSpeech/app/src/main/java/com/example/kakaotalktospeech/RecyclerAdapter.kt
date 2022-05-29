@@ -51,7 +51,10 @@ class RecyclerAdapter(val context: Context, val listData: ArrayList<RecyclerItem
             /* textView1의 setImageResource에 들어갈 이미지의 id를 파일명(String)으로 찾고,
             이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
             val resId = context.resources.getIdentifier(textView1.toString(), "drawable", context.packageName)
-            imageView.setImageResource(resId)
+            if(data.getState() == true)
+                imageView.setImageResource(R.drawable.switch_on)
+            else
+                imageView.setImageResource(R.drawable.switch_off)
 
 
             textView1.setText(data.getTitle())

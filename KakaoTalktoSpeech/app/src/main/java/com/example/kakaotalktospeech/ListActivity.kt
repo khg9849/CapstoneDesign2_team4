@@ -83,8 +83,16 @@ class ListActivity: AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         adapter = RecyclerAdapter(this, dataList) { item ->
             //RecycleView의 item을 클릭하면 발생하는 이벤트를 정의하는 부분
-            Log.d("ListActivity", item.getTitle() + item.getContent())
+            var itemState = item.getState()
+            item.setState(!itemState) // on/off 이미지를 바꾸기 위해
+
+            val exitList: ArrayList<Int>? = SettingManager.whiteList.get(item.getTitle())
+            exitList!!
+            if(item.getState() == true) exitList[1] = 1 else exitList[1] = 0 // SettingManager를 변경하여 앱이 종료되도 on/off 설정이 유지되게
+
+            adapter!!.notifyDataSetChanged()
         }
+
         recyclerView.adapter = adapter
 
         //ListView Adapter와는 다르게, RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정해주어야 한다.
@@ -99,9 +107,13 @@ class ListActivity: AppCompatActivity() {
         for(hashmapdata in SettingManager.whiteList){
             var data: RecyclerItem = RecyclerItem()
             var dataTitle: String = hashmapdata.key
-            var dataContent: Int = hashmapdata.value
+            var dataContent: ArrayList<Int> = hashmapdata.value
             data.setTitle(dataTitle)
-            data.setContent(dataContent)
+            data.setContent(dataContent[0])
+            if(dataContent[1] == 1)
+                data.setState(true)
+            else
+                data.setState(false)
 
             dataList.add(data)
         }
