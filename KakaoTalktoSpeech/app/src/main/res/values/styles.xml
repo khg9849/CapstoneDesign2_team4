@@ -10,12 +10,13 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <color name="darkblue">#0F181F</color>
+
     <style name="H1">
         <item name="android:textSize">
             48sp
         </item>
-        <item name="android:textColor">
-            #0F181F
+        <item name="android:textColor">@color/darkblue
         </item>
         <item name="android:shadowColor">
             #540F181F
@@ -28,6 +29,14 @@
         </item>
         <item name="android:shadowRadius">
             8
+        </item>
+
+    </style>
+
+    <style name="H3">
+
+        <item name="android:textSize">
+            24sp
         </item>
 
     </style>
