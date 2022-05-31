@@ -117,6 +117,7 @@ class SpeechToText : AppCompatActivity {
 
             override fun onError(error: Int) {
                 lateinit var message : String
+                //SettingManager.usefulActivityInstance?.restartTTSforSTT()
                 when (error) {
                     SpeechRecognizer.ERROR_AUDIO ->
                         message = "오디오 에러"
@@ -220,10 +221,12 @@ class SpeechToText : AppCompatActivity {
                 }
 
                 Log.d("myTEST", "$message onError")
+                SettingManager.usefulActivityInstance?.restartTTSforSTT()
                 SettingManager.isSttWorking = false
             }
 
             override fun onResults(results: Bundle?) {
+
                 Log.d("myTEST", "onResults Activate")
                 var txt: String = ""
 
@@ -333,6 +336,7 @@ class SpeechToText : AppCompatActivity {
                         }
                     }
                 }
+                SettingManager.usefulActivityInstance?.restartTTSforSTT()
             }
                 override fun onPartialResults(partialResults: Bundle?) {}
                 override fun onEvent(eventType: Int, params: Bundle?) {}
