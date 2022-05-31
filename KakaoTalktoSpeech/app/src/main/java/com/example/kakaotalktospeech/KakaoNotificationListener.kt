@@ -184,12 +184,7 @@ class KakaoNotificationListener : NotificationListenerService() {
     }
 
     fun recentsender() : String? {
-        if(recentSender == null){
-            return "test";
-        }
-        else {
-            return recentSender
-        }
+        return recentSender
     }
 
     fun reply(message : String){
@@ -215,8 +210,6 @@ class KakaoNotificationListener : NotificationListenerService() {
                 val time = sbn?.notification?.`when`
                 val subText = extras?.getCharSequence(Notification.EXTRA_SUB_TEXT)
 
-                //val wExt : WearableExtender = WearableExtender(sbn?.notification)
-
                 //갠톡만 받아지게 만드는 조건
                 if (sender != null && message != null && time != null && subText == null) {
                     // option (subText==null) exclude message from group chat
@@ -233,19 +226,13 @@ class KakaoNotificationListener : NotificationListenerService() {
 
                         // stt용으로 notification의 action을 받아오는 과정
                         var actions = sbn?.notification?.actions
-                        //Log.e("onNotificationPosted", "action test : " + actions)
                         if( actions != null) {
                             for (act in actions) {
                                 if (act.remoteInputs != null && act.remoteInputs.size > 0) {
-                                    Log.e("myTEST", act.title.toString())
-                                    if (act.title.toString().toLowerCase()
-                                            .contains("reply") || act.title.toString().toLowerCase()
-                                            .contains("답장")
-                                    ) {
+                                    if (act.title.toString().toLowerCase().contains("reply") ||
+                                        act.title.toString().toLowerCase().contains("답장")) {
                                         recentAct = act
                                         recentSender = sender!!
-                                        SettingManager.testSender = recentSender!!
-                                        Log.e("myTEST", "" + recentSender)
                                     }
                                 }
                             }

@@ -19,8 +19,6 @@ class SettingManager {
         /*STT option*/
         var isSttActivate : Boolean = false
         var isSttWorking : Boolean = false
-        var testSender : String = ""
-        var testMessage : String = ""
 
         /* Useful option */
         var isNotificationServiceRunning:Boolean=false

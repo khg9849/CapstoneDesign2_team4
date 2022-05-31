@@ -183,7 +183,13 @@ class UsefulActivity : AppCompatActivity() {
         }
     }
 
+    fun recentsenderForStt() : String? {
+        return myService?.recentsender()
+    }
 
+    fun replyForStt(message : String){
+        myService?.reply(message)
+    }
 
     override fun onResume() {
         Log.d("myTEST", "useful - onResume")
@@ -199,11 +205,6 @@ class UsefulActivity : AppCompatActivity() {
         super.onPause()
         saveState()
         serviceUnBind()
-    }
-
-    fun myTestFunc() {
-        Log.e("myReply", "" + myService?.recentsender())
-        myService?.reply(SettingManager.testMessage)
     }
 
     fun stopTTSforSTT(){
