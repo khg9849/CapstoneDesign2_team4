@@ -184,12 +184,7 @@ class KakaoNotificationListener : NotificationListenerService() {
     }
 
     fun recentsender() : String? {
-        if(recentSender == null){
-            return "test";
-        }
-        else {
-            return recentSender
-        }
+        return recentSender
     }
 
     fun reply(message : String){
@@ -215,34 +210,16 @@ class KakaoNotificationListener : NotificationListenerService() {
                 val time = sbn?.notification?.`when`
                 val subText = extras?.getCharSequence(Notification.EXTRA_SUB_TEXT)
 
-                //val wExt : WearableExtender = WearableExtender(sbn?.notification)
-                //val pages: List<Notification> = wExt.getPages()
-
-                //Log.e("onNotificationPosted", "wExt : " + wExt.extend(Notification.Builder(this)).toString())
-                //Log.e("onNotificationPosted", "action : " + wExt.actions.toString())
-                //Log.e("onNotificationPosted", "action2 : " + sbn?.notification?.actions)
-                //Log.e("onNotificationPosted", "pages : " + pages.toString())
-                /*val temp = wExt.pages
-                for(a in temp){
-                    for(act in a.actions){
-                        Log.e("myTEST", "제발")
-                    }
-                }*/
                 var actions = sbn?.notification?.actions
-                //Log.e("onNotificationPosted", "action test : " + actions)
-                if( actions != null) {
+                if(actions != null) {
                     for (act in actions) {
                         Log.e("myTEST", "나는포맨이야")
                         if (act.remoteInputs != null && act.remoteInputs.size > 0) {
                             Log.e("myTEST", act.title.toString())
-                            if (act.title.toString().toLowerCase()
-                                    .contains("reply") || act.title.toString().toLowerCase()
-                                    .contains("답장")
-                            ) {
+                            if (act.title.toString().toLowerCase().contains("reply") ||
+                                act.title.toString().toLowerCase().contains("답장")) {
                                 recentAct = act
                                 recentSender = sender!!
-                                SettingManager.testSender = recentSender!!
-                                Log.e("myTEST", "" + recentSender)
                             }
                         }
                     }

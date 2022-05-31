@@ -33,9 +33,8 @@ class SpeechToText : AppCompatActivity {
     private val stopKeyword : String = "멈춰"
     private val restartKeyword : String = "다시"
 
-    private val useful = UsefulActivity()
-
     private var doActivate : Int = 0;
+    private var replyMessage : String = ""
 
     private val Sttintent: Intent
     private val Sttcontext: Context
@@ -63,9 +62,6 @@ class SpeechToText : AppCompatActivity {
     }
     private fun callActivateSTT(){
         ActivatespeechRecognizer.startListening(Sttintent)
-    }
-    private fun reply(){
-        SettingManager.usefulActivityInstance?.myTestFunc()
     }
     private fun speakTTS(txt: String){
         myTTS?.speak("$txt", TextToSpeech.QUEUE_ADD, null, null)
@@ -295,10 +291,17 @@ class SpeechToText : AppCompatActivity {
                         } else {
                             when (doActivate) {
                                 1 -> {
-                                    Log.v("myReply", ""+SettingManager.testSender)
-                                    speakTTS(txt + "이라고 보낼게요")
-                                    SettingManager.testMessage = txt
-                                    mDelayHandler.postDelayed(::reply, 500)
+                                    var sender = SettingManager.usefulActivityInstance?.recentsenderForStt()
+                                    if(sender == null){
+                                        speakTTS("최근에 메시지를 보낸 사람이 없습니다")
+                                    }
+                                    else{
+                                        speakTTS(sender+"에게 "+txt+"이라고 보낼게요")
+                                        replyMessage = txt
+                                        if(replyMessage != null){
+                                            SettingManager.usefulActivityInstance?.replyForStt(replyMessage)
+                                        }
+                                    }
                                     SettingManager.isSttWorking=false
                                     doActivate = 4
                                     //메시지 답장기능
@@ -334,7 +337,6 @@ class SpeechToText : AppCompatActivity {
                                 4->{
                                     if(txt.equals("그래")) {
 
-                                        //useful.myTestFunc()
                                     }
                                     doActivate = 0
                                 }
