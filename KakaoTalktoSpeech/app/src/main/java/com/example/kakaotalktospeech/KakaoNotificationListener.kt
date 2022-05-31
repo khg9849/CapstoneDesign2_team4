@@ -157,6 +157,7 @@ class KakaoNotificationListener : NotificationListenerService() {
     }
 
     fun stopTTS(){
+        Log.d("myTEST", "stopTTS")
         tts.stop()
         abandonFocus()
         ttsQ.poll()
@@ -190,6 +191,8 @@ class KakaoNotificationListener : NotificationListenerService() {
     }
 
     fun reply(message : String){
+        Log.d("myReply2", message)
+        Toast.makeText(this, "myReply", Toast.LENGTH_SHORT).show()
         val sendIntent = Intent()
         var msg = Bundle()
         for(inputable in recentAct.remoteInputs)

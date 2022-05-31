@@ -5,23 +5,16 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.media.AudioManager
 import android.os.Bundle
 import android.os.IBinder
-import android.speech.tts.TextToSpeech
-import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import android.widget.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class UsefulActivity : AppCompatActivity() {
+
     lateinit var notification_switch : Switch
     lateinit var ttsStopBtn : Button
     lateinit var ttsShutdownBtn : Button
@@ -34,6 +27,8 @@ class UsefulActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_usefulfeatures)
+
+        SettingManager.usefulActivityInstance = this
 
         var mainIntent = Intent(this, MainActivity::class.java)
         val backBtn = findViewById<Button>(R.id.btnBacktomain)
@@ -64,7 +59,6 @@ class UsefulActivity : AppCompatActivity() {
         setButton()
         setSwitch()
 
-
         sttSwitch = findViewById(R.id.switchStt)
         val sttintent = Intent(this, SpeechToTextService::class.java)
         sttSwitch.setOnCheckedChangeListener{ CompoundButton, value ->
@@ -90,7 +84,7 @@ class UsefulActivity : AppCompatActivity() {
     private fun setButton() {
         ttsStopBtn.setOnClickListener {
             myService?.stopTTS()
-            myTestFunc()
+            //myTestFunc()
         }
         ttsShutdownBtn.setOnClickListener {
             myService?.shutdownTTS()
@@ -187,9 +181,7 @@ class UsefulActivity : AppCompatActivity() {
         }
     }
 
-    fun myTestFunc() {
-        myService?.reply(SettingManager.testMessage)
-    }
+
 
     override fun onResume() {
         Log.d("myTEST", "useful - onResume")
@@ -206,4 +198,18 @@ class UsefulActivity : AppCompatActivity() {
         saveState()
         serviceUnBind()
     }
+
+    fun myTestFunc() {
+        Log.d("myReply", SettingManager.testMessage + " " + myService?.recentsender())
+        myService?.reply(SettingManager.testMessage)
+    }
+
+    fun stopTTSforSTT(){
+        Log.d("myTEST", "stopTTS22")
+        myService?.stopTTS()
+    }
+    fun restartTTSforSTT(){
+        myService?.restartTTS()
+    }
+
 }
