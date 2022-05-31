@@ -1,12 +1,18 @@
 package com.example.kakaotalktospeech
+import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
+import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.IBinder
 import android.speech.RecognitionListener
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
 import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
 import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
@@ -15,7 +21,7 @@ import kotlin.collections.ArrayList
 import android.content.Intent as Intent
 import android.media.AudioManager as AudioManager
 
-class SpeechToText {
+class SpeechToText : AppCompatActivity {
 
     var check:Boolean = true
     private val activationKeyword : String = "테스트"
@@ -24,17 +30,16 @@ class SpeechToText {
     private val alloffKeyword : String = "전부 꺼 줘"
     private val speedKeyword : String = "속도"
     private val volumeKeyword : String = "볼륨"
-    private val optionKeyword : String = "옵션"
     private val stopKeyword : String = "멈춰"
     private val restartKeyword : String = "다시"
+
+    private val useful = UsefulActivity()
 
     private var doActivate : Int = 0;
 
     private val Sttintent: Intent
     private val Sttcontext: Context
     private val audioManager: AudioManager
-    private lateinit var resultText: String
-
 
     private var sttCounter : Int = 3
 
@@ -53,11 +58,20 @@ class SpeechToText {
     lateinit var ActivatespeechRecognizer: SpeechRecognizer
     lateinit var ActivaterecognitionListener: RecognitionListener
 
+    private val mDelayHandler: Handler by lazy {
+        Handler()
+    }
+    private fun callActivateSTT(){
+        ActivatespeechRecognizer.startListening(Sttintent)
+    }
+    private fun reply(){
+        SettingManager.usefulActivityInstance?.myTestFunc()
+    }
     private fun speakTTS(txt: String){
         myTTS?.speak("$txt", TextToSpeech.QUEUE_ADD, null, null)
     }
     fun CallStt(){
-        Log.e("myTEST", "call stt 함수 호출")
+        Log.d("myTEST", "call stt 함수 호출")
 
         setCalllistener()
         setActivatelistener()
@@ -73,7 +87,7 @@ class SpeechToText {
     }
 
     private fun muteRecognition(mute:Boolean){
-        Log.e("myTEST", "muteRecog")
+        Log.d("myTEST", "muteRecog")
         if(audioManager != null){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 var flag : Int
@@ -98,11 +112,11 @@ class SpeechToText {
     private fun setCalllistener() {
         CallrecognitionListener = object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
-                Log.e("myTEST", "onReady")
+                Log.d("myTEST", "onReady")
                 muteRecognition(false)
             }
             override fun onBeginningOfSpeech() {
-                Log.e("myTEST", "onBeginning")
+                Log.d("myTEST", "onBeginning")
             }
             override fun onRmsChanged(rmsdB: Float) {
             }
@@ -136,11 +150,11 @@ class SpeechToText {
                         message = "알 수 없는 오류"
                 }
 
-                Log.e("myTEST", "$message onError")
+                Log.d("myTEST", "$message onError")
             }
 
             override fun onResults(results: Bundle?) {
-                Log.e("myTEST", "onResults")
+                Log.d("myTEST", "onResults")
                 var txt : String = ""
 
                 var matches: ArrayList<String> = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) as ArrayList<String>
@@ -152,10 +166,15 @@ class SpeechToText {
                 if(txt.isNotEmpty()){
                     if(txt.contains(activationKeyword)){
                         sttCounter = 5
-                        Log.e("myTEST", "응답 활성화")
+                        //useful.stopTTSforSTT()
+                        Log.d("myTEST", "응답 활성화")
+                        SettingManager.usefulActivityInstance?.stopTTSforSTT()
                         speakTTS("네 말씀하세요")
                         muteRecognition(false)
-                        ActivatespeechRecognizer.startListening(Sttintent)
+                        SettingManager.isSttWorking = true
+                        callActivateSTT()
+                        //mDelayHandler.postDelayed(::callActivateSTT, 500)
+
                     }
                 }
             }
@@ -168,12 +187,12 @@ class SpeechToText {
     private fun setActivatelistener() {
         ActivaterecognitionListener = object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
-                Log.e("myTEST", "onReady Activate")
+                Log.d("myTEST", "onReady Activate")
                 muteRecognition(false)
             }
 
             override fun onBeginningOfSpeech() {
-                Log.e("myTEST", "onBeginning Activate")
+                Log.d("myTEST", "onBeginning Activate")
             }
 
             override fun onRmsChanged(rmsdB: Float) {
@@ -210,11 +229,12 @@ class SpeechToText {
                         message = "알 수 없는 오류"
                 }
 
-                Log.e("myTEST", "$message onError")
+                Log.d("myTEST", "$message onError")
+                SettingManager.isSttWorking = false
             }
 
             override fun onResults(results: Bundle?) {
-                Log.e("myTEST", "onResults Activate")
+                Log.d("myTEST", "onResults Activate")
                 var txt: String = ""
 
                 var matches: ArrayList<String> =
@@ -231,44 +251,56 @@ class SpeechToText {
                                     sttCounter = 5
                                     speakTTS("뭐라고 보낼까요?")
                                     ActivatespeechRecognizer.startListening(Sttintent)
-                                    Log.e("myTEST", "메시지 답장 활성화")
+                                    Log.d("myReply", "메시지 답장 활성화")
                                 } else if (txt.contains(allonKeyword) || txt.contains(alloffKeyword)) { // tts 전체 on/off
                                     if (txt.contains(allonKeyword)) { //전체 옵션 on/off기능
                                         speakTTS("노티를 다시 킬게요")
+                                        SettingManager.isRunning = true
                                         //여기에 전체옵션 on/off추가
                                     } else {
                                         speakTTS("노티를 끌게요")
-                                        //여기도
+                                        SettingManager.isRunning = false
+                                    //여기도
                                     }
-                                    Log.e("myTEST", "옵션 조절 활성화")
+                                    SettingManager.isSttWorking = false
+                                    Log.d("myTEST", "노티 on/off 조절 활성화")
                                 } else if (txt.contains(speedKeyword)) { // tts 속도 조절 기능
                                     doActivate = 2
                                     sttCounter = 5
                                     speakTTS("속도를 얼마로 조절할까요?")
-                                    ActivatespeechRecognizer.startListening(Sttintent)
-                                    Log.e("myTEST", "속도 조절 활성화")
+                                    mDelayHandler.postDelayed(::callActivateSTT, 500)
+                                    //ActivatespeechRecognizer.startListening(Sttintent)
+                                    Log.d("myTEST", "속도 조절 활성화")
                                 } else if (txt.contains(volumeKeyword)) { // tts 볼륨 조절 기능
                                     doActivate = 3
                                     sttCounter = 5
                                     speakTTS("볼륨을 얼마로 조정할까요??")
                                     ActivatespeechRecognizer.startListening(Sttintent)
-                                    Log.e("myTEST", "볼륨 조절 활성화")
+                                    Log.d("myTEST", "볼륨 조절 활성화")
                                 } else if (txt.contains(stopKeyword)) { // tts 정지 기능
+                                    SettingManager.isSttWorking = false
                                 } else if (txt.contains(restartKeyword)) { // 방금 온 메시지 다시 재생하는 기능
+                                    SettingManager.usefulActivityInstance?.restartTTSforSTT()
+                                    SettingManager.isSttWorking = false
                                 } else { // 인식이 안됐을 때
                                     if (sttCounter < 0) {
                                         sttCounter = 5
                                     } else {
                                         sttCounter--
                                     }
+                                    SettingManager.isSttWorking = false
                                 }
                                 muteRecognition(false)
                             }
                         } else {
                             when (doActivate) {
                                 1 -> {
-                                    speakTTS(txt + "라고 보낼게요")
-                                    doActivate = 0
+                                    Log.v("myReply", ""+SettingManager.testSender)
+                                    speakTTS(txt + "이라고 보낼게요")
+                                    SettingManager.testMessage = txt
+                                    mDelayHandler.postDelayed(::reply, 500)
+                                    SettingManager.isSttWorking=false
+                                    doActivate = 4
                                     //메시지 답장기능
                                 }
                                 2 -> {
@@ -284,6 +316,7 @@ class SpeechToText {
 
                                     }
                                     doActivate = 0
+                                    SettingManager.isSttWorking = false
                                 }
                                 3 -> {
                                     //볼륨 조절
@@ -294,6 +327,14 @@ class SpeechToText {
                                         speakTTS("볼륨을 최소로 낮출게요")
                                     } else {
 
+                                    }
+                                    doActivate = 0
+                                    SettingManager.isSttWorking=false
+                                }
+                                4->{
+                                    if(txt.equals("그래")) {
+
+                                        //useful.myTestFunc()
                                     }
                                     doActivate = 0
                                 }

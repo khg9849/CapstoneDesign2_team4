@@ -49,15 +49,22 @@ class SpeechToTextService : Service(){
     }
 
     private fun waitGuest(){
-        Log.e("myTEST", "WaitGuest")
-        mDelayHandler.postDelayed(::showGuest, 3000)
+        Log.d("myTEST", "WaitGuest")
+        if(SettingManager.isSttWorking)
+            mDelayHandler.postDelayed(::runningGuest, 1000)
+        else
+            mDelayHandler.postDelayed(::showGuest, 2000)
+    }
+    private fun runningGuest(){
+        Log.d("myTEST", "runningGuest")
+        mDelayHandler.postDelayed(::waitGuest, 1000)
     }
 
     private fun showGuest(){
-        Log.e("myTEST", "ShowGuest")
+        Log.d("myTEST", "ShowGuest")
         val stt = SpeechToText(intent , applicationContext, audioManager, tts)
         stt.CallStt()
-        if(SettingManager.isSttActivate && SettingManager.isRunning)
+        if(SettingManager.isSttActivate)
             waitGuest() // 코드 실행뒤에 계속해서 반복하도록 작업한다.
     }
 }
