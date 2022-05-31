@@ -130,7 +130,17 @@ class MainActivity : AppCompatActivity() {
 //        Log.d("myTEST", "MainActivity-onWindowFocusChanged: "+hasFocus)
         if(hasFocus){
             runningSwitch.isChecked = SettingManager.isRunning
-            runningText.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
+            if(SettingManager.isRunning){
+                runningText.text="사용 중"
+                intersection.setBackgroundResource(R.drawable.intersection_darkblue)
+                icon.setImageResource(R.drawable.icon2_yellow)
+
+            }
+            else{
+                runningText.text="사용 안 함"
+                intersection.setBackgroundResource(R.drawable.intersection_lightgray)
+                icon.setImageResource(R.drawable.icon2_darkgray)
+            }
         }
 
     }

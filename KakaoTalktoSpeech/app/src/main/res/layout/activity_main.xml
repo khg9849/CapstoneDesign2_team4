@@ -86,8 +86,7 @@
         android:shadowDy="4"
         android:text="설정"
         android:textAppearance="@style/H3"
-        android:textColor="@color/darkblue0"
-        android:textSize="20dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"

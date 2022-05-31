@@ -30,13 +30,34 @@
         <item name="android:shadowRadius">
             8
         </item>
+        <item name="android:textStyle">
+            bold
+        </item>
 
     </style>
 
-    <style name="H3">
+    <style name="H2">
 
         <item name="android:textSize">
             24sp
+        </item>
+        <item name="android:textStyle">
+            bold
+        </item>
+
+    </style>
+    <style name="H3">
+
+        <item name="android:textSize">
+            20sp
+        </item>
+
+    </style>
+
+    <style name="H4">
+
+        <item name="android:textSize">
+            16sp
         </item>
 
     </style>
