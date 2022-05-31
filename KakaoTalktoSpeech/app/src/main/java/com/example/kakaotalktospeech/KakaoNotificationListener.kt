@@ -243,6 +243,9 @@ class KakaoNotificationListener : NotificationListenerService() {
 
                     //sender가 처음이라면 친구목록에 새로 넣고, 이미있다면 횟수를 1 증가
                     ContactsManager.putWhiteList(sender)
+                    if(SettingManager.listActivityInstance != null){
+                        SettingManager.listActivityInstance!!.recreate()
+                    }
 
                     //sender의 연락 수신이 허용됬을때만 수신처리
                     if(ContactsManager.checkWhiteList(sender)){

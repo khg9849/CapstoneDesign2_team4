@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class ListActivity: AppCompatActivity() {
-    private var adapter: RecyclerAdapter? = null
+    var adapter: RecyclerAdapter? = null
     private var dataList: ArrayList<RecyclerItem> = ArrayList<RecyclerItem>()
 
     //RecycleView 참고 출처:
@@ -25,6 +25,7 @@ class ListActivity: AppCompatActivity() {
         Log.d("ListActivity", "onCreate1")
         setContentView(R.layout.activity_whitelist)
 
+        SettingManager.listActivityInstance = this
 
         var usefulIntent = Intent(this, UsefulActivity::class.java)
         val backBtn = findViewById<Button>(R.id.btnBackTomain)
@@ -136,6 +137,7 @@ class ListActivity: AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        SettingManager.listActivityInstance = null
         Log.d("ListActivity", "onDestroy")
     }
 }

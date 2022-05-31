@@ -26,7 +26,7 @@ class SettingManager {
         var isNotificationServiceRunning:Boolean=false
         var whiteList : HashMap<String, ArrayList<Int>> = HashMap<String, ArrayList<Int>>()
         var usefulActivityInstance : UsefulActivity? = null
-
+        var listActivityInstance: ListActivity? = null
 
     }
 }
