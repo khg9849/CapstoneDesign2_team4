@@ -216,38 +216,8 @@ class KakaoNotificationListener : NotificationListenerService() {
                 val subText = extras?.getCharSequence(Notification.EXTRA_SUB_TEXT)
 
                 //val wExt : WearableExtender = WearableExtender(sbn?.notification)
-                //val pages: List<Notification> = wExt.getPages()
 
-                //Log.e("onNotificationPosted", "wExt : " + wExt.extend(Notification.Builder(this)).toString())
-                //Log.e("onNotificationPosted", "action : " + wExt.actions.toString())
-                //Log.e("onNotificationPosted", "action2 : " + sbn?.notification?.actions)
-                //Log.e("onNotificationPosted", "pages : " + pages.toString())
-                /*val temp = wExt.pages
-                for(a in temp){
-                    for(act in a.actions){
-                        Log.e("myTEST", "제발")
-                    }
-                }*/
-                var actions = sbn?.notification?.actions
-                //Log.e("onNotificationPosted", "action test : " + actions)
-                if( actions != null) {
-                    for (act in actions) {
-                        Log.e("myTEST", "나는포맨이야")
-                        if (act.remoteInputs != null && act.remoteInputs.size > 0) {
-                            Log.e("myTEST", act.title.toString())
-                            if (act.title.toString().toLowerCase()
-                                    .contains("reply") || act.title.toString().toLowerCase()
-                                    .contains("답장")
-                            ) {
-                                recentAct = act
-                                recentSender = sender!!
-                                SettingManager.testSender = recentSender!!
-                                Log.e("myTEST", "" + recentSender)
-                            }
-                        }
-                    }
-                }
-
+                //갠톡만 받아지게 만드는 조건
                 if (sender != null && message != null && time != null && subText == null) {
                     // option (subText==null) exclude message from group chat
                     Log.d("myTEST", "KakaoNotificationListener - message is received.")
@@ -260,6 +230,27 @@ class KakaoNotificationListener : NotificationListenerService() {
 
                     //sender의 연락 수신이 허용됬을때만 수신처리
                     if(ContactsManager.checkWhiteList(sender)){
+
+                        // stt용으로 notification의 action을 받아오는 과정
+                        var actions = sbn?.notification?.actions
+                        //Log.e("onNotificationPosted", "action test : " + actions)
+                        if( actions != null) {
+                            for (act in actions) {
+                                if (act.remoteInputs != null && act.remoteInputs.size > 0) {
+                                    Log.e("myTEST", act.title.toString())
+                                    if (act.title.toString().toLowerCase()
+                                            .contains("reply") || act.title.toString().toLowerCase()
+                                            .contains("답장")
+                                    ) {
+                                        recentAct = act
+                                        recentSender = sender!!
+                                        SettingManager.testSender = recentSender!!
+                                        Log.e("myTEST", "" + recentSender)
+                                    }
+                                }
+                            }
+                        }
+
                         var text = "메시지가 도착했습니다."
                         text = (if(SettingManager.isReadingSender) "${sender}님으로부터 " else "")+text
                         text += if(SettingManager.isReadingText) "$message" else ""

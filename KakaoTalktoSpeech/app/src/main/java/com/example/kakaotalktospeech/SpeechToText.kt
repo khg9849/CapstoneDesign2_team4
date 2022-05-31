@@ -1,25 +1,15 @@
 package com.example.kakaotalktospeech
-import android.app.Activity
-import android.content.ComponentName
 import android.content.Context
-import android.content.ServiceConnection
+import android.content.Intent
+import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.os.IBinder
 import android.speech.RecognitionListener
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
-import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
-import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
-import java.util.*
-import kotlin.collections.ArrayList
-import android.content.Intent as Intent
-import android.media.AudioManager as AudioManager
 
 class SpeechToText : AppCompatActivity {
 
@@ -250,7 +240,8 @@ class SpeechToText : AppCompatActivity {
                                     doActivate = 1
                                     sttCounter = 5
                                     speakTTS("뭐라고 보낼까요?")
-                                    ActivatespeechRecognizer.startListening(Sttintent)
+                                    mDelayHandler.postDelayed(::callActivateSTT, 500)
+                                    //ActivatespeechRecognizer.startListening(Sttintent)
                                     Log.d("myReply", "메시지 답장 활성화")
                                 } else if (txt.contains(allonKeyword) || txt.contains(alloffKeyword)) { // tts 전체 on/off
                                     if (txt.contains(allonKeyword)) { //전체 옵션 on/off기능
