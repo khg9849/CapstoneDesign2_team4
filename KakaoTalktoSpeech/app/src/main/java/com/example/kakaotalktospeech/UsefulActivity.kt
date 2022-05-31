@@ -126,14 +126,14 @@ class UsefulActivity : AppCompatActivity() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
 
-        val keys=arrayOf<String>("isRunning","ttsVolume","ttsSpeed","ttsEngine","isReadingSender","isReadingText","isReadingTime")
+        val keys=arrayOf<String>("isRunning","ttsVolume","ttsSpeed","ttsEngine","isReadingSender","isReadingText","isReadingTime", "isSttActivate")
         editor.putInt(keys[1], SettingManager.ttsVolume)
         editor.putFloat(keys[2], SettingManager.ttsSpeed)
         editor.putInt(keys[3], SettingManager.ttsEngine)
         editor.putBoolean(keys[4], SettingManager.isReadingSender)
         editor.putBoolean(keys[5], SettingManager.isReadingText)
         editor.putBoolean(keys[6], SettingManager.isReadingTime)
-
+        editor.putBoolean(keys[7], SettingManager.isSttActivate)
         editor.putBoolean("isNotificationServiceRunning", SettingManager.isNotificationServiceRunning);
         editor.putBoolean("ttsQueueDelete", SettingManager.ttsQueueDelete)
         editor.commit()
@@ -144,12 +144,14 @@ class UsefulActivity : AppCompatActivity() {
         if(pref!=null){
             SettingManager.isNotificationServiceRunning =pref.getBoolean("isNotificationServiceRunning", false)
             SettingManager.ttsQueueDelete = pref.getBoolean("ttsQueueDelete", true)
+            SettingManager.isSttActivate = pref.getBoolean("isSttActivate", false)
         }
     }
 
     private fun initState(){
         notification_switch.isChecked = SettingManager.isNotificationServiceRunning
         ttsQSwitch?.isChecked=SettingManager.ttsQueueDelete
+        sttSwitch.isChecked = SettingManager.isSttActivate
     }
 
     var myService:KakaoNotificationListener? = null

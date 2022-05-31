@@ -37,7 +37,7 @@ class SpeechToTextService : Service(){
         }
     }
     private fun callEvent() {
-        Toast.makeText(applicationContext, "서비스 시작", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext, "서비스 시작", Toast.LENGTH_SHORT).show()
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR")
         showGuest()
