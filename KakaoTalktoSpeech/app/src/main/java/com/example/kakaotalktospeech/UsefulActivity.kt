@@ -200,13 +200,13 @@ class UsefulActivity : AppCompatActivity() {
     }
 
     fun myTestFunc() {
-        Log.d("myReply", SettingManager.testMessage + " " + myService?.recentsender())
+        Log.e("myReply", "" + myService?.recentsender())
         myService?.reply(SettingManager.testMessage)
     }
 
     fun stopTTSforSTT(){
         Log.d("myTEST", "stopTTS22")
-        myService?.stopTTS()
+        myService?.pauseTTS()
     }
     fun restartTTSforSTT(){
         myService?.restartTTS()

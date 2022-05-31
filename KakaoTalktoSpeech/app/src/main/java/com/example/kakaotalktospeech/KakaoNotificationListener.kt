@@ -29,7 +29,7 @@ class KakaoNotificationListener : NotificationListenerService() {
     private lateinit var audioAttributes: AudioAttributes
     private lateinit var audioFocusRequest: AudioFocusRequest
     private lateinit var recentAct : Notification.Action
-    private lateinit var recentSender : String
+    private var recentSender : String? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -181,7 +181,7 @@ class KakaoNotificationListener : NotificationListenerService() {
         speakQueue()
     }
 
-    fun recentsender() : String {
+    fun recentsender() : String? {
         if(recentSender == null){
             return "test";
         }
@@ -214,12 +214,22 @@ class KakaoNotificationListener : NotificationListenerService() {
                 val subText = extras?.getCharSequence(Notification.EXTRA_SUB_TEXT)
 
                 val wExt : Notification.WearableExtender = Notification.WearableExtender(sbn?.notification)
+
+                Log.e("myTEST", ""+wExt.actions)
+                /*val temp = wExt.pages
+                for(a in temp){
+                    for(act in a.actions){
+                        Log.e("myTEST", "제발")
+                    }
+                }*/
                 for(act in wExt.actions){
+                    Log.e("myTEST", "나는포맨이야")
                     if(act.remoteInputs != null && act.remoteInputs.size > 0){
+                        Log.e("myTEST", act.title.toString())
                         if(act.title.toString().toLowerCase().contains("reply") || act.title.toString().toLowerCase().contains("답장")){
                             recentAct = act
                             recentSender = sender!!
-                            SettingManager.testSender = recentSender
+                            SettingManager.testSender = recentSender!!
                             Log.e("myTEST", ""+recentSender)
                         }
                     }

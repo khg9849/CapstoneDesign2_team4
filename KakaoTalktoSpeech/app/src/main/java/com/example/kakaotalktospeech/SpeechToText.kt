@@ -298,7 +298,8 @@ class SpeechToText : AppCompatActivity {
                                     Log.v("myReply", ""+SettingManager.testSender)
                                     speakTTS(txt + "이라고 보낼게요")
                                     SettingManager.testMessage = txt
-                                    ActivatespeechRecognizer.startListening(Sttintent)
+                                    mDelayHandler.postDelayed(::reply, 500)
+                                    SettingManager.isSttWorking=false
                                     doActivate = 4
                                     //메시지 답장기능
                                 }
@@ -332,10 +333,9 @@ class SpeechToText : AppCompatActivity {
                                 }
                                 4->{
                                     if(txt.equals("그래")) {
-                                        mDelayHandler.postDelayed(::reply, 500)
+
                                         //useful.myTestFunc()
                                     }
-                                    SettingManager.isSttWorking=false
                                     doActivate = 0
                                 }
                             }
