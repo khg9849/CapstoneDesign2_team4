@@ -123,7 +123,7 @@ class UsefulActivity : AppCompatActivity() {
     */
 
 
-    private fun saveState() {
+    fun saveState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
 
