@@ -40,7 +40,9 @@ class ActionManager {
             val pref =
                 MainActivity.context().getSharedPreferences("pref", Activity.MODE_PRIVATE)
             val editor = pref.edit()
-            editor.putBoolean("isRunning", SettingManager.isRunning);
+            editor.putBoolean("isRunning", SettingManager.isRunning)
+            editor.putInt("ttsVolume", SettingManager.ttsVolume)
+            editor.putFloat("ttsSpeed", SettingManager.ttsSpeed)
             editor.commit()
         }
     }
