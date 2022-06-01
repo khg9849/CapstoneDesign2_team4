@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class UsefulActivity : AppCompatActivity() {
 
-    lateinit var notification_switch : Switch
+    lateinit var notibar_switch : Switch
     lateinit var ttsStopBtn : Button
     lateinit var ttsShutdownBtn : Button
     lateinit var ttsPauseBtn : Button
@@ -37,17 +37,16 @@ class UsefulActivity : AppCompatActivity() {
             startActivity(mainIntent)
         })
 
-        val intent = Intent(this, NotificationService::class.java)
-        notification_switch = findViewById<Switch>(R.id.notification_switch)
-        notification_switch.isChecked = SettingManager.isNotificationServiceRunning
-        notification_switch.setOnCheckedChangeListener{ CompoundButton, value ->
-            SettingManager.isNotificationServiceRunning=value
+        val intent = Intent(this, NotibarService::class.java)
+        notibar_switch = findViewById<Switch>(R.id.notibar_switch)
+        notibar_switch.isChecked = SettingManager.isNotibarRunning
+        notibar_switch.setOnCheckedChangeListener{ CompoundButton, value ->
+            SettingManager.isNotibarRunning=value
             if(value){
-                intent.action= ActionManager.NOTIFICATION_CREATE
+                intent.action= ActionManager.NOTIBAR_CREATE
                 startService(intent)
             }
             else{
-                intent.action= ActionManager.NOTIFICATION_UPDATE_STOP
                 stopService(intent)
             }
         }
@@ -136,7 +135,7 @@ class UsefulActivity : AppCompatActivity() {
         editor.putBoolean(keys[5], SettingManager.isReadingText)
         editor.putBoolean(keys[6], SettingManager.isReadingTime)
         editor.putBoolean(keys[7], SettingManager.isSttActivate)
-        editor.putBoolean("isNotificationServiceRunning", SettingManager.isNotificationServiceRunning);
+        editor.putBoolean("isNotificationServiceRunning", SettingManager.isNotibarRunning);
         editor.putBoolean("ttsQueueDelete", SettingManager.ttsQueueDelete)
         editor.commit()
     }
@@ -144,14 +143,14 @@ class UsefulActivity : AppCompatActivity() {
     private fun restoreState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
-            SettingManager.isNotificationServiceRunning =pref.getBoolean("isNotificationServiceRunning", false)
+            SettingManager.isNotibarRunning =pref.getBoolean("isNotificationServiceRunning", false)
             SettingManager.ttsQueueDelete = pref.getBoolean("ttsQueueDelete", true)
             SettingManager.isSttActivate = pref.getBoolean("isSttActivate", false)
         }
     }
 
     private fun initState(){
-        notification_switch.isChecked = SettingManager.isNotificationServiceRunning
+        notibar_switch.isChecked = SettingManager.isNotibarRunning
         ttsQSwitch?.isChecked=SettingManager.ttsQueueDelete
         sttSwitch.isChecked = SettingManager.isSttActivate
     }

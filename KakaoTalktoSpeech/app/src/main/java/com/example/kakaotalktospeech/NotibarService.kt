@@ -4,16 +4,14 @@ import android.app.*
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_CREATE
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_STOP
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_START
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_STOP
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
 import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 
-class NotificationService : Service() {
+class NotibarService : Service() {
     var notificationId=1
     var isChanneled=false
     val channel_id="channel_id"
@@ -36,23 +34,15 @@ class NotificationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("notiTEST", "onStartCommand()")
-        Log.d("notiTEST",intent?.action.toString())
 
         if(isChanneled==false){
             setNotificationChannel()
             isChanneled=true
         }
 
-
         when(intent?.action){
-            NOTIFICATION_UPDATE_START->{
-                SettingManager.isRunning=true
-            }
-            NOTIFICATION_UPDATE_STOP->{
-                SettingManager.isRunning=false
-            }
-
+            NOTIBAR_UPDATE_START-> SettingManager.isRunning=true
+            NOTIBAR_UPDATE_STOP-> SettingManager.isRunning=false
         }
 
         makeNotification()
@@ -64,14 +54,12 @@ class NotificationService : Service() {
 
 
     override fun onDestroy() {
-        Log.d("notiTEST", "onDestroy()")
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancel(notificationId)
         super.onDestroy()
     }
 
     fun makeNotification() {
-
         val builder = NotificationCompat.Builder(this, channel_id)
         builder.setPriority(NotificationCompat.PRIORITY_HIGH)
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -80,19 +68,19 @@ class NotificationService : Service() {
         builder.setContentTitle("KakaoTalkToSpeech")
         if (SettingManager.isRunning) {
             builder.setContentText("APP is running")
-            builder.addAction(makeButtonInNotification(NOTIFICATION_UPDATE_STOP,"STOP"))
+            builder.addAction(makeButtonInNotibar(NOTIBAR_UPDATE_STOP,"STOP"))
         }
         else{
             builder.setContentText("APP is not running")
-            builder.addAction(makeButtonInNotification(NOTIFICATION_UPDATE_START,"START"))
+            builder.addAction(makeButtonInNotibar(NOTIBAR_UPDATE_START,"START"))
         }
 
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(notificationId,builder.build())
+        val notibarManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notibarManager.notify(notificationId,builder.build())
     }
 
-    fun makeButtonInNotification(action:String,btnTitle:String): NotificationCompat.Action {
-        val intent = Intent(baseContext, NotificationService::class.java)
+    fun makeButtonInNotibar(action:String, btnTitle:String): NotificationCompat.Action {
+        val intent = Intent(baseContext, NotibarService::class.java)
         intent.setAction(action)
         val pendingIntent =
             PendingIntent.getService(baseContext, 1, intent, PendingIntent.FLAG_IMMUTABLE)

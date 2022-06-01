@@ -14,14 +14,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_UPDATE
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_STOP
-import com.example.kakaotalktospeech.ActionManager.Companion.SWITCH_UPDATE
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
-import com.example.kakaotalktospeech.ActionManager.Companion.updateNotification
+import com.example.kakaotalktospeech.ActionManager.Companion.updateNotibar
 import androidx.core.content.ContextCompat
-import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 class MainActivity : AppCompatActivity() {
     companion object{
@@ -95,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
 
             sendUpdateWidgetIntent(this)
-            updateNotification(this)
+            updateNotibar(this)
         }
     }
 

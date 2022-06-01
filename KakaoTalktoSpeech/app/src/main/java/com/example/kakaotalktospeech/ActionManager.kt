@@ -1,37 +1,29 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
-import android.app.PendingIntent
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.util.Log
-import android.widget.RemoteViews
 
 class ActionManager {
     companion object{
-        val SWITCH_UPDATE="com.example.action.SWITCH_UPDATE"
-
-        val WIDGET_UPDATE="android.appwidget.action.APPWIDGET_UPDATE"
+        val WIDGET_CREATE="android.appwidget.action.APPWIDGET_UPDATE"
         var WIDGET_CLICKED = "com.example.pendingintent.Pending_Action"
 
-        val NOTIFICATION_CREATE="CREATE"
-        val NOTIFICATION_UPDATE_START="START"
-        val NOTIFICATION_UPDATE_STOP="STOP"
+        val NOTIBAR_CREATE="CREATE"
+        val NOTIBAR_UPDATE_START="START"
+        val NOTIBAR_UPDATE_STOP="STOP"
 
         fun sendUpdateWidgetIntent(context: Context){
-            val intent = Intent(context, NewAppWidget::class.java)
-            intent.setAction(WIDGET_UPDATE)
+            val intent = Intent(context, AppWidget::class.java)
+            intent.setAction(WIDGET_CREATE)
             context.sendBroadcast(intent)
         }
 
-        fun updateNotification(context: Context){
+        fun updateNotibar(context: Context){
             // Update Notification Bar
-            if (SettingManager.isNotificationServiceRunning) {
-                val intent2 = Intent(context, NotificationService::class.java)
-                intent2.setAction(if (SettingManager.isRunning) NOTIFICATION_UPDATE_START else NOTIFICATION_UPDATE_STOP)
+            if (SettingManager.isNotibarRunning) {
+                val intent2 = Intent(context, NotibarService::class.java)
+                intent2.setAction(if (SettingManager.isRunning) NOTIBAR_UPDATE_START else NOTIBAR_UPDATE_STOP)
                 context.startService(intent2)
             }
         }

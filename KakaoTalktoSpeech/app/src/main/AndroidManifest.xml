@@ -12,7 +12,7 @@
         android:theme="@style/Theme.KakaoTalktoSpeech">
 
         <service
-            android:name=".NotificationService"
+            android:name=".NotibarService"
             android:enabled="true"
             android:exported="true"></service>
         <service
@@ -20,7 +20,7 @@
             android:enabled="true"
             android:exported="true"></service>
         <receiver
-            android:name=".NewAppWidget"
+            android:name=".AppWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

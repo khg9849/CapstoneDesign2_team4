@@ -21,7 +21,7 @@ class SettingManager {
         var isSttWorking : Boolean = false
 
         /* Useful option */
-        var isNotificationServiceRunning:Boolean=false
+        var isNotibarRunning:Boolean=false
         var whiteList : HashMap<String, ArrayList<Int>> = HashMap<String, ArrayList<Int>>()
         var usefulActivityInstance : UsefulActivity? = null
         var listActivityInstance: ListActivity? = null
