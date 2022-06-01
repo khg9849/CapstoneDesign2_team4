@@ -6,8 +6,6 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE_START
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE_STOP
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_START
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_STOP
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
