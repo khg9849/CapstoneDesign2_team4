@@ -10,12 +10,25 @@ class ActionManager {
         var WIDGET_CLICKED = "com.example.pendingintent.Pending_Action"
 
         val NOTIBAR_CREATE="CREATE"
-        val NOTIBAR_UPDATE_START="START"
-        val NOTIBAR_UPDATE_STOP="STOP"
+        val NOTIBAR_UPDATE_START="UPDATE_START"
+        val NOTIBAR_UPDATE_STOP="UPDATE_STOP"
+
+        fun updateIsRunning(isRunning:Boolean){
+            SettingManager.isRunning=isRunning
+
+            // Update pref
+            val pref =
+                MainActivity.context().getSharedPreferences("pref", Activity.MODE_PRIVATE)
+            val editor = pref.edit()
+            editor.putBoolean("isRunning", SettingManager.isRunning);
+            editor.commit()
+        }
+
 
         fun sendUpdateWidgetIntent(context: Context){
             val intent = Intent(context, AppWidget::class.java)
             intent.setAction(WIDGET_CREATE)
+            intent.putExtra("isRunning",SettingManager.isRunning)
             context.sendBroadcast(intent)
         }
 

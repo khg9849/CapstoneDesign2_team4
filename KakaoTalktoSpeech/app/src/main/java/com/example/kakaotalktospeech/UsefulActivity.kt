@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
 
 
 class UsefulActivity : AppCompatActivity() {
@@ -43,7 +44,8 @@ class UsefulActivity : AppCompatActivity() {
         notibar_switch.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isNotibarRunning=value
             if(value){
-                intent.action= ActionManager.NOTIBAR_CREATE
+                intent.action=NOTIBAR_CREATE
+                intent.putExtra("isRunning",SettingManager.isRunning)
                 startService(intent)
             }
             else{

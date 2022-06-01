@@ -5,9 +5,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE_START
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE_STOP
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_START
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_STOP
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
+import com.example.kakaotalktospeech.ActionManager.Companion.updateIsRunning
 import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 
@@ -41,11 +45,20 @@ class NotibarService : Service() {
         }
 
         when(intent?.action){
-            NOTIBAR_UPDATE_START-> SettingManager.isRunning=true
-            NOTIBAR_UPDATE_STOP-> SettingManager.isRunning=false
+            NOTIBAR_CREATE-> {
+                val isRunning=intent?.getBooleanExtra("isRunning",false)
+                makeNotification(isRunning)
+            }
+            NOTIBAR_UPDATE_START-> {
+                updateIsRunning(true)
+                makeNotification(true)
+            }
+            NOTIBAR_UPDATE_STOP-> {
+                updateIsRunning(false)
+                makeNotification(false)
+            }
         }
 
-        makeNotification()
         sendUpdateWidgetIntent(this)
         updatePreferences()
 
@@ -59,14 +72,14 @@ class NotibarService : Service() {
         super.onDestroy()
     }
 
-    fun makeNotification() {
+    fun makeNotification(isRunning:Boolean) {
         val builder = NotificationCompat.Builder(this, channel_id)
         builder.setPriority(NotificationCompat.PRIORITY_HIGH)
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)
         builder.setOngoing(true)
 
         builder.setContentTitle("KakaoTalkToSpeech")
-        if (SettingManager.isRunning) {
+        if (isRunning) {
             builder.setContentText("APP is running")
             builder.addAction(makeButtonInNotibar(NOTIBAR_UPDATE_STOP,"STOP"))
         }
