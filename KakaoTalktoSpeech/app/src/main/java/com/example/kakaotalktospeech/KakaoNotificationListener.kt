@@ -32,10 +32,11 @@ class KakaoNotificationListener : NotificationListenerService() {
     private lateinit var audioFocusRequest: AudioFocusRequest
     private lateinit var recentAct : Notification.Action
     private var recentSender : String? = null
+    private lateinit var curAct : Notification.Action
+    private var curSender : String? = null
 
     override fun onCreate() {
         super.onCreate()
-        Log.v("myTEST", "service oncreate")
         initTTS()
         initAudioFocus()
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
@@ -108,6 +109,12 @@ class KakaoNotificationListener : NotificationListenerService() {
         }
         tts.setOnUtteranceProgressListener(speechListener)
         ttsList = tts.engines
+        for(ttsCount in 0 until ttsList.size){
+            if(tts.defaultEngine == ttsList[ttsCount].name){
+                SettingManager.ttsEngine = ttsCount
+                break
+            }
+        }
     }
 
     fun changeTTS() {
@@ -159,7 +166,6 @@ class KakaoNotificationListener : NotificationListenerService() {
     }
 
     fun stopTTS(){
-        Log.d("myTEST", "stopTTS")
         tts.stop()
         abandonFocus()
         ttsQ.poll()
@@ -184,18 +190,18 @@ class KakaoNotificationListener : NotificationListenerService() {
     }
 
     fun recentsender() : String? {
-        return recentSender
+        curSender = recentSender
+        curAct = recentAct
+        return curSender
     }
 
     fun reply(message : String){
-        Log.d("myReply2", message)
-        Toast.makeText(this, "myReply", Toast.LENGTH_SHORT).show()
         val sendIntent = Intent()
         var msg = Bundle()
-        for(inputable in recentAct.remoteInputs)
+        for(inputable in curAct.remoteInputs)
             msg.putCharSequence(inputable.resultKey, message)
-        RemoteInput.addResultsToIntent(recentAct.remoteInputs, sendIntent, msg)
-        recentAct.actionIntent.send(this, 0, sendIntent)
+        RemoteInput.addResultsToIntent(curAct.remoteInputs, sendIntent, msg)
+        curAct.actionIntent.send(this, 0, sendIntent)
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
