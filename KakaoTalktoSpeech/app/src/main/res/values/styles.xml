@@ -9,4 +9,56 @@
         <item name="android:background">?android:attr/colorBackground</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
+
+    <color name="darkblue">#0F181F</color>
+
+    <style name="H1">
+        <item name="android:textSize">
+            48sp
+        </item>
+        <item name="android:textColor">@color/darkblue
+        </item>
+        <item name="android:shadowColor">
+            #540F181F
+        </item>
+        <item name="android:shadowDx">
+            4
+        </item>
+        <item name="android:shadowDy">
+            4
+        </item>
+        <item name="android:shadowRadius">
+            8
+        </item>
+        <item name="android:textStyle">
+            bold
+        </item>
+
+    </style>
+
+    <style name="H2">
+
+        <item name="android:textSize">
+            24sp
+        </item>
+        <item name="android:textStyle">
+            bold
+        </item>
+
+    </style>
+    <style name="H3">
+
+        <item name="android:textSize">
+            20sp
+        </item>
+
+    </style>
+
+    <style name="H4">
+
+        <item name="android:textSize">
+            16sp
+        </item>
+
+    </style>
 </resources>

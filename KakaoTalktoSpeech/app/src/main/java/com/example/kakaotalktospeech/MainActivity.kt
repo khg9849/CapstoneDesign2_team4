@@ -10,9 +10,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.Switch
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
@@ -34,6 +32,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     lateinit var runningSwitch : Switch
+    lateinit var runningText: TextView
+    lateinit var intersection : RelativeLayout
+    lateinit var icon: ImageView
     lateinit var contactsManager : ContactsManager
 
     init{
@@ -75,9 +76,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun initSwitch(){
         runningSwitch = findViewById(R.id.tbResultItemCount)
+        runningText = findViewById(R.id.runningText)
+        intersection=findViewById(R.id.intersection)
+        icon=findViewById(R.id.icon)
         runningSwitch.setOnCheckedChangeListener{ _, value ->
             SettingManager.isRunning = value
-            runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
+            if(SettingManager.isRunning){
+                runningText.text="사용 중"
+                intersection.setBackgroundResource(R.drawable.intersection_darkblue)
+                icon.setImageResource(R.drawable.icon2_yellow)
+
+            }
+            else{
+                runningText.text="사용 안 함"
+                intersection.setBackgroundResource(R.drawable.intersection_lightgray)
+                icon.setImageResource(R.drawable.icon2_darkgray)
+            }
+
 
             sendUpdateWidgetIntent(this)
             updateNotification(this)
@@ -115,7 +130,17 @@ class MainActivity : AppCompatActivity() {
 //        Log.d("myTEST", "MainActivity-onWindowFocusChanged: "+hasFocus)
         if(hasFocus){
             runningSwitch.isChecked = SettingManager.isRunning
-            runningSwitch.text= if(!SettingManager.isRunning) "사용 안 함" else "사용 중"
+            if(SettingManager.isRunning){
+                runningText.text="사용 중"
+                intersection.setBackgroundResource(R.drawable.intersection_darkblue)
+                icon.setImageResource(R.drawable.icon2_yellow)
+
+            }
+            else{
+                runningText.text="사용 안 함"
+                intersection.setBackgroundResource(R.drawable.intersection_lightgray)
+                icon.setImageResource(R.drawable.icon2_darkgray)
+            }
         }
 
     }
