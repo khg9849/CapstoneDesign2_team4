@@ -17,6 +17,7 @@ class ActionManager {
         val WIDGET_UPDATE="android.appwidget.action.APPWIDGET_UPDATE"
         var WIDGET_CLICKED = "com.example.pendingintent.Pending_Action"
 
+        val NOTIFICATION_CREATE="CREATE"
         val NOTIFICATION_UPDATE_START="START"
         val NOTIFICATION_UPDATE_STOP="STOP"
 

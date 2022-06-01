@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_CREATE
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_START
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIFICATION_UPDATE_STOP
 import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
@@ -35,14 +36,25 @@ class NotificationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("myTEST", "onStartCommand()")
+        Log.d("notiTEST", "onStartCommand()")
+        Log.d("notiTEST",intent?.action.toString())
 
         if(isChanneled==false){
             setNotificationChannel()
             isChanneled=true
         }
 
-        SettingManager.isRunning=(intent?.action==NOTIFICATION_UPDATE_START)
+
+        when(intent?.action){
+            NOTIFICATION_UPDATE_START->{
+                SettingManager.isRunning=true
+            }
+            NOTIFICATION_UPDATE_STOP->{
+                SettingManager.isRunning=false
+            }
+
+        }
+
         makeNotification()
         sendUpdateWidgetIntent(this)
         updatePreferences()
@@ -52,6 +64,7 @@ class NotificationService : Service() {
 
 
     override fun onDestroy() {
+        Log.d("notiTEST", "onDestroy()")
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancel(notificationId)
         super.onDestroy()

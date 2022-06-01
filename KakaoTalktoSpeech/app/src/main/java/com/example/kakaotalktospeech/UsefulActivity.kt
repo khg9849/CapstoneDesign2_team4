@@ -43,9 +43,11 @@ class UsefulActivity : AppCompatActivity() {
         notification_switch.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isNotificationServiceRunning=value
             if(value){
+                intent.action= ActionManager.NOTIFICATION_CREATE
                 startService(intent)
             }
             else{
+                intent.action= ActionManager.NOTIFICATION_UPDATE_STOP
                 stopService(intent)
             }
         }
