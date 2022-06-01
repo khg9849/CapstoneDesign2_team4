@@ -130,7 +130,7 @@ class OptionActivity : AppCompatActivity() {
         if(pref!=null){
             SettingManager.ttsVolume =pref.getInt(keys[1], 5)
             SettingManager.ttsSpeed =pref.getFloat(keys[2], 1.0f)
-            SettingManager.ttsEngine =pref.getInt(keys[3], 0)
+            SettingManager.ttsEngine =pref.getInt(keys[3], SettingManager.ttsEngine)
             SettingManager.isReadingSender =pref.getBoolean(keys[4], true)
             SettingManager.isReadingText  =pref.getBoolean(keys[5], true)
             SettingManager.isReadingTime  =pref.getBoolean(keys[6], false)

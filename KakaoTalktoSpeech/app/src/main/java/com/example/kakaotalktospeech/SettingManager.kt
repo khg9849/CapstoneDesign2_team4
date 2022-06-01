@@ -6,8 +6,8 @@ class SettingManager {
         var isRunning : Boolean = false
 
         /* TTS option */
-        var ttsVolume : Int = 5
-        var ttsSpeed : Float = 1.0f
+        var ttsVolume : Int = 5 // max: 15 min: 0
+        var ttsSpeed : Float = 1.0f // max: 2.0f, min = 0.6f
         var ttsEngine: Int = 0
         var ttsQueueDelete : Boolean = true
 
@@ -19,6 +19,8 @@ class SettingManager {
         /*STT option*/
         var isSttActivate : Boolean = false
         var isSttWorking : Boolean = false
+        var isReplying : Boolean = false
+
 
         /* Useful option */
         var isNotibarRunning:Boolean=false

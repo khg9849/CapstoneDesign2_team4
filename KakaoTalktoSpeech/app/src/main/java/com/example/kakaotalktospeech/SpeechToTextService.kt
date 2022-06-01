@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.widget.Toast
 import java.util.*
@@ -15,6 +16,7 @@ class SpeechToTextService : Service(){
     private var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
     lateinit var tts: TextToSpeech
     lateinit var audioManager: AudioManager
+    var stt:SpeechToText? = null
 
     override fun onBind(p0: Intent?): IBinder {
         throw UnsupportedOperationException("Not yet")
@@ -35,6 +37,7 @@ class SpeechToTextService : Service(){
                 tts?.setSpeechRate(1.0F)
             }
         }
+
     }
     private fun callEvent() {
         //Toast.makeText(applicationContext, "서비스 시작", Toast.LENGTH_SHORT).show()
@@ -53,7 +56,7 @@ class SpeechToTextService : Service(){
         if(SettingManager.isSttWorking)
             mDelayHandler.postDelayed(::runningGuest, 1000)
         else
-            mDelayHandler.postDelayed(::showGuest, 2000)
+            mDelayHandler.postDelayed(::showGuest, 2500)
     }
     private fun runningGuest(){
         Log.d("myTEST", "runningGuest")
@@ -62,8 +65,8 @@ class SpeechToTextService : Service(){
 
     private fun showGuest(){
         Log.d("myTEST", "ShowGuest")
-        val stt = SpeechToText(intent , applicationContext, audioManager, tts)
-        stt.CallStt()
+        stt = SpeechToText(intent , applicationContext, audioManager, tts)
+        stt?.CallStt()
         if(SettingManager.isSttActivate)
             waitGuest() // 코드 실행뒤에 계속해서 반복하도록 작업한다.
     }
