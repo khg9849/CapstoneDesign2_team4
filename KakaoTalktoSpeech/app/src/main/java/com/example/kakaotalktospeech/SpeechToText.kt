@@ -26,7 +26,8 @@ class SpeechToText : AppCompatActivity {
     private val restartKeyword : String = "다시"
 
     private var doActivate : Int = 0;
-    private var replyMessage : String = ""
+    private var replyMessage : String? = null
+    private var replySender : String? = null
 
     private val Sttintent: Intent
     private val Sttcontext: Context
@@ -323,12 +324,21 @@ class SpeechToText : AppCompatActivity {
                         }
                         when (doActivate) {
                             1 -> {
-                                Log.v("myReply", ""+SettingManager.testSender)
-                                speakTTS(txt + "이라고 보낼게요")
-                                SettingManager.testMessage = txt
-                                mDelayHandler.postDelayed(::callActivateSTT, 500)
+                                replySender = SettingManager.usefulActivityInstance?.recentsenderForStt()
+                                if(replySender == null){
+                                    speakTTS( "최근에 메세지를 보낸 사람이 없어요")
+                                    doActivate = 0;
+                                }
+                                else {
+                                    SettingManager.isReplying = true
+                                    speakTTS(replySender + "에게 " + txt + " 이라고 보낼게요")
+                                    replyMessage = txt
+                                    while(SettingManager.isReplying){}
+                                    callActivateSTT()
+                                    doActivate = 4
+                                }
                                 SettingManager.isSttWorking=false
-                                doActivate = 4
+
                                 //메시지 답장기능
                             }
                             2 -> {
@@ -385,7 +395,11 @@ class SpeechToText : AppCompatActivity {
                             }
                             4->{
                                 if(txt.contains("그래") || txt.contains("응")) {
-                                    mDelayHandler.postDelayed(::reply, 500)
+                                    if(replyMessage != null) {
+                                        SettingManager.usefulActivityInstance?.replyForStt(
+                                            replyMessage!!
+                                        )
+                                    }
                                 }
                                 doActivate = 0
                             }
