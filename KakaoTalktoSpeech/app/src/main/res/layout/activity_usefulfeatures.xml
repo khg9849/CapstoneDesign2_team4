@@ -188,7 +188,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:elevation="20dp"
-            android:text="STT 답장 사용"
+            android:text="노티 어시스턴트 활성화"
             android:textAppearance="@style/H4"
             android:textColor="@color/darkgray0" />
 
@@ -285,7 +285,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="STT 답장"
+            android:text="노티 어시스턴트"
             android:textAppearance="@style/H2"
             android:textColor="@color/darkblue0" />
 
