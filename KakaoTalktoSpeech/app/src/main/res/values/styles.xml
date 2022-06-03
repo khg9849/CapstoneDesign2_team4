@@ -12,9 +12,12 @@
 
     <color name="darkblue">#0F181F</color>
 
-    <style name="H1">
+    <style name="Title">
         <item name="android:textSize">
             48sp
+        </item>
+        <item name="android:textStyle">
+            bold
         </item>
         <item name="android:textColor">@color/darkblue
         </item>
@@ -30,9 +33,7 @@
         <item name="android:shadowRadius">
             8
         </item>
-        <item name="android:textStyle">
-            bold
-        </item>
+
 
     </style>
 

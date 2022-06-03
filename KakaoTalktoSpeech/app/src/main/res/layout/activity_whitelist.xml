@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background0">
+    android:background="@color/background0"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <RelativeLayout
         android:id="@+id/navWrap"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:background="@color/background0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,8 +70,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="친구 목록"
-                android:textAppearance="@style/H2"
-                android:textColor="@color/darkblue0" />
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/order_by"

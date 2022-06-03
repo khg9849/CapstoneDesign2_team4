@@ -3,14 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <RelativeLayout
         android:id="@+id/navWrap"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:background="@color/background0"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -42,7 +46,7 @@
 
     <LinearLayout
         android:id="@+id/bodyWrap"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -52,8 +56,8 @@
 
         <RelativeLayout
             android:id="@+id/sectionNotibar"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/item_lightgray">
 
@@ -64,15 +68,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="알림바"
-                android:textAppearance="@style/H2"
-                android:textColor="@color/darkblue0" />
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/optionNotibar"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/item_white">
 
@@ -107,8 +112,8 @@
 
         <RelativeLayout
             android:id="@+id/sectionPlay"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/item_lightgray">
 
@@ -119,8 +124,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="재생"
-                android:textAppearance="@style/H2"
-                android:textColor="@color/darkblue0" />
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -168,8 +174,8 @@
 
         <RelativeLayout
             android:id="@+id/optionTTSQ"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/item_white">
 
@@ -204,8 +210,8 @@
 
         <RelativeLayout
             android:id="@+id/sectionList"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/item_lightgray">
 
@@ -216,15 +222,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="블랙리스트"
-                android:textAppearance="@style/H2"
-                android:textColor="@color/darkblue0" />
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/optionList"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/item_white">
 
@@ -259,8 +266,8 @@
 
         <RelativeLayout
             android:id="@+id/sectionNotiAssistant"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/item_lightgray">
 
@@ -271,16 +278,34 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="노티 어시스턴트"
-                android:textAppearance="@style/H2"
-                android:textColor="@color/darkblue0" />
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
+            <FrameLayout
+                android:id="@+id/btnNotiHelpWrap"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp">
+
+                <Button
+                    android:id="@+id/btnNotiHelp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_help"
+                    android:clickable="false" />
+            </FrameLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/optionNotiAssistant"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/item_white">
 
             <TextView

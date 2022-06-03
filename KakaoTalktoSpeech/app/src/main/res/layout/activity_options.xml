@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background0">
+    android:background="@color/background0"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
 
     <RelativeLayout
         android:id="@+id/navWrap"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:background="@color/background0"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -42,10 +46,9 @@
 
     </RelativeLayout>
 
-
     <LinearLayout
         android:id="@+id/bodyWrap"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,8 +59,8 @@
 
         <RelativeLayout
             android:id="@+id/sectionTTS"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/item_lightgray">
 
@@ -68,15 +71,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="TTS"
-                android:textAppearance="@style/H2"
-                android:textColor="@color/darkblue0" />
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/optionSound"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
 
             android:background="@drawable/item_white">
@@ -117,8 +121,8 @@
 
         <RelativeLayout
             android:id="@+id/optionSpeed"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
 
             android:layout_marginTop="20dp"
             android:background="@drawable/item_white">
@@ -169,8 +173,8 @@
 
         <RelativeLayout
             android:id="@+id/optionEngine"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
 
             android:layout_marginTop="20dp"
             android:background="@drawable/item_white">
@@ -203,8 +207,8 @@
 
         <RelativeLayout
             android:id="@+id/sectionMessage"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/item_lightgray">
 
@@ -215,15 +219,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="메시지"
-                android:textAppearance="@style/H2"
-                android:textColor="@color/darkblue0" />
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/optionSender"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/item_white">
 
@@ -258,8 +263,8 @@
 
         <RelativeLayout
             android:id="@+id/optionText"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/item_white">
 
@@ -294,8 +299,8 @@
 
         <RelativeLayout
             android:id="@+id/optionTime"
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/item_white">

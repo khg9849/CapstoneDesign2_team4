@@ -1,16 +1,21 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Switch
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
 
@@ -23,8 +28,8 @@ class UsefulActivity : AppCompatActivity() {
     lateinit var ttsPauseBtn : Button
     lateinit var ttsRestartBtn : Button
     lateinit var ttsQSwitch : Switch
-    lateinit var whitelistButton : Button
     lateinit var whitelistBttnWrap:FrameLayout
+    lateinit var btnNotiHelpWrap:FrameLayout
     lateinit var sttSwitch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +92,21 @@ class UsefulActivity : AppCompatActivity() {
         whitelistBttnWrap.setOnClickListener(){
             listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(listIntent)
+        }
+
+        val helpIntent=Intent(this,ListActivity::class.java)
+        btnNotiHelpWrap=findViewById<FrameLayout>(R.id.btnNotiHelpWrap)
+        btnNotiHelpWrap.setOnClickListener(){
+            val view=LayoutInflater.from(this).inflate(R.layout.activity_dialog,null)
+            val builder=AlertDialog.Builder(this).setView(view)
+            val alertDialog=builder.show()
+            alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            val btnShutdown=view.findViewById<Button>(R.id.btnShutdown)
+            btnShutdown.setOnClickListener{
+                alertDialog.dismiss()
+            }
+
         }
 
         //setwhitelistSpinner()

@@ -2,6 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kakaotalktospeech">
 
+    <queries>
+        //안드로이드 일정버전 이상에서는 추가해줘야되는 코드
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="aandroid.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +26,12 @@
         <service
             android:name=".NotibarService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
         <service
             android:name=".SpeechToTextService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
         <receiver
             android:name=".AppWidget"
             android:exported="true">
@@ -41,10 +54,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
-        <activity android:name=".OptionActivity" android:screenOrientation="portrait" />
-        <activity android:name=".UsefulActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ListActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OptionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UsefulActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".KakaoNotificationListener"
@@ -55,18 +76,5 @@
             </intent-filter>
         </service>
     </application>
-
-    <queries>
-        //안드로이드 일정버전 이상에서는 추가해줘야되는 코드
-        <intent>
-            <action android:name="android.speech.RecognitionService" />
-        </intent>
-    </queries>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.WRITE_SMS"/>
-    <uses-permission android:name="aandroid.permission.ACCESS_NOTIFICATION_POLICY"/>
 
 </manifest>

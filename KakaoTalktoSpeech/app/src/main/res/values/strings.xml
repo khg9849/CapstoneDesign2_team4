@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">KakaoTalktoSpeech</string>
     <string name="app_widget_description">Description</string>
+    <string name="noti_assistant_help">
+        "1. STT 답장
+ 가장 최근 알림에 대한 답장을 보냅니다.
+ “노티야” → “답장 보내줘” → “안녕하세요”
+
+2. TTS 설정 변경
+ “노티야” → “설정 바꿔줘” → “속도 낮춰줘”
+"
+    </string>
 </resources>
