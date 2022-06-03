@@ -2,14 +2,13 @@ package com.example.kakaotalktospeech
 
 import android.app.Notification
 import android.app.RemoteInput
-import android.content.Intent
+import android.content.*
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
-import android.os.Binder
-import android.os.Build
-import android.os.Bundle
-import android.os.IBinder
+import android.media.session.MediaSession
+import android.media.session.PlaybackState
+import android.os.*
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.speech.tts.TextToSpeech
@@ -22,7 +21,7 @@ import kotlin.concurrent.schedule
 
 class KakaoNotificationListener : NotificationListenerService() {
     private lateinit var tts: TextToSpeech
-    lateinit var ttsList : List<TextToSpeech.EngineInfo>
+    private lateinit var ttsList : List<TextToSpeech.EngineInfo>
     private var ttsQ: LinkedList<String> = LinkedList()
     private var isPause : Boolean = false
     private lateinit var audioManager : AudioManager
@@ -34,21 +33,63 @@ class KakaoNotificationListener : NotificationListenerService() {
     private var recentSender : String? = null
     private lateinit var curAct : Notification.Action
     private var curSender : String? = null
+    private val binder : IBinder = MyServiceBinder()
 
+    /*
+    class mediaBroadcastReceiver : BroadcastReceiver(){
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            Log.e("myTEST", ""+p1?.action)
+        }
+    }
+
+    private lateinit var myReceiver : mediaBroadcastReceiver
+    private lateinit var mySession : MediaSession*/
     override fun onCreate() {
         super.onCreate()
         initTTS()
         initAudioFocus()
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+/*
+        mySession = MediaSession(applicationContext, "test")
+
+        var token = mySession.sessionToken
+        mySession.setCallback(object : MediaSession.Callback(){
+            override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
+                Log.e("myTEST", "test")
+                return super.onMediaButtonEvent(mediaButtonIntent)
+            }
+
+            override fun onPlay() {
+                Log.e("myTEST", "test")
+                super.onPlay()
+            }
+
+            override fun onPause() {
+                Log.e("myTEST", "test")
+                super.onPause()
+            }
+        })
+        mySession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS)
+
+        val state = PlaybackState.Builder()
+            .setActions(PlaybackState.ACTION_PLAY)
+            .setState(PlaybackState.STATE_STOPPED, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 0f)
+            .build()
+        mySession.setPlaybackState(state)
+        mySession.setActive(true)*/
     }
+    /*
+    var cn = ComponentName("com.example.kakaotalktospeech", "com.example.kakaotoaltospeech.KakaoNotificationListener")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            mySession.setMediaButtonBroadcastReceiver(cn)
+        }
+     */
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("myTEST", "service onstartcommand")
 
         return super.onStartCommand(intent, flags, startId)
     }
-
-    val binder : IBinder = MyServiceBinder()
 
     override fun onBind(intent: Intent?): IBinder? {
         val action = intent!!.action

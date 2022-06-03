@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.view.KeyEvent
 import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
@@ -16,14 +17,28 @@ import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
 
 class UsefulActivity : AppCompatActivity() {
 
-    lateinit var notibar_switch : Switch
-    lateinit var ttsStopBtn : Button
-    lateinit var ttsShutdownBtn : Button
-    lateinit var ttsPauseBtn : Button
-    lateinit var ttsRestartBtn : Button
-    lateinit var ttsQSwitch : Switch
-    lateinit var whitelistButton : Button
-    lateinit var sttSwitch : Switch
+    private lateinit var notibar_switch : Switch
+    private lateinit var ttsStopBtn : Button
+    private lateinit var ttsShutdownBtn : Button
+    private lateinit var ttsPauseBtn : Button
+    private lateinit var ttsRestartBtn : Button
+    private lateinit var ttsQSwitch : Switch
+    private lateinit var whitelistButton : Button
+    private lateinit var sttSwitch : Switch
+    private var myService:KakaoNotificationListener? = null
+    private var isConService = false
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.v("myTEST", "binder 생성")
+            val b = service as KakaoNotificationListener.MyServiceBinder
+            myService = b.getService()
+            isConService = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isConService = false
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,28 +172,29 @@ class UsefulActivity : AppCompatActivity() {
         sttSwitch.isChecked = SettingManager.isSttActivate
     }
 
-    var myService:KakaoNotificationListener? = null
-    var isConService = false
-    val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            Log.v("myTEST", "binder 생성")
-            val b = service as KakaoNotificationListener.MyServiceBinder
-            myService = b.getService()
-            isConService = true
+/*
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        Log.e("myTEST", ""+keyCode)
+        when(keyCode){
+            KeyEvent.KEYCODE_VOLUME_UP -> {
+                myService?.shutdownTTS()
+                return true
+            }
+            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                myService?.shutdownTTS()
+                return true
+            }
         }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isConService = false
-        }
+        return super.onKeyDown(keyCode, event)
     }
-
-    fun serviceBind()
+*/
+    private fun serviceBind()
     {
         val intent = Intent(this, KakaoNotificationListener::class.java)
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
-    fun serviceUnBind()
+    private fun serviceUnBind()
     {
         if (isConService) {
             unbindService(serviceConnection)

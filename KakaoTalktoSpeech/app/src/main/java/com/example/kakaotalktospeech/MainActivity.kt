@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("myTEST", "init")
         instance = this
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("myTEST", "onCreate")

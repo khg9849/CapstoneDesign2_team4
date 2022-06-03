@@ -18,13 +18,27 @@ import kotlin.concurrent.schedule
 class OptionActivity : AppCompatActivity() {
 
     val keys=arrayOf<String>("isRunning","ttsVolume","ttsSpeed","ttsEngine","isReadingSender","isReadingText","isReadingTime")
-    lateinit var soundSeekbar : SeekBar
-    lateinit var speedSeekbar : SeekBar
-    lateinit var speedTextView : TextView
-    lateinit var ttsEngineSpinner : Spinner
-    lateinit var senderSwitch : Switch
-    lateinit var textSwitch : Switch
-    lateinit var timeSwitch : Switch
+    private lateinit var soundSeekbar : SeekBar
+    private lateinit var speedSeekbar : SeekBar
+    private lateinit var speedTextView : TextView
+    private lateinit var ttsEngineSpinner : Spinner
+    private lateinit var senderSwitch : Switch
+    private lateinit var textSwitch : Switch
+    private lateinit var timeSwitch : Switch
+    private var myService:KakaoNotificationListener? = null
+    private var isConService = false
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.v("myTEST", "binder 생성")
+            val b = service as KakaoNotificationListener.MyServiceBinder
+            myService = b.getService()
+            isConService = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isConService = false
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,28 +151,13 @@ class OptionActivity : AppCompatActivity() {
         }
     }
 
-    var myService:KakaoNotificationListener? = null
-    var isConService = false
-    val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            Log.v("myTEST", "binder 생성")
-            val b = service as KakaoNotificationListener.MyServiceBinder
-            myService = b.getService()
-            isConService = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isConService = false
-        }
-    }
-
-    fun serviceBind()
+    private fun serviceBind()
     {
         val intent = Intent(this, KakaoNotificationListener::class.java)
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
-    fun serviceUnBind()
+    private fun serviceUnBind()
     {
         if (isConService) {
             unbindService(serviceConnection)
