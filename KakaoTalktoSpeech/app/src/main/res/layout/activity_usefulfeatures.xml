@@ -3,14 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <RelativeLayout
-        android:id="@+id/NavWrap"
+        android:id="@+id/navWrap"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:background="@color/background0"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,301 +39,312 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="유용한 기능"
-            android:textAppearance="@style/H2" />
+            android:textAppearance="@style/H1" />
 
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/textOption1"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/item_lightgray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NavWrap">
-
-        <TextView
-            android:id="@+id/textOption1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="알림바"
-            android:textAppearance="@style/H2"
-            android:textColor="@color/darkblue0" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/textOption1_1"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption1">
-
-        <TextView
-            android:id="@+id/textOption1_1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:elevation="20dp"
-            android:text="알림바 사용"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
-
-
-        <Switch
-            android:id="@+id/notibar_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:switchMinWidth="0dp"
-            android:textOff=""
-            android:textOn=""
-            android:thumb="@drawable/switch_thumb"
-            android:thumbTextPadding="15dp"
-            android:track="@drawable/switch_track_selector"
-            tools:ignore="TouchTargetSizeCheck" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/textOption2"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_lightgray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption1_1">
-
-        <TextView
-            android:id="@+id/textOption2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="재생"
-            android:textAppearance="@style/H2"
-            android:textColor="@color/darkblue0" />
 
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:id="@+id/bodyWrap"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:baselineAligned="false"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption2">
+        app:layout_constraintTop_toBottomOf="@+id/navWrap">
 
-        <!--        shutdown-->
-        <Button
-            android:id="@+id/shutdownBtn"
-            android:layout_width="44dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@drawable/ic_stop" />
+        <RelativeLayout
+            android:id="@+id/sectionNotibar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/item_lightgray">
 
-        <!--        pause-->
-        <Button
-            android:id="@+id/pauseBtn"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_margin="4dp"
-            android:background="@drawable/ic_pause"
-            android:gravity="center_vertical" />
-        <!--restart-->
-        <Button
-            android:id="@+id/restartBtn"
-            android:layout_width="44dp"
+            <TextView
+                android:id="@+id/textNotibar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="알림바"
+                android:textAppearance="@style/H2"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/optionNotibar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/item_white">
+
+            <TextView
+                android:id="@+id/textNotibar2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:elevation="20dp"
+                android:text="알림바 사용"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
+
+
+            <Switch
+                android:id="@+id/switchNotibar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:switchMinWidth="0dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/switch_thumb"
+                android:thumbTextPadding="15dp"
+                android:track="@drawable/switch_track_selector"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sectionPlay"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/item_lightgray">
+
+            <TextView
+                android:id="@+id/textPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="재생"
+                android:textAppearance="@style/H2"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@drawable/ic_start" />
-        <!--stop-->
-        <Button
-            android:id="@+id/stopBtn"
-            android:layout_width="44dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@drawable/ic_next" />
+            android:layout_marginTop="16dp"
+            android:baselineAligned="false"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <!--        shutdown-->
+            <Button
+                android:id="@+id/shutdownBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/ic_stop"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
+
+            <!--        pause-->
+            <Button
+                android:id="@+id/pauseBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/ic_pause"
+                android:gravity="center_vertical" />
+            <!--restart-->
+            <Button
+                android:id="@+id/restartBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/ic_start"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
+            <!--stop-->
+            <Button
+                android:id="@+id/stopBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/ic_next"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/optionTTSQ"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/item_white">
+
+            <TextView
+                android:id="@+id/textTTSQ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:elevation="20dp"
+                android:text="TTS queue 삭제"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
+
+
+            <Switch
+                android:id="@+id/switchTTSQ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:switchMinWidth="0dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/switch_thumb"
+                android:thumbTextPadding="15dp"
+                android:track="@drawable/switch_track_selector"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sectionList"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/item_lightgray">
+
+            <TextView
+                android:id="@+id/textList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="블랙리스트"
+                android:textAppearance="@style/H2"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/optionList"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/item_white">
+
+            <TextView
+                android:id="@+id/optionList2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:elevation="20dp"
+                android:text="리스트 관리"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
+
+            <FrameLayout
+                android:id="@+id/btnListWrap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btnList"
+                    android:layout_width="16dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/ic_details"
+                    android:clickable="false" />
+            </FrameLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sectionNotiAssistant"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/item_lightgray">
+
+            <TextView
+                android:id="@+id/textNotiAssistant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="노티 어시스턴트"
+                android:textAppearance="@style/H2"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:id="@+id/btnNotiHelpWrap"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp">
+
+                <Button
+                    android:id="@+id/btnNotiHelp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_help"
+                    android:clickable="false" />
+            </FrameLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/optionNotiAssistant"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/item_white">
+
+            <TextView
+                android:id="@+id/textNotiAssistant2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:elevation="20dp"
+                android:text="노티 활성화"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
+
+
+            <Switch
+                android:id="@+id/switchNotiAssistant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:switchMinWidth="0dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/switch_thumb"
+                android:thumbTextPadding="15dp"
+                android:track="@drawable/switch_track_selector"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </RelativeLayout>
 
     </LinearLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/textOption4_1"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption4">
-
-        <TextView
-            android:id="@+id/textOption4_1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:elevation="20dp"
-            android:text="노티 어시스턴트 활성화"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
-
-
-        <Switch
-            android:id="@+id/switchStt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:switchMinWidth="0dp"
-            android:textOff=""
-            android:textOn=""
-            android:thumb="@drawable/switch_thumb"
-            android:thumbTextPadding="15dp"
-            android:track="@drawable/switch_track_selector"
-            tools:ignore="TouchTargetSizeCheck" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/textOption3"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_lightgray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption2_2">
-
-        <TextView
-            android:id="@+id/textOption3_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="블랙리스트"
-            android:textAppearance="@style/H2"
-            android:textColor="@color/darkblue0" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/textOption3_1"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption3">
-
-        <TextView
-            android:id="@+id/textOption3_1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:elevation="20dp"
-            android:text="리스트 관리"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
-
-        <Button
-            android:id="@+id/btnList"
-            android:layout_width="16dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/ic_details" />
-
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/textOption4"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_lightgray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption3_1">
-
-        <TextView
-            android:id="@+id/textOption4_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="노티 어시스턴트"
-            android:textAppearance="@style/H2"
-            android:textColor="@color/darkblue0" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/textOption2_2"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-        <TextView
-            android:id="@+id/textOption2_2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:elevation="20dp"
-            android:text="TTS queue 삭제"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
-
-
-        <Switch
-            android:id="@+id/ttsQSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:switchMinWidth="0dp"
-            android:textOff=""
-            android:textOn=""
-            android:thumb="@drawable/switch_thumb"
-            android:thumbTextPadding="15dp"
-            android:track="@drawable/switch_track_selector"
-            tools:ignore="TouchTargetSizeCheck" />
-
-    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

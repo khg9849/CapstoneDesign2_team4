@@ -1,15 +1,19 @@
 package com.example.kakaotalktospeech
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
@@ -23,8 +27,10 @@ class UsefulActivity : AppCompatActivity() {
     private lateinit var ttsPauseBtn : Button
     private lateinit var ttsRestartBtn : Button
     private lateinit var ttsQSwitch : Switch
-    private lateinit var whitelistButton : Button
+    private lateinit var whitelistBttnWrap:FrameLayout
+    private lateinit var btnNotiHelpWrap:FrameLayout
     private lateinit var sttSwitch : Switch
+
     private var myService:KakaoNotificationListener? = null
     private var isConService = false
     private val serviceConnection = object : ServiceConnection {
@@ -40,6 +46,7 @@ class UsefulActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_usefulfeatures)
@@ -54,7 +61,7 @@ class UsefulActivity : AppCompatActivity() {
         })
 
         val intent = Intent(this, NotibarService::class.java)
-        notibar_switch = findViewById<Switch>(R.id.notibar_switch)
+        notibar_switch = findViewById<Switch>(R.id.switchNotibar)
         notibar_switch.isChecked = SettingManager.isNotibarRunning
         notibar_switch.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isNotibarRunning=value
@@ -72,12 +79,12 @@ class UsefulActivity : AppCompatActivity() {
         ttsShutdownBtn = findViewById(R.id.shutdownBtn)
         ttsPauseBtn = findViewById(R.id.pauseBtn)
         ttsRestartBtn = findViewById(R.id.restartBtn)
-        ttsQSwitch = findViewById(R.id.ttsQSwitch)
+        ttsQSwitch = findViewById(R.id.switchTTSQ)
 
         setButton()
         setSwitch()
 
-        sttSwitch = findViewById(R.id.switchStt)
+        sttSwitch = findViewById(R.id.switchNotiAssistant)
         val sttintent = Intent(this, SpeechToTextService::class.java)
         sttSwitch.setOnCheckedChangeListener{ CompoundButton, value ->
             if(value){
@@ -91,11 +98,32 @@ class UsefulActivity : AppCompatActivity() {
         }
 
         val listIntent = Intent(this, ListActivity::class.java)
-        whitelistButton = findViewById<Button>(R.id.btnList)
-        whitelistButton.setOnClickListener {
+//        whitelistButton = findViewById<Button>(R.id.btnList)
+//        whitelistButton.setOnClickListener {
+//            listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//            startActivity(listIntent)
+//        }
+        whitelistBttnWrap=findViewById<FrameLayout>(R.id.btnListWrap)
+        whitelistBttnWrap.setOnClickListener(){
             listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(listIntent)
         }
+
+        val helpIntent=Intent(this,ListActivity::class.java)
+        btnNotiHelpWrap=findViewById<FrameLayout>(R.id.btnNotiHelpWrap)
+        btnNotiHelpWrap.setOnClickListener(){
+            val view=LayoutInflater.from(this).inflate(R.layout.activity_dialog,null)
+            val builder=AlertDialog.Builder(this).setView(view)
+            val alertDialog=builder.show()
+            alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            val btnShutdown=view.findViewById<Button>(R.id.btnShutdown)
+            btnShutdown.setOnClickListener{
+                alertDialog.dismiss()
+            }
+
+        }
+
         //setwhitelistSpinner()
     }
 

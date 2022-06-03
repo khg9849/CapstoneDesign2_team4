@@ -43,7 +43,10 @@ class ListActivity: AppCompatActivity() {
         Log.d("ListActivity", "init1")
 
         val orderbySpinner = findViewById<Spinner>(R.id.order_by)
-        orderbySpinner.adapter = ArrayAdapter.createFromResource(this, R.array.itemList, android.R.layout.simple_spinner_item)
+        orderbySpinner.adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.itemList,
+            R.layout.spinner_item)
         orderbySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
 

@@ -12,8 +12,6 @@ import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
-import java.util.*
-import kotlin.concurrent.schedule
 
 class OptionActivity : AppCompatActivity() {
 
@@ -49,10 +47,10 @@ class OptionActivity : AppCompatActivity() {
             mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(mainIntent)
         })
-        soundSeekbar = findViewById(R.id.seekSoundbar)
-        speedSeekbar = findViewById(R.id.seekSpeedbar)
-        speedTextView = findViewById(R.id.textSpeed)
-        ttsEngineSpinner = findViewById(R.id.menuTTSengine)
+        soundSeekbar = findViewById(R.id.seekbarSound)
+        speedSeekbar = findViewById(R.id.seekbarSpeed)
+        speedTextView = findViewById(R.id.speed)
+        ttsEngineSpinner = findViewById(R.id.spinnerEngine)
         senderSwitch = findViewById(R.id.switchSender)
         textSwitch = findViewById(R.id.switchText)
         timeSwitch = findViewById(R.id.switchTime)

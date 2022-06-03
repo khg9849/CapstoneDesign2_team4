@@ -9,7 +9,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/intersection"
+        android:id="@+id/iconWrap"
         android:layout_width="wrap_content"
         android:layout_height="360dp"
         android:layout_alignParentLeft="true"
@@ -22,89 +22,91 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/iconMain"
             android:layout_width="232dp"
             android:layout_height="232dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="72dp"
-            android:layout_marginEnd="41dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
             android:layout_marginBottom="28dp"
-            android:src="@drawable/icon2_darkgray" />
+            android:src="@drawable/icon2_darkgray_500" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/main"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/item_lightgray"
-        android:elevation="4dp"
+    <LinearLayout
+        android:id="@+id/bodyWrap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/intersection">
+        app:layout_constraintTop_toBottomOf="@+id/iconWrap">
 
-        <TextView
-            android:id="@+id/runningText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:elevation="20dp"
-            android:text="사용 안 함"
-            android:textAppearance="@style/H3"
-            android:textColor="@color/darkblue0" />
+        <RelativeLayout
+            android:id="@+id/btnRunning"
+            android:layout_width="280dp"
+            android:layout_height="46dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/item_lightgray"
+            android:elevation="4dp">
+
+            <TextView
+                android:id="@+id/textRunning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:elevation="20dp"
+                android:text="사용 안 함"
+                android:textAppearance="@style/H2"
+                android:textColor="@color/darkblue0" />
 
 
-        <Switch
-            android:id="@+id/tbResultItemCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:switchMinWidth="0dp"
-            android:textOff=""
-            android:textOn=""
-            android:thumb="@drawable/switch_thumb"
-            android:thumbTextPadding="15dp"
-            android:track="@drawable/switch_track_selector"
-            tools:ignore="TouchTargetSizeCheck" />
+            <Switch
+                android:id="@+id/switchRunning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:switchMinWidth="0dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/switch_thumb"
+                android:thumbTextPadding="15dp"
+                android:track="@drawable/switch_track_selector"
+                tools:ignore="TouchTargetSizeCheck" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <Button
-        android:id="@+id/btnOption"
-        android:layout_width="280dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/item_white"
-        android:elevation="4dp"
-        android:shadowDx="4"
-        android:shadowDy="4"
-        android:text="설정"
-        android:textAppearance="@style/H3"
+        <Button
+            android:id="@+id/btnOption"
+            android:layout_width="280dp"
+            android:layout_height="51dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/item_white"
+            android:elevation="4dp"
+            android:shadowDx="4"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main" />
+            android:shadowDy="4"
+            android:text="설정"
+            android:textAppearance="@style/H2" />
 
-    <Button
-        android:id="@+id/btnUsefulfeatures"
-        android:layout_width="281dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_white"
-        android:elevation="4dp"
-        android:text="유용한 기능"
-        android:textAppearance="@style/H3"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOption" />
+        <Button
+            android:id="@+id/btnUsefulfeatures"
+            android:layout_width="281dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/item_white"
+            android:elevation="4dp"
+            android:text="유용한 기능"
+            android:textAppearance="@style/H2"
+            android:textColor="#000000" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

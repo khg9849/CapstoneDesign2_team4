@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background0">
+    android:background="@color/background0"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
 
     <RelativeLayout
-        android:id="@+id/NavWrap"
+        android:id="@+id/navWrap"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:background="@color/background0"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -37,324 +41,301 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="설정"
-            android:textAppearance="@style/H2" />
+            android:textAppearance="@style/H1" />
 
 
     </RelativeLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/textOption1"
+    <LinearLayout
+        android:id="@+id/bodyWrap"
         android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="56dp"
-        android:background="@drawable/item_lightgray"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NavWrap">
+        app:layout_constraintTop_toBottomOf="@+id/navWrap">
 
-        <TextView
-            android:id="@+id/textOption1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="TTS"
-            android:textAppearance="@style/H2"
-            android:textColor="@color/darkblue0" />
+        <RelativeLayout
+            android:id="@+id/sectionTTS"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/item_lightgray">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/textTTS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="TTS"
+                android:textAppearance="@style/H2"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
-    <RelativeLayout
-        android:id="@+id/textOption1_1"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        </RelativeLayout>
 
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption1">
+        <RelativeLayout
+            android:id="@+id/optionSound"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
 
-        <TextView
-            android:id="@+id/textOption1_1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="볼륨"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
+            android:background="@drawable/item_white">
 
-
-        <SeekBar
-            android:id="@+id/seekSoundbar"
-
-            android:layout_width="172dp"
-            android:layout_height="27dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
+            <TextView
+                android:id="@+id/textSound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="볼륨"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
 
 
-            android:maxHeight="5dp"
-            android:minHeight="5dp"
+            <SeekBar
+                android:id="@+id/seekbarSound"
 
-            android:max="15"
-            android:progress="5"
-
-            android:progressDrawable="@drawable/seekbar"
-            android:thumb="@drawable/seekbar_thumb"
-            android:splitTrack="false"
-             />
+                android:layout_width="172dp"
+                android:layout_height="27dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
 
 
-    </RelativeLayout>
+                android:max="15"
+                android:maxHeight="5dp"
 
-    <RelativeLayout
-        android:id="@+id/textOption1_2"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
+                android:minHeight="5dp"
+                android:progress="5"
 
-        android:layout_marginTop="10dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption1_1">
-
-        <TextView
-            android:id="@+id/textOption1_2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="읽기 속도"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
+                android:progressDrawable="@drawable/seekbar"
+                android:splitTrack="false"
+                android:thumb="@drawable/seekbar_thumb" />
 
 
-        <SeekBar
-            android:id="@+id/seekSpeedbar"
-            android:layout_width="172dp"
-            android:layout_height="27dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:max="7"
-            android:maxHeight="5dp"
-            android:minHeight="5dp"
-            android:progress="2"
-            android:progressDrawable="@drawable/seekbar"
-            android:splitTrack="false"
-            android:thumb="@drawable/seekbar_thumb"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.61" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/textSpeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="70dp"
-            android:text="1.0배속"
-            android:textSize="10dp" />
+        <RelativeLayout
+            android:id="@+id/optionSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            android:layout_marginTop="20dp"
+            android:background="@drawable/item_white">
+
+            <TextView
+                android:id="@+id/textSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="읽기 속도"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
 
 
-    </RelativeLayout>
+            <SeekBar
+                android:id="@+id/seekbarSpeed"
+                android:layout_width="172dp"
+                android:layout_height="27dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:max="7"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="2"
+                android:progressDrawable="@drawable/seekbar"
+                android:splitTrack="false"
+                android:thumb="@drawable/seekbar_thumb"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.61" />
+
+            <TextView
+                android:id="@+id/speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="70dp"
+                android:text="1.0배속"
+                android:textSize="10dp" />
 
 
-    <RelativeLayout
-        android:id="@+id/textOption1_3"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
+        </RelativeLayout>
 
-        android:layout_marginTop="10dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption1_2">
+        <RelativeLayout
+            android:id="@+id/optionEngine"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
 
-        <TextView
-            android:id="@+id/textOption1_3_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="TTS 엔진"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/item_white">
 
-        <Spinner
-            android:id="@+id/menuTTSengine"
-            android:layout_width="172dp"
-            android:layout_height="27dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="164dp"
-            android:layout_marginEnd="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.721"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+            <TextView
+                android:id="@+id/textEngine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="TTS 엔진"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
+
+            <Spinner
+                android:id="@+id/spinnerEngine"
+                android:layout_width="172dp"
+                android:layout_height="27dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="164dp"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.721"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/textOption2"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/item_lightgray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption1_3">
+        <RelativeLayout
+            android:id="@+id/sectionMessage"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/item_lightgray">
 
-        <TextView
-            android:id="@+id/textOption2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="메시지"
-            android:textAppearance="@style/H2"
-            android:textColor="@color/darkblue0" />
+            <TextView
+                android:id="@+id/textMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="메시지"
+                android:textAppearance="@style/H2"
+                android:textColor="@color/darkblue0"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/textOption2_1"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption2">
+        <RelativeLayout
+            android:id="@+id/optionSender"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/item_white">
 
-        <TextView
-            android:id="@+id/textOption2_1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:elevation="20dp"
-            android:text="발신자"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
+            <TextView
+                android:id="@+id/textSender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:elevation="20dp"
+                android:text="발신자"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
 
 
-        <Switch
-            android:id="@+id/switchSender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:switchMinWidth="0dp"
-            android:textOff=""
-            android:textOn=""
-            android:thumb="@drawable/switch_thumb"
-            android:thumbTextPadding="15dp"
-            android:track="@drawable/switch_track_selector"
-            tools:ignore="TouchTargetSizeCheck" />
+            <Switch
+                android:id="@+id/switchSender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:switchMinWidth="0dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/switch_thumb"
+                android:thumbTextPadding="15dp"
+                android:track="@drawable/switch_track_selector"
+                tools:ignore="TouchTargetSizeCheck" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/textOption2_2"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption2_1">
+        <RelativeLayout
+            android:id="@+id/optionText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/item_white">
 
-        <TextView
-            android:id="@+id/textOption2_2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:elevation="20dp"
-            android:text="발신 내용"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
+            <TextView
+                android:id="@+id/textText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:elevation="20dp"
+                android:text="발신 내용"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
 
 
-        <Switch
-            android:id="@+id/switchText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:switchMinWidth="0dp"
-            android:textOff=""
-            android:textOn=""
-            android:thumb="@drawable/switch_thumb"
-            android:thumbTextPadding="15dp"
-            android:track="@drawable/switch_track_selector"
-            tools:ignore="TouchTargetSizeCheck" />
+            <Switch
+                android:id="@+id/switchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:switchMinWidth="0dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/switch_thumb"
+                android:thumbTextPadding="15dp"
+                android:track="@drawable/switch_track_selector"
+                tools:ignore="TouchTargetSizeCheck" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/optionTime"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/item_white">
 
-    <RelativeLayout
-        android:id="@+id/textOption2_3"
-        android:layout_width="280dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/item_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textOption2_2">
-
-        <TextView
-            android:id="@+id/textOption2_3_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:elevation="20dp"
-            android:text="발신 시각"
-            android:textAppearance="@style/H4"
-            android:textColor="@color/darkgray0" />
+            <TextView
+                android:id="@+id/textTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:elevation="20dp"
+                android:text="발신 시각"
+                android:textAppearance="@style/H3"
+                android:textColor="@color/darkgray0" />
 
 
-        <Switch
-            android:id="@+id/switchTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:switchMinWidth="0dp"
-            android:textOff=""
-            android:textOn=""
-            android:thumb="@drawable/switch_thumb"
-            android:thumbTextPadding="15dp"
-            android:track="@drawable/switch_track_selector"
-            tools:ignore="TouchTargetSizeCheck" />
+            <Switch
+                android:id="@+id/switchTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:switchMinWidth="0dp"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/switch_thumb"
+                android:thumbTextPadding="15dp"
+                android:track="@drawable/switch_track_selector"
+                tools:ignore="TouchTargetSizeCheck" />
 
-    </RelativeLayout>
-
-
+        </RelativeLayout>
 
 
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

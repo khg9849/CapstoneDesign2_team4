@@ -31,7 +31,7 @@ class AppWidget : AppWidgetProvider() {
 
         val action = intent.action
         val isRunning=intent.getBooleanExtra("isRunning",false)
-        val views = RemoteViews(context.packageName, R.layout.new_app_widget)
+        val views = RemoteViews(context.packageName, R.layout.app_widget)
 
         when(action){
             // when widget is created
