@@ -39,7 +39,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="리스트 관리"
-            android:textAppearance="@style/H2" />
+            android:textAppearance="@style/H1" />
 
 
     </RelativeLayout>
@@ -70,7 +70,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="친구 목록"
-                android:textAppearance="@style/H3"
+                android:textAppearance="@style/H2"
                 android:textColor="@color/darkblue0"
                 android:textStyle="bold" />
 

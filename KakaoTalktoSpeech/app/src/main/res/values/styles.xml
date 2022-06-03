@@ -37,7 +37,7 @@
 
     </style>
 
-    <style name="H2">
+    <style name="H1">
 
         <item name="android:textSize">
             24sp
@@ -47,7 +47,7 @@
         </item>
 
     </style>
-    <style name="H3">
+    <style name="H2">
 
         <item name="android:textSize">
             20sp
@@ -55,7 +55,7 @@
 
     </style>
 
-    <style name="H4">
+    <style name="H3">
 
         <item name="android:textSize">
             16sp

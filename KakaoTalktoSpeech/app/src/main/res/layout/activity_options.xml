@@ -41,7 +41,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="설정"
-            android:textAppearance="@style/H2" />
+            android:textAppearance="@style/H1" />
 
 
     </RelativeLayout>
@@ -71,7 +71,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="TTS"
-                android:textAppearance="@style/H3"
+                android:textAppearance="@style/H2"
                 android:textColor="@color/darkblue0"
                 android:textStyle="bold" />
 
@@ -92,7 +92,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="볼륨"
-                android:textAppearance="@style/H4"
+                android:textAppearance="@style/H3"
                 android:textColor="@color/darkgray0" />
 
 
@@ -134,7 +134,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="읽기 속도"
-                android:textAppearance="@style/H4"
+                android:textAppearance="@style/H3"
                 android:textColor="@color/darkgray0" />
 
 
@@ -186,7 +186,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="TTS 엔진"
-                android:textAppearance="@style/H4"
+                android:textAppearance="@style/H3"
                 android:textColor="@color/darkgray0" />
 
             <Spinner
@@ -219,7 +219,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="메시지"
-                android:textAppearance="@style/H3"
+                android:textAppearance="@style/H2"
                 android:textColor="@color/darkblue0"
                 android:textStyle="bold" />
 
@@ -240,7 +240,7 @@
                 android:layout_marginLeft="20dp"
                 android:elevation="20dp"
                 android:text="발신자"
-                android:textAppearance="@style/H4"
+                android:textAppearance="@style/H3"
                 android:textColor="@color/darkgray0" />
 
 
@@ -276,7 +276,7 @@
                 android:layout_marginLeft="20dp"
                 android:elevation="20dp"
                 android:text="발신 내용"
-                android:textAppearance="@style/H4"
+                android:textAppearance="@style/H3"
                 android:textColor="@color/darkgray0" />
 
 
@@ -313,7 +313,7 @@
                 android:layout_marginLeft="20dp"
                 android:elevation="20dp"
                 android:text="발신 시각"
-                android:textAppearance="@style/H4"
+                android:textAppearance="@style/H3"
                 android:textColor="@color/darkgray0" />
 
 

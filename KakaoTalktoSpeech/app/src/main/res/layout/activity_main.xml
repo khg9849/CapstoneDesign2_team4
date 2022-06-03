@@ -63,7 +63,7 @@
                 android:layout_marginLeft="20dp"
                 android:elevation="20dp"
                 android:text="사용 안 함"
-                android:textAppearance="@style/H3"
+                android:textAppearance="@style/H2"
                 android:textColor="@color/darkblue0" />
 
 
@@ -95,7 +95,7 @@
 
             android:shadowDy="4"
             android:text="설정"
-            android:textAppearance="@style/H3" />
+            android:textAppearance="@style/H2" />
 
         <Button
             android:id="@+id/btnUsefulfeatures"
@@ -105,7 +105,7 @@
             android:background="@drawable/item_white"
             android:elevation="4dp"
             android:text="유용한 기능"
-            android:textAppearance="@style/H3"
+            android:textAppearance="@style/H2"
             android:textColor="#000000" />
     </LinearLayout>
 
