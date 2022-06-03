@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
@@ -23,6 +24,7 @@ class UsefulActivity : AppCompatActivity() {
     lateinit var ttsRestartBtn : Button
     lateinit var ttsQSwitch : Switch
     lateinit var whitelistButton : Button
+    lateinit var whitelistBttnWrap:FrameLayout
     lateinit var sttSwitch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,7 @@ class UsefulActivity : AppCompatActivity() {
         })
 
         val intent = Intent(this, NotibarService::class.java)
-        notibar_switch = findViewById<Switch>(R.id.notibar_switch)
+        notibar_switch = findViewById<Switch>(R.id.switchNotibar)
         notibar_switch.isChecked = SettingManager.isNotibarRunning
         notibar_switch.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isNotibarRunning=value
@@ -57,12 +59,12 @@ class UsefulActivity : AppCompatActivity() {
         ttsShutdownBtn = findViewById(R.id.shutdownBtn)
         ttsPauseBtn = findViewById(R.id.pauseBtn)
         ttsRestartBtn = findViewById(R.id.restartBtn)
-        ttsQSwitch = findViewById(R.id.ttsQSwitch)
+        ttsQSwitch = findViewById(R.id.switchTTSQ)
 
         setButton()
         setSwitch()
 
-        sttSwitch = findViewById(R.id.switchStt)
+        sttSwitch = findViewById(R.id.switchNotiAssistant)
         val sttintent = Intent(this, SpeechToTextService::class.java)
         sttSwitch.setOnCheckedChangeListener{ CompoundButton, value ->
             if(value){
@@ -76,11 +78,17 @@ class UsefulActivity : AppCompatActivity() {
         }
 
         val listIntent = Intent(this, ListActivity::class.java)
-        whitelistButton = findViewById<Button>(R.id.btnList)
-        whitelistButton.setOnClickListener {
+//        whitelistButton = findViewById<Button>(R.id.btnList)
+//        whitelistButton.setOnClickListener {
+//            listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//            startActivity(listIntent)
+//        }
+        whitelistBttnWrap=findViewById<FrameLayout>(R.id.btnListWrap)
+        whitelistBttnWrap.setOnClickListener(){
             listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(listIntent)
         }
+
         //setwhitelistSpinner()
     }
 

@@ -70,22 +70,22 @@ class MainActivity : AppCompatActivity() {
     //뒤로가기 두 번 누르면 종료/>
 
     private fun initSwitch(){
-        runningSwitch = findViewById(R.id.tbResultItemCount)
-        runningText = findViewById(R.id.runningText)
-        intersection=findViewById(R.id.intersection)
-        icon=findViewById(R.id.icon)
+        runningSwitch = findViewById(R.id.switchRunning)
+        runningText = findViewById(R.id.textRunning)
+        intersection=findViewById(R.id.iconWrap)
+        icon=findViewById(R.id.iconMain)
         runningSwitch.setOnCheckedChangeListener{ _, value ->
             SettingManager.isRunning = value
             if(SettingManager.isRunning){
                 runningText.text="사용 중"
                 intersection.setBackgroundResource(R.drawable.intersection_darkblue)
-                icon.setImageResource(R.drawable.icon2_yellow)
+                icon.setImageResource(R.drawable.icon2_yellow_500)
 
             }
             else{
                 runningText.text="사용 안 함"
                 intersection.setBackgroundResource(R.drawable.intersection_lightgray)
-                icon.setImageResource(R.drawable.icon2_darkgray)
+                icon.setImageResource(R.drawable.icon2_darkgray_500)
             }
 
 
@@ -128,13 +128,13 @@ class MainActivity : AppCompatActivity() {
             if(SettingManager.isRunning){
                 runningText.text="사용 중"
                 intersection.setBackgroundResource(R.drawable.intersection_darkblue)
-                icon.setImageResource(R.drawable.icon2_yellow)
+                icon.setImageResource(R.drawable.icon2_yellow_500)
 
             }
             else{
                 runningText.text="사용 안 함"
                 intersection.setBackgroundResource(R.drawable.intersection_lightgray)
-                icon.setImageResource(R.drawable.icon2_darkgray)
+                icon.setImageResource(R.drawable.icon2_darkgray_500)
             }
         }
 

@@ -52,9 +52,9 @@ class RecyclerAdapter(val context: Context, val listData: ArrayList<RecyclerItem
             이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
             val resId = context.resources.getIdentifier(textView1.toString(), "drawable", context.packageName)
             if(data.getState() == true)
-                imageView.setImageResource(R.drawable.switch_on)
+                imageView.setImageResource(R.drawable.ic_checkbox_on)
             else
-                imageView.setImageResource(R.drawable.switch_off)
+                imageView.setImageResource(R.drawable.ic_checkbox_off)
 
 
             textView1.setText(data.getTitle())
