@@ -56,6 +56,10 @@
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_help1.xml" value="0.1265" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_icon2_yellow.xml" value="0.253" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
+        <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_main_darkblue.xml" value="0.1365" />
+        <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_main_yellow.xml" value="0.1365" />
+        <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_mainiconyellow.xml" value="0.1365" />
+        <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_megaphone.xml" value="0.1365" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_next.xml" value="0.1315" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_pause.xml" value="0.1315" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/drawable/ic_sorting.xml" value="0.1315" />
@@ -75,7 +79,7 @@
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/layout/activity_options.xml" value="0.264" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/layout/activity_temp.xml" value="0.10104166666666667" />
-        <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/layout/activity_usefulfeatures.xml" value="0.2" />
+        <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/layout/activity_usefulfeatures.xml" value="0.4" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/layout/activity_whitelist.xml" value="0.176" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/layout/app_widget.xml" value="0.4" />
         <entry key="..\:/working-space/capstoneDesign2/KakaoTalktoSpeech/app/src/main/res/layout/dialog.xml" value="0.25885416666666666" />

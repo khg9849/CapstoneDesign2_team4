@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KakaoTalktoSpeech</string>
+    <string name="app_name">노티리더</string>
     <string name="app_widget_description">Description</string>
     <string name="noti_assistant_help">
         "1. STT 답장

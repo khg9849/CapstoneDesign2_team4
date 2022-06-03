@@ -142,33 +142,40 @@
             <!--        shutdown-->
             <Button
                 android:id="@+id/shutdownBtn"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_margin="4dp"
-                android:background="@drawable/ic_stop" />
+                android:background="@drawable/ic_stop"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
 
             <!--        pause-->
             <Button
                 android:id="@+id/pauseBtn"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_margin="4dp"
+                android:layout_marginLeft="8dp"
                 android:background="@drawable/ic_pause"
                 android:gravity="center_vertical" />
             <!--restart-->
             <Button
                 android:id="@+id/restartBtn"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_margin="4dp"
-                android:background="@drawable/ic_start" />
+                android:background="@drawable/ic_start"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
             <!--stop-->
             <Button
                 android:id="@+id/stopBtn"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_margin="4dp"
-                android:background="@drawable/ic_next" />
+                android:background="@drawable/ic_next"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
 
         </LinearLayout>
 

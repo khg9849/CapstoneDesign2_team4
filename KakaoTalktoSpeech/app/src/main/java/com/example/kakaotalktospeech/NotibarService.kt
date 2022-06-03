@@ -73,17 +73,16 @@ class NotibarService : Service() {
     fun makeNotification(isRunning:Boolean) {
         val builder = NotificationCompat.Builder(this, channel_id)
         builder.setPriority(NotificationCompat.PRIORITY_HIGH)
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
+        builder.setSmallIcon(R.drawable.ic_megaphone)
         builder.setOngoing(true)
 
-        builder.setContentTitle("KakaoTalkToSpeech")
         if (isRunning) {
-            builder.setContentText("APP is running")
-            builder.addAction(makeButtonInNotibar(NOTIBAR_UPDATE_STOP,"STOP"))
+            builder.setContentText("앱이 실행되고 있습니다")
+            builder.addAction(makeButtonInNotibar(NOTIBAR_UPDATE_STOP,"사용 중지"))
         }
         else{
-            builder.setContentText("APP is not running")
-            builder.addAction(makeButtonInNotibar(NOTIBAR_UPDATE_START,"START"))
+            builder.setContentText("앱이 종료되었습니다")
+            builder.addAction(makeButtonInNotibar(NOTIBAR_UPDATE_START,"사용 시작"))
         }
 
         val notibarManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -95,7 +94,7 @@ class NotibarService : Service() {
         intent.setAction(action)
         val pendingIntent =
             PendingIntent.getService(baseContext, 1, intent, PendingIntent.FLAG_IMMUTABLE)
-        val iconId=android.R.drawable.ic_media_pause
+        val iconId=R.drawable.ic_megaphone
         return NotificationCompat.Action.Builder(iconId,btnTitle,pendingIntent).build()
     }
 }
