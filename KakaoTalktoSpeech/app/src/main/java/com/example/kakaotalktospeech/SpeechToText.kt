@@ -16,7 +16,8 @@ import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 class SpeechToText : AppCompatActivity {
 
-    private val activationKeyword = arrayOf<String>("노티", "도티", "티야", "소피", "티아", "노트", "노키아")
+    private val activationKeyword = arrayOf<String>("노티", "도티", "티야", "소피", "티아", "노트", "노키아", "디아", "디야", "또띠", "어디", "도치")
+    private val Keywords = arrayOf<String>("답장", "전부 켜 줘", "전부 꺼 줘", "속도", "볼륨", "다시")
     private val messageKeyword : String = "답장"
     private val allonKeyword : String = "전부 켜 줘"
     private val alloffKeyword : String = "전부 꺼 줘"
@@ -123,16 +124,19 @@ class SpeechToText : AppCompatActivity {
         CallrecognitionListener = object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
                 Log.d("myTEST", "onReady")
+                SettingManager.isSttWorking = true
                 muteRecognition(false)
             }
             override fun onBeginningOfSpeech() {
                 Log.d("myTEST", "onBeginning")
+
             }
             override fun onRmsChanged(rmsdB: Float) {
             }
             override fun onBufferReceived(buffer: ByteArray?) {
             }
             override fun onEndOfSpeech() {
+
             }
 
             override fun onError(error: Int) {
@@ -159,7 +163,7 @@ class SpeechToText : AppCompatActivity {
                     else ->
                         message = "알 수 없는 오류"
                 }
-
+                SettingManager.isSttWorking = false
                 Log.d("myTEST", "$message onError")
             }
 
@@ -177,13 +181,16 @@ class SpeechToText : AppCompatActivity {
                     for(i in 0 until activationKeyword.size){
                         if(txt.contains(activationKeyword[i])){
                             sttCounter = 5
-                            Log.d("myTEST", "응답 활성화")
+                            Log.d("myCaller", "응답 활성화")
                             SettingManager.usefulActivityInstance?.stopTTSforSTT()
                             speakTTS("네 말씀하세요")
                             muteRecognition(false)
-                            SettingManager.isSttWorking = true
+                            //SettingManager.isSttWorking = true
                             callActivateSTT()
                             break
+                        }
+                        else{
+                            SettingManager.isSttWorking = false
                         }
                     }
 
@@ -199,6 +206,7 @@ class SpeechToText : AppCompatActivity {
         ActivaterecognitionListener = object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
                 Log.d("myTEST", "onReady Activate")
+                SettingManager.isSttWorking=true
                 muteRecognition(false)
             }
 
@@ -260,7 +268,7 @@ class SpeechToText : AppCompatActivity {
                     muteRecognition(true)
                     if (doActivate == 0) {
                         if (txt.isNotEmpty()) {
-                            if (txt.contains(messageKeyword)) { // 메시지 답장 기능
+                            if (txt.contains(Keywords[0])) { // 메시지 답장 기능
                                 doActivate = 1
                                 SettingManager.isReplying = true
                                 sttCounter = 5
@@ -271,8 +279,8 @@ class SpeechToText : AppCompatActivity {
 
                                 callActivateSTT()
                                 Log.e("myReply", "메시지 답장 활성화")
-                            } else if (txt.contains(allonKeyword) || txt.contains(alloffKeyword)) { // tts 전체 on/off
-                                if (txt.contains(allonKeyword)) { //전체 옵션 on/off기능
+                            } else if (txt.contains(Keywords[1]) || txt.contains(Keywords[2])) { // tts 전체 on/off
+                                if (txt.contains(Keywords[1])) { //전체 옵션 on/off기능
                                     speakTTS("노티를 다시 킬게요")
                                     SettingManager.isRunning = true
                                     //여기에 전체옵션 on/off추가
@@ -283,21 +291,19 @@ class SpeechToText : AppCompatActivity {
                                 }
                                 SettingManager.isSttWorking = false
                                 Log.d("myTEST", "노티 on/off 조절 활성화")
-                            } else if (txt.contains(speedKeyword)) { // tts 속도 조절 기능
+                            } else if (txt.contains(Keywords[3])) { // tts 속도 조절 기능
                                 doActivate = 2
                                 sttCounter = 5
                                 speakTTS("속도를 얼마로 조절할까요?")
                                 mDelayHandler.postDelayed(::callActivateSTT, 500)
                                 Log.d("myTEST", "속도 조절 활성화")
-                            } else if (txt.contains(volumeKeyword)) { // tts 볼륨 조절 기능
+                            } else if (txt.contains(Keywords[4])) { // tts 볼륨 조절 기능
                                 doActivate = 3
                                 sttCounter = 5
                                 speakTTS("볼륨을 얼마로 조정할까요??")
                                 ActivatespeechRecognizer.startListening(Sttintent)
                                 Log.d("myTEST", "볼륨 조절 활성화")
-                            } else if (txt.contains(stopKeyword)) { // tts 정지 기능
-                                SettingManager.isSttWorking = false
-                            } else if (txt.contains(restartKeyword)) { // 방금 온 메시지 다시 재생하는 기능
+                            } else if (txt.contains(Keywords[5])) { // 방금 온 메시지 다시 재생하는 기능
                                 SettingManager.usefulActivityInstance?.restartTTSforSTT()
                                 SettingManager.isSttWorking = false
                             } else { // 인식이 안됐을 때
@@ -325,9 +331,11 @@ class SpeechToText : AppCompatActivity {
                         when (doActivate) {
                             1 -> {
                                 replySender = SettingManager.usefulActivityInstance?.recentsenderForStt()
-                                if(replySender == null){
+                                Log.e("reply", "$replySender")
+                                if(replySender == null || !replySender!!.isNotEmpty()){
                                     speakTTS( "최근에 메세지를 보낸 사람이 없어요")
                                     doActivate = 0;
+                                    SettingManager.isSttWorking=false
                                 }
                                 else {
                                     SettingManager.isReplying = true
@@ -336,9 +344,8 @@ class SpeechToText : AppCompatActivity {
                                     while(SettingManager.isReplying){}
                                     callActivateSTT()
                                     doActivate = 4
-                                }
-                                SettingManager.isSttWorking=false
 
+                                }
                                 //메시지 답장기능
                             }
                             2 -> {
@@ -401,6 +408,7 @@ class SpeechToText : AppCompatActivity {
                                         )
                                     }
                                 }
+                                SettingManager.isSttWorking=false
                                 doActivate = 0
                             }
                         }

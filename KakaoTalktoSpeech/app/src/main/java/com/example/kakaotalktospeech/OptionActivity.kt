@@ -18,13 +18,13 @@ import kotlin.concurrent.schedule
 class OptionActivity : AppCompatActivity() {
 
     val keys=arrayOf<String>("isRunning","ttsVolume","ttsSpeed","ttsEngine","isReadingSender","isReadingText","isReadingTime")
-    lateinit var soundSeekbar : SeekBar
-    lateinit var speedSeekbar : SeekBar
-    lateinit var speedTextView : TextView
-    lateinit var ttsEngineSpinner : Spinner
-    lateinit var senderSwitch : Switch
-    lateinit var textSwitch : Switch
-    lateinit var timeSwitch : Switch
+    lateinit private var soundSeekbar : SeekBar
+    lateinit private var speedSeekbar : SeekBar
+    lateinit private var speedTextView : TextView
+    lateinit private var ttsEngineSpinner : Spinner
+    lateinit private var senderSwitch : Switch
+    lateinit private var textSwitch : Switch
+    lateinit private var timeSwitch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -16,14 +16,14 @@ import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
 
 class UsefulActivity : AppCompatActivity() {
 
-    lateinit var notibar_switch : Switch
-    lateinit var ttsStopBtn : Button
-    lateinit var ttsShutdownBtn : Button
-    lateinit var ttsPauseBtn : Button
-    lateinit var ttsRestartBtn : Button
-    lateinit var ttsQSwitch : Switch
-    lateinit var whitelistButton : Button
-    lateinit var sttSwitch : Switch
+    lateinit private var notibar_switch : Switch
+    lateinit private var ttsStopBtn : Button
+    lateinit private var ttsShutdownBtn : Button
+    lateinit private var ttsPauseBtn : Button
+    lateinit private var ttsRestartBtn : Button
+    lateinit private var ttsQSwitch : Switch
+    lateinit private var whitelistButton : Button
+    lateinit private var sttSwitch : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -172,13 +172,13 @@ class UsefulActivity : AppCompatActivity() {
         }
     }
 
-    fun serviceBind()
+    private fun serviceBind()
     {
         val intent = Intent(this, KakaoNotificationListener::class.java)
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
-    fun serviceUnBind()
+    private fun serviceUnBind()
     {
         if (isConService) {
             unbindService(serviceConnection)
