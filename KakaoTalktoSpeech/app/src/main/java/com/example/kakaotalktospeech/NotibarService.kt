@@ -14,9 +14,9 @@ import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 
 class NotibarService : Service() {
-    var notificationId=1
-    var isChanneled=false
-    val channel_id="channel_id"
+    private val notificationId=1
+    private var isChanneled=false
+    private val channel_id="channel_id"
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
