@@ -57,9 +57,11 @@
         <RelativeLayout
             android:id="@+id/sectionNotibar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/item_lightgray">
+            android:background="@drawable/item_lightgray"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textNotibar"
@@ -77,9 +79,11 @@
         <RelativeLayout
             android:id="@+id/optionNotibar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textNotibar2"
@@ -113,9 +117,11 @@
         <RelativeLayout
             android:id="@+id/sectionPlay"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/item_lightgray">
+            android:background="@drawable/item_lightgray"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textPlay"
@@ -133,7 +139,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:baselineAligned="false"
             android:gravity="center_horizontal|center_vertical"
@@ -182,9 +188,11 @@
         <RelativeLayout
             android:id="@+id/optionTTSQ"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textTTSQ"
@@ -218,9 +226,11 @@
         <RelativeLayout
             android:id="@+id/sectionList"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/item_lightgray">
+            android:background="@drawable/item_lightgray"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textList"
@@ -238,9 +248,11 @@
         <RelativeLayout
             android:id="@+id/optionList"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/optionList2"
@@ -256,7 +268,9 @@
             <FrameLayout
                 android:id="@+id/btnListWrap"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp">
 
                 <Button
                     android:id="@+id/btnList"
@@ -274,9 +288,11 @@
         <RelativeLayout
             android:id="@+id/sectionNotiAssistant"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/item_lightgray">
+            android:background="@drawable/item_lightgray"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textNotiAssistant"
@@ -292,7 +308,7 @@
             <FrameLayout
                 android:id="@+id/btnNotiHelpWrap"
                 android:layout_width="80dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="0dp">
 
@@ -310,10 +326,12 @@
         <RelativeLayout
             android:id="@+id/optionNotiAssistant"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textNotiAssistant2"

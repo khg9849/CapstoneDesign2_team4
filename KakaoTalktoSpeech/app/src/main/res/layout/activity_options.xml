@@ -60,9 +60,11 @@
         <RelativeLayout
             android:id="@+id/sectionTTS"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/item_lightgray">
+            android:background="@drawable/item_lightgray"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textTTS"
@@ -80,10 +82,12 @@
         <RelativeLayout
             android:id="@+id/optionSound"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
 
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textSound"
@@ -122,10 +126,12 @@
         <RelativeLayout
             android:id="@+id/optionSpeed"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
 
             android:layout_marginTop="20dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textSpeed"
@@ -174,10 +180,12 @@
         <RelativeLayout
             android:id="@+id/optionEngine"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
 
             android:layout_marginTop="20dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textEngine"
@@ -192,10 +200,9 @@
             <Spinner
                 android:id="@+id/spinnerEngine"
                 android:layout_width="172dp"
-                android:layout_height="27dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="164dp"
                 android:layout_marginEnd="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.721"
@@ -208,9 +215,11 @@
         <RelativeLayout
             android:id="@+id/sectionMessage"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/item_lightgray">
+            android:background="@drawable/item_lightgray"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textMessage"
@@ -228,9 +237,11 @@
         <RelativeLayout
             android:id="@+id/optionSender"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textSender"
@@ -264,9 +275,11 @@
         <RelativeLayout
             android:id="@+id/optionText"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textText"
@@ -300,10 +313,12 @@
         <RelativeLayout
             android:id="@+id/optionTime"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/item_white">
+            android:background="@drawable/item_white"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textTime"
