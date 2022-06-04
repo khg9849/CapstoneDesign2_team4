@@ -1,5 +1,7 @@
 package com.example.kakaotalktospeech
 
+import android.speech.tts.TextToSpeech
+
 class SettingManager {
 
     companion object{
@@ -9,6 +11,7 @@ class SettingManager {
         var ttsVolume : Int = 5 // max: 15 min: 0
         var ttsSpeed : Float = 1.0f // max: 2.0f, min = 0.6f
         var ttsEngine: Int = 0
+        var ttsEngineList : List<TextToSpeech.EngineInfo>? = null
         var ttsQueueDelete : Boolean = true
 
         /* TTS text option */
