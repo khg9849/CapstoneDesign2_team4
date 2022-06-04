@@ -150,6 +150,7 @@ class KakaoNotificationListener : NotificationListenerService() {
         }
         tts.setOnUtteranceProgressListener(speechListener)
         ttsList = tts.engines
+        SettingManager.ttsEngineList = ttsList
         for(ttsCount in 0 until ttsList.size){
             if(tts.defaultEngine == ttsList[ttsCount].name){
                 SettingManager.ttsEngine = ttsCount

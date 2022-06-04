@@ -23,6 +23,7 @@ class OptionActivity : AppCompatActivity() {
     private lateinit var senderSwitch : Switch
     private lateinit var textSwitch : Switch
     private lateinit var timeSwitch : Switch
+    private var ttsItem : ArrayList<String> = arrayListOf<String>()
     private var myService:KakaoNotificationListener? = null
     private var isConService = false
     private val serviceConnection = object : ServiceConnection {
@@ -81,7 +82,6 @@ class OptionActivity : AppCompatActivity() {
     }
 
     private fun setSpinner(){
-        val ttsItem = arrayOf("삼성 TTS", "구글 TTS")
         val ttsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ttsItem)
         ttsEngineSpinner.adapter = ttsAdapter
         ttsEngineSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -111,6 +111,21 @@ class OptionActivity : AppCompatActivity() {
     }
 
     private fun initState(){
+        var ttsList = SettingManager.ttsEngineList
+        if(ttsList!=null){
+            if(ttsItem!!.size != ttsList.size) {
+                ttsItem.clear()
+                for (i in ttsList) {
+                    when(i.name){
+                        "com.samsung.SMT" -> ttsItem.add("삼성 TTS")
+                        "com.google.android.tts" -> ttsItem.add("구글 TTS")
+                        else -> ttsItem.add(i.name)
+                    }
+                }
+            }
+        }
+        val ttsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ttsItem)
+        ttsEngineSpinner.adapter = ttsAdapter
         soundSeekbar?.progress = SettingManager.ttsVolume
         speedSeekbar?.progress = (SettingManager.ttsSpeed/0.2).toInt()-3
         speedTextView?.text = String.format("%.1f", SettingManager.ttsSpeed)+"배속"
