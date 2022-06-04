@@ -120,7 +120,7 @@ class KakaoNotificationListener : NotificationListenerService() {
 
         audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build()
         audioFocusRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN).setAudioAttributes(audioAttributes).setAcceptsDelayedFocusGain(false).setOnAudioFocusChangeListener(audioListener).setWillPauseWhenDucked(true).build()
+            AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT).setAudioAttributes(audioAttributes).setAcceptsDelayedFocusGain(false).setOnAudioFocusChangeListener(audioListener).setWillPauseWhenDucked(true).build()
         } else {
             TODO("VERSION.SDK_INT < O")
         }
@@ -142,7 +142,9 @@ class KakaoNotificationListener : NotificationListenerService() {
             }
             override fun onDone(p0: String?) {
                 ttsQ.poll()
-                abandonFocus()
+                if(ttsQ.isEmpty()) {
+                    abandonFocus()
+                }
             }
             override fun onError(p0: String?) {
 
@@ -176,7 +178,9 @@ class KakaoNotificationListener : NotificationListenerService() {
             }
             override fun onDone(p0: String?) {
                 ttsQ.poll()
-                abandonFocus()
+                if(ttsQ.isEmpty()) {
+                    abandonFocus()
+                }
             }
             override fun onError(p0: String?) {
 

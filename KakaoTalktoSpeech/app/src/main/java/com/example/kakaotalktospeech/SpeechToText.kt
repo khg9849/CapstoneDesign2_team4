@@ -33,6 +33,9 @@ class SpeechToText : AppCompatActivity {
     private val Sttcontext: Context
     private val audioManager: AudioManager
 
+    private var preAudio : Int = -1
+    private var ttsCount = 0
+
     private var sttCounter : Int = 3
 
     private var myTTS: TextToSpeech? = null
@@ -48,8 +51,17 @@ class SpeechToText : AppCompatActivity {
 
         val speechListener = object : UtteranceProgressListener(){
             override fun onStart(p0: String?) {
+                if(preAudio == -1) {
+                    preAudio = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+                }
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, SettingManager.ttsVolume, 0)
             }
             override fun onDone(p0: String?) {
+                ttsCount--
+                if(preAudio != -1 && ttsCount == 0) {
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, preAudio, 0)
+                    preAudio = -1
+                }
                 Log.e("myTEST", "onDone $doActivate " + SettingManager.isReplying)
                 if(SettingManager.isReplying == true){
                     //myContext.callActivateSTT()
@@ -77,6 +89,7 @@ class SpeechToText : AppCompatActivity {
         ActivatespeechRecognizer.startListening(Sttintent)
     }
     private fun speakTTS(txt: String){
+        ttsCount++
         myTTS?.speak("$txt", TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID)
     }
 
