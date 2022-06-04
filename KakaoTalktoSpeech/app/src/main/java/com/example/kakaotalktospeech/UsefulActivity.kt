@@ -10,11 +10,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.IBinder
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Switch
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
 
@@ -117,6 +119,8 @@ class UsefulActivity : AppCompatActivity() {
             val alertDialog=builder.show()
             alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+            val tv=view.findViewById<TextView>(R.id.helpText)
+            tv.movementMethod=ScrollingMovementMethod()
             val btnShutdown=view.findViewById<Button>(R.id.btnShutdown)
             btnShutdown.setOnClickListener{
                 alertDialog.dismiss()
