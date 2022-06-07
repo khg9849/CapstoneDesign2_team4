@@ -56,7 +56,7 @@ class SpeechToTextService : Service(){
         if(SettingManager.isSttWorking)
             mDelayHandler.postDelayed(::runningGuest, 1000)
         else
-            mDelayHandler.postDelayed(::showGuest, 500)
+            mDelayHandler.postDelayed(::showGuest, 1000)
     }
     private fun runningGuest(){
         Log.d("myService", "runningGuest")

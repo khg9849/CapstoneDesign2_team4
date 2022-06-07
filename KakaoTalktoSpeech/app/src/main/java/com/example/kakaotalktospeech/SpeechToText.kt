@@ -18,13 +18,7 @@ class SpeechToText : AppCompatActivity {
 
     private val activationKeyword = arrayOf<String>("노티", "도티", "티야", "소피", "티아", "노트", "노키아", "디아", "디야", "또띠", "어디", "도치")
     private val Keywords = arrayOf<String>("답장", "전부 켜 줘", "전부 꺼 줘", "속도", "볼륨", "다시")
-    private val messageKeyword : String = "답장"
-    private val allonKeyword : String = "전부 켜 줘"
-    private val alloffKeyword : String = "전부 꺼 줘"
-    private val speedKeyword : String = "속도"
-    private val volumeKeyword : String = "볼륨"
-    private val stopKeyword : String = "멈춰"
-    private val restartKeyword : String = "다시"
+
 
     private var doActivate : Int = 0;
     private var replyMessage : String? = null
