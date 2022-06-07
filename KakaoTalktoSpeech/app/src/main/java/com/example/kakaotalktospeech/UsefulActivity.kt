@@ -205,23 +205,6 @@ class UsefulActivity : AppCompatActivity() {
         sttSwitch.isChecked = SettingManager.isSttActivate
     }
 
-/*
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.e("myTEST", ""+keyCode)
-        when(keyCode){
-            KeyEvent.KEYCODE_VOLUME_UP -> {
-                myService?.shutdownTTS()
-                return true
-            }
-            KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                myService?.shutdownTTS()
-                return true
-            }
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-*/
-
     private fun serviceBind()
     {
         val intent = Intent(this, KakaoNotificationListener::class.java)
