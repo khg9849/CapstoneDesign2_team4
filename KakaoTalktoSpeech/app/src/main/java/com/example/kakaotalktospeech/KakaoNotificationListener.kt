@@ -188,17 +188,15 @@ class KakaoNotificationListener : NotificationListenerService() {
         }
         tts.setOnUtteranceProgressListener(speechListener)
 
-        Timer().schedule(3000){
+
+        Timer().schedule(2000){
             getFocusAndSpeak("테스트 음성입니다")
         }
         if(SettingManager.ttsQueueDelete){
             deleteQueue()
         }
         else {
-            Timer().schedule(3000) {
-                //deleteQueue()
-                //speakQueue()
-            }
+            speakQueue()
         }
     }
 
