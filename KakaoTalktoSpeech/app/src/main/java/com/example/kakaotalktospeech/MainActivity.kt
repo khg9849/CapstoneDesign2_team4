@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    lateinit var runningSwitch : Switch
-    lateinit var runningText: TextView
-    lateinit var intersection : RelativeLayout
-    lateinit var icon: ImageView
-    lateinit var contactsManager : ContactsManager
+    lateinit private var runningSwitch : Switch
+    lateinit private var runningText: TextView
+    lateinit private var intersection : RelativeLayout
+    lateinit private var icon: ImageView
+    lateinit private var contactsManager : ContactsManager
 
     init{
         Log.d("myTEST", "init")

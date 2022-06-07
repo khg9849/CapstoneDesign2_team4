@@ -49,6 +49,7 @@ class UsefulActivity : AppCompatActivity() {
     }
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_usefulfeatures)
@@ -220,6 +221,7 @@ class UsefulActivity : AppCompatActivity() {
         return super.onKeyDown(keyCode, event)
     }
 */
+
     private fun serviceBind()
     {
         val intent = Intent(this, KakaoNotificationListener::class.java)
