@@ -22,7 +22,6 @@ class AppWidget : AppWidgetProvider() {
         val intent = Intent(context, AppWidget::class.java)
         intent.action = WIDGET_CLICKED
         intent.putExtra("viewId", id)
-
         return PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_IMMUTABLE)
     }
 
@@ -30,12 +29,11 @@ class AppWidget : AppWidgetProvider() {
         super.onReceive(context, intent)
 
         val action = intent.action
-        val isRunning=intent.getBooleanExtra("isRunning",false)
         val views = RemoteViews(context.packageName, R.layout.app_widget)
 
         when(action){
             // when widget is created
-            WIDGET_CREATE->updateWidget(context,views,isRunning)
+            WIDGET_CREATE->updateWidget(context,views,SettingManager.isRunning)
 
             // when widget is clicked
             WIDGET_CLICKED-> {
