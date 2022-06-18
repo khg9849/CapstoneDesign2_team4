@@ -35,6 +35,8 @@ class ContactsManager : Application() {
     companion object{
         fun putWhiteList(name : String){
             if(SettingManager.whiteList.containsKey(name)){
+                if(!ContactsManager.checkWhiteList(name)) return
+
                 var list: ArrayList<Int>? = SettingManager.whiteList.get(name)
                 var idx1 = list!!.get(0) //연락을 수신한 횟수
                 var idx2 = list.get(1) //이 사람의 연락을 수신처리할 것인지 on/off

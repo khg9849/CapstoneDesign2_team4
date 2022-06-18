@@ -29,9 +29,9 @@ class KakaoNotificationListener : NotificationListenerService() {
     private lateinit var audioListener : AudioManager.OnAudioFocusChangeListener
     private lateinit var audioAttributes: AudioAttributes
     private lateinit var audioFocusRequest: AudioFocusRequest
-    private lateinit var recentAct : Notification.Action
+    private var recentAct : Notification.Action? = null
     private var recentSender : String? = null
-    private lateinit var curAct : Notification.Action
+    private var curAct : Notification.Action? = null
     private var curSender : String? = null
     private val binder : IBinder = MyServiceBinder()
 
@@ -153,7 +153,9 @@ class KakaoNotificationListener : NotificationListenerService() {
             deleteQueue()
         }
         else {
-            speakQueue()
+            Timer().schedule(5000) {
+                speakQueue()
+            }
         }
     }
 
@@ -203,10 +205,10 @@ class KakaoNotificationListener : NotificationListenerService() {
     fun reply(message : String){
         val sendIntent = Intent()
         var msg = Bundle()
-        for(inputable in curAct.remoteInputs)
+        for(inputable in curAct!!.remoteInputs)
             msg.putCharSequence(inputable.resultKey, message)
-        RemoteInput.addResultsToIntent(curAct.remoteInputs, sendIntent, msg)
-        curAct.actionIntent.send(this, 0, sendIntent)
+        RemoteInput.addResultsToIntent(curAct!!.remoteInputs, sendIntent, msg)
+        curAct!!.actionIntent.send(this, 0, sendIntent)
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
@@ -255,7 +257,6 @@ class KakaoNotificationListener : NotificationListenerService() {
                         text = (if(SettingManager.isReadingTime) ""+formatTime(time) else "")+text
 
                         if(tts != null) {
-                            tts!!.setSpeechRate(SettingManager.ttsSpeed)
                             ttsQ.add(text)
                             if(!isPause) {
                                 getFocusAndSpeak(text)
@@ -278,6 +279,7 @@ class KakaoNotificationListener : NotificationListenerService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val requestResult = audioManager.requestAudioFocus(audioFocusRequest)
             if(requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+                tts!!.setSpeechRate(SettingManager.ttsSpeed)
                 tts!!.speak(text, TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID)
             }
         }
