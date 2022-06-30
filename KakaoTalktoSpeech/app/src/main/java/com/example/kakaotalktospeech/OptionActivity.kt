@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class OptionActivity : AppCompatActivity() {
 
-    val keys=arrayOf<String>("isRunning","ttsVolume","ttsSpeed","ttsEngine","isReadingSender","isReadingText","isReadingTime")
     private lateinit var soundSeekbar : SeekBar
     private lateinit var speedSeekbar : SeekBar
     private lateinit var speedTextView : TextView
@@ -26,9 +25,9 @@ class OptionActivity : AppCompatActivity() {
     private var ttsItem : ArrayList<String> = arrayListOf<String>()
     private var myService:KakaoNotificationListener? = null
     private var isConService = false
+
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            Log.v("myTEST", "binder 생성")
             val b = service as KakaoNotificationListener.MyServiceBinder
             myService = b.getService()
             isConService = true
@@ -43,22 +42,25 @@ class OptionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_options)
+
         var mainIntent = Intent(this, MainActivity::class.java)
         val backBtn = findViewById<Button>(R.id.btnBacktomain)
         backBtn.setOnClickListener({
             mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(mainIntent)
         })
+
         soundSeekbar = findViewById(R.id.seekbarSound)
         speedSeekbar = findViewById(R.id.seekbarSpeed)
         speedTextView = findViewById(R.id.speed)
+        setSeekbar()
+
         ttsEngineSpinner = findViewById(R.id.spinnerEngine)
+        setSpinner()
+
         senderSwitch = findViewById(R.id.switchSender)
         textSwitch = findViewById(R.id.switchText)
         timeSwitch = findViewById(R.id.switchTime)
-
-        setSeekbar()
-        setSpinner()
         setSwitch()
     }
 
@@ -87,7 +89,6 @@ class OptionActivity : AppCompatActivity() {
         ttsEngineSpinner.adapter = ttsAdapter
         ttsEngineSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Log.v("myTEST", "item select")
                 if(SettingManager.ttsEngine != p2) {
                     SettingManager.ttsEngine = p2
                     myService?.changeTTS()
@@ -144,24 +145,24 @@ class OptionActivity : AppCompatActivity() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
 
-        editor.putInt(keys[1], SettingManager.ttsVolume)
-        editor.putFloat(keys[2], SettingManager.ttsSpeed)
-        editor.putInt(keys[3], SettingManager.ttsEngine)
-        editor.putBoolean(keys[4], SettingManager.isReadingSender)
-        editor.putBoolean(keys[5], SettingManager.isReadingText)
-        editor.putBoolean(keys[6], SettingManager.isReadingTime)
+        editor.putInt("ttsVolume", SettingManager.ttsVolume)
+        editor.putFloat("ttsSpeed", SettingManager.ttsSpeed)
+        editor.putInt("ttsEngine", SettingManager.ttsEngine)
+        editor.putBoolean("isReadingSender", SettingManager.isReadingSender)
+        editor.putBoolean("isReadingText", SettingManager.isReadingText)
+        editor.putBoolean("isReadingTime", SettingManager.isReadingTime)
         editor.commit()
     }
 
     private fun restoreState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
-            SettingManager.ttsVolume =pref.getInt(keys[1], 5)
-            SettingManager.ttsSpeed =pref.getFloat(keys[2], 1.0f)
-            SettingManager.ttsEngine =pref.getInt(keys[3], SettingManager.ttsEngine)
-            SettingManager.isReadingSender =pref.getBoolean(keys[4], true)
-            SettingManager.isReadingText  =pref.getBoolean(keys[5], true)
-            SettingManager.isReadingTime  =pref.getBoolean(keys[6], false)
+            SettingManager.ttsVolume =pref.getInt("ttsVolume", 5)
+            SettingManager.ttsSpeed =pref.getFloat("ttsSpeed", 1.0f)
+            SettingManager.ttsEngine =pref.getInt("ttsEngine", SettingManager.ttsEngine)
+            SettingManager.isReadingSender =pref.getBoolean("isReadingSender", true)
+            SettingManager.isReadingText  =pref.getBoolean("isReadingText", true)
+            SettingManager.isReadingTime  =pref.getBoolean("isReadingTime", false)
         }
     }
 
@@ -180,7 +181,6 @@ class OptionActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        Log.d("myTEST", "option - onResume")
         super.onResume()
         serviceBind()
         restoreState()
@@ -188,7 +188,6 @@ class OptionActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        Log.d("myTEST", "option - onPause")
         super.onPause()
         saveState()
         serviceUnBind()

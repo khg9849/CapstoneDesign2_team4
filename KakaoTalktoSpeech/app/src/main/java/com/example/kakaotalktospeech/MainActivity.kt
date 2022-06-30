@@ -9,8 +9,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -31,130 +29,36 @@ class MainActivity : AppCompatActivity() {
     lateinit private var runningText: TextView
     lateinit private var intersection : RelativeLayout
     lateinit private var icon: ImageView
+    lateinit private var btnOption:Button
+    lateinit private var btnUsefulfeatures: Button
+
     lateinit private var contactsManager : ContactsManager
 
     init{
-        Log.d("myTEST", "init")
         instance = this
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("myTEST", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         requestPermission()
         serviceStart()
         checkNotificationAccess()
-        initSwitch()
-        initBtn()
-    }
 
-    private fun serviceStart()
-    {
-        val intent = Intent(this, KakaoNotificationListener::class.java)
-        startService(intent)
-    }
-
-    //<뒤로가기 두 번 누르면 종료
-    var lastTimeBackPressed : Long = 0
-    override fun onBackPressed() {
-        if(System.currentTimeMillis() - lastTimeBackPressed >= 1500){
-            lastTimeBackPressed = System.currentTimeMillis()
-            Toast.makeText(this, "'뒤로' 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG).show()
-        }
-        else{
-            super.onBackPressed()
-        }
-    }
-    //뒤로가기 두 번 누르면 종료/>
-
-    private fun initSwitch(){
         runningSwitch = findViewById(R.id.switchRunning)
         runningText = findViewById(R.id.textRunning)
         intersection=findViewById(R.id.iconWrap)
         icon=findViewById(R.id.iconMain)
-        runningSwitch.setOnCheckedChangeListener{ _, value ->
-            SettingManager.isRunning = value
-            if(SettingManager.isRunning){
-                runningText.text="사용 중"
-                intersection.setBackgroundResource(R.drawable.intersection_darkblue)
-                icon.setImageResource(R.drawable.icon2_yellow_500)
+        setSwitch()
 
-            }
-            else{
-                runningText.text="사용 안 함"
-                intersection.setBackgroundResource(R.drawable.intersection_lightgray)
-                icon.setImageResource(R.drawable.icon2_darkgray_500)
-            }
-
-
-            sendUpdateWidgetIntent(this)
-            updateNotibar(this)
-        }
+        btnOption = findViewById<Button>(R.id.btnOption)
+        btnUsefulfeatures = findViewById<Button>(R.id.btnUsefulfeatures)
+        setButton()
     }
 
 
-    private fun initBtn(){
-        val btnOption = findViewById<Button>(R.id.btnOption)
-        btnOption.setOnClickListener{
-            val intent = Intent(this, OptionActivity::class.java)
-            startActivity(intent)
-        }
-
-        val btnUsefulfeatures = findViewById<Button>(R.id.btnUsefulfeatures)
-        btnUsefulfeatures.setOnClickListener{
-            val intent = Intent(this, UsefulActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-    private fun checkNotificationAccess() {
-        val sets = NotificationManagerCompat.getEnabledListenerPackages(this)
-        if (sets.contains(packageName)){
-            Log.d("myTEST", "Has Notification Access")
-        }
-        else{
-            Log.d("myTEST", "Doesn't have Notification Access")
-            startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-        }
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-//        Log.d("myTEST", "MainActivity-onWindowFocusChanged: "+hasFocus)
-        if(hasFocus){
-            runningSwitch.isChecked = SettingManager.isRunning
-            if(SettingManager.isRunning){
-                runningText.text="사용 중"
-                intersection.setBackgroundResource(R.drawable.intersection_darkblue)
-                icon.setImageResource(R.drawable.icon2_yellow_500)
-
-            }
-            else{
-                runningText.text="사용 안 함"
-                intersection.setBackgroundResource(R.drawable.intersection_lightgray)
-                icon.setImageResource(R.drawable.icon2_darkgray_500)
-            }
-        }
-
-    }
-
-    private fun saveState() {
-        val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
-        val editor=pref.edit()
-        editor.putBoolean("isRunning", SettingManager.isRunning);
-        editor.commit()
-    }
-
-    private fun restoreState() {
-        val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
-        if(pref!=null){
-            SettingManager.isRunning=pref.getBoolean("isRunning", false);
-            runningSwitch.isChecked = SettingManager.isRunning
-        }
-    }
-
+    // 메시지 전송 권한 요청 및 설정창으로 이동
     private fun requestPermission(){
         if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
@@ -174,8 +78,97 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun serviceStart()
+    {
+        val intent = Intent(this, KakaoNotificationListener::class.java)
+        startService(intent)
+    }
+
+    // 알림 접근 권한 확인 및 설정창으로 이동
+    private fun checkNotificationAccess() {
+        val sets = NotificationManagerCompat.getEnabledListenerPackages(this)
+        if (!sets.contains(packageName)){
+            startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+        }
+    }
+
+    // isRunning 상태에 따라 UI 설정
+    private fun setSwitchUI(){
+        if(SettingManager.isRunning){
+            runningText.text="사용 중"
+            intersection.setBackgroundResource(R.drawable.intersection_darkblue)
+            icon.setImageResource(R.drawable.icon2_yellow_500)
+
+        }
+        else{
+            runningText.text="사용 안 함"
+            intersection.setBackgroundResource(R.drawable.intersection_lightgray)
+            icon.setImageResource(R.drawable.icon2_darkgray_500)
+        }
+    }
+
+    private fun setSwitch(){
+        runningSwitch.setOnCheckedChangeListener{ _, value ->
+            SettingManager.isRunning = value
+            setSwitchUI()
+            sendUpdateWidgetIntent(this)
+            updateNotibar(this)
+        }
+    }
+
+    // 상단바를 내렸다 올렸을 때 스위치 UI 설정
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if(hasFocus){
+            runningSwitch.isChecked = SettingManager.isRunning
+            setSwitchUI()
+        }
+    }
+
+    private fun setButton(){
+        btnOption.setOnClickListener{
+            val intent = Intent(this, OptionActivity::class.java)
+            startActivity(intent)
+        }
+        btnUsefulfeatures.setOnClickListener{
+            val intent = Intent(this, UsefulActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+
+    // 뒤로가기 버튼 두 번 누르면 종료
+    var lastTimeBackPressed : Long = 0
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - lastTimeBackPressed >= 1500){
+            lastTimeBackPressed = System.currentTimeMillis()
+            Toast.makeText(this, "'뒤로' 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG).show()
+        }
+        else{
+            super.onBackPressed()
+        }
+    }
+
+
+
+
+    private fun saveState() {
+        val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
+        val editor=pref.edit()
+        editor.putBoolean("isRunning", SettingManager.isRunning);
+        editor.commit()
+    }
+
+    private fun restoreState() {
+        val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
+        if(pref!=null){
+            SettingManager.isRunning=pref.getBoolean("isRunning", false);
+            runningSwitch.isChecked = SettingManager.isRunning
+        }
+    }
+
+
     override fun onStart(){
-//        Log.d("myTEST", "MainActivity-onStart")
         contactsManager = ContactsManager()
         contactsManager.makeContactsFile()
         contactsManager.exportContactsFile()
@@ -183,27 +176,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRestart() {
-//        Log.d("myTEST", "MainActivity-onRestart")
         super.onRestart()
         contactsManager.exportContactsFile()
     }
 
     override fun onResume() {
-//        Log.d("myTEST", "MainActivity-onResume")
         super.onResume()
         restoreState()
         contactsManager.importContactsFile()
     }
 
     override fun onPause() {
-//        Log.d("myTEST", "MainActivity-onPause")
         super.onPause()
         saveState()
         contactsManager.exportContactsFile()
     }
 
-    override fun onDestroy() {
-//        Log.d("myTEST", "MainActivity-onDestroy")
-        super.onDestroy()
-    }
+
 }

@@ -17,60 +17,27 @@ class NotibarService : Service() {
     private val notificationId=1
     private var isChanneled=false
     private val channel_id="channel_id"
+    private val channel_name="channel_name"
+    private val channel_description="channel_description"
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
     }
 
-    fun setNotificationChannel(){
+    // Notification 채널 생성 및 등록
+    private fun setNotificationChannel(){
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-        // Create and register the NotificationChannel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val mChannel = NotificationChannel(channel_id, "channel_name", NotificationManager.IMPORTANCE_LOW)
-            mChannel.description = "channel_description"
-            mChannel.vibrationPattern = longArrayOf(0) // turn off vibration
+            val mChannel = NotificationChannel(channel_id, channel_name, NotificationManager.IMPORTANCE_LOW)
+            mChannel.description = channel_description
+            mChannel.vibrationPattern = longArrayOf(0) // 노티바를 켤 때 진동을 끔
             mChannel.enableVibration(true)
             notificationManager.createNotificationChannel(mChannel)
         }
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        if(isChanneled==false){
-            setNotificationChannel()
-            isChanneled=true
-        }
-
-        when(intent?.action){
-            NOTIBAR_CREATE-> {
-                val isRunning=intent?.getBooleanExtra("isRunning",false)
-                makeNotification(isRunning)
-            }
-            NOTIBAR_UPDATE_START-> {
-                updateIsRunning(true)
-                makeNotification(true)
-            }
-            NOTIBAR_UPDATE_STOP-> {
-                updateIsRunning(false)
-                makeNotification(false)
-            }
-        }
-
-        sendUpdateWidgetIntent(this)
-        updatePreferences()
-
-        return super.onStartCommand(intent, flags, startId)
-    }
-
-
-    override fun onDestroy() {
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(notificationId)
-        super.onDestroy()
-    }
-
-    fun makeNotification(isRunning:Boolean) {
+    // 노티바 생성
+    private fun makeNotification(isRunning:Boolean) {
         val builder = NotificationCompat.Builder(this, channel_id)
         builder.setPriority(NotificationCompat.PRIORITY_HIGH)
         builder.setSmallIcon(R.drawable.ic_megaphone)
@@ -89,13 +56,51 @@ class NotibarService : Service() {
         notibarManager.notify(notificationId,builder.build())
     }
 
-    fun makeButtonInNotibar(action:String, btnTitle:String): NotificationCompat.Action {
+    // 노티바의 노티리더 활성화 버튼 설정
+    private fun makeButtonInNotibar(action:String, btnTitle:String): NotificationCompat.Action {
         val intent = Intent(baseContext, NotibarService::class.java)
         intent.setAction(action)
         val pendingIntent =
             PendingIntent.getService(baseContext, 1, intent, PendingIntent.FLAG_IMMUTABLE)
         val iconId=R.drawable.ic_megaphone
         return NotificationCompat.Action.Builder(iconId,btnTitle,pendingIntent).build()
+    }
+
+
+    // 노티바 액션 정의
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+        if(isChanneled==false){
+            setNotificationChannel()
+            isChanneled=true
+        }
+
+        when(intent?.action){
+            // 노티바를 켰을 경우 노티바 생성
+            NOTIBAR_CREATE-> {
+                val isRunning=intent?.getBooleanExtra("isRunning",false)
+                makeNotification(isRunning)
+            }
+            // 노티바를 통해 노티리더를 활성화한 경우
+            NOTIBAR_UPDATE_START-> {
+                updateIsRunning(true)
+                makeNotification(true)
+            }
+            // 노티바를 통해 노티리더를 끈 경우
+            NOTIBAR_UPDATE_STOP-> {
+                updateIsRunning(false)
+                makeNotification(false)
+            }
+        }
+        sendUpdateWidgetIntent(this)
+        updatePreferences()
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(notificationId)
+        super.onDestroy()
     }
 }
 

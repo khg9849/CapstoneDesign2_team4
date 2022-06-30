@@ -30,14 +30,13 @@ class UsefulActivity : AppCompatActivity() {
     private lateinit var ttsRestartBtn : Button
     private lateinit var ttsQSwitch : Switch
     private lateinit var whitelistBttnWrap:FrameLayout
-    private lateinit var btnNotiHelpWrap:FrameLayout
     private lateinit var sttSwitch : Switch
+    private lateinit var btnNotiHelpWrap:FrameLayout
 
     private var myService:KakaoNotificationListener? = null
     private var isConService = false
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            Log.v("myTEST", "binder 생성")
             val b = service as KakaoNotificationListener.MyServiceBinder
             myService = b.getService()
             isConService = true
@@ -48,12 +47,9 @@ class UsefulActivity : AppCompatActivity() {
         }
     }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_usefulfeatures)
-
         SettingManager.usefulActivityInstance = this
 
         var mainIntent = Intent(this, MainActivity::class.java)
@@ -63,8 +59,31 @@ class UsefulActivity : AppCompatActivity() {
             startActivity(mainIntent)
         })
 
-        val intent = Intent(this, NotibarService::class.java)
+        /* 알림바 설정 */
         notibar_switch = findViewById<Switch>(R.id.switchNotibar)
+        setNotibarSwitch()
+
+        /* TTS 재생 설정 */
+        ttsStopBtn = findViewById(R.id.stopBtn)
+        ttsShutdownBtn = findViewById(R.id.shutdownBtn)
+        ttsPauseBtn = findViewById(R.id.pauseBtn)
+        ttsRestartBtn = findViewById(R.id.restartBtn)
+        ttsQSwitch = findViewById(R.id.switchTTSQ)
+        setTTSElements()
+
+        /* 리스트 설정 */
+        whitelistBttnWrap=findViewById<FrameLayout>(R.id.btnListWrap)
+        setWhiteList()
+
+        /* 노티 어시스턴트 설정 */
+        sttSwitch = findViewById(R.id.switchNotiAssistant)
+        btnNotiHelpWrap=findViewById<FrameLayout>(R.id.btnNotiHelpWrap)
+        setNotiAssistant()
+
+    }
+
+    private fun setNotibarSwitch(){
+        val intent = Intent(this, NotibarService::class.java)
         notibar_switch.isChecked = SettingManager.isNotibarRunning
         notibar_switch.setOnCheckedChangeListener{ CompoundButton, value ->
             SettingManager.isNotibarRunning=value
@@ -77,17 +96,37 @@ class UsefulActivity : AppCompatActivity() {
                 stopService(intent)
             }
         }
+    }
 
-        ttsStopBtn = findViewById(R.id.stopBtn)
-        ttsShutdownBtn = findViewById(R.id.shutdownBtn)
-        ttsPauseBtn = findViewById(R.id.pauseBtn)
-        ttsRestartBtn = findViewById(R.id.restartBtn)
-        ttsQSwitch = findViewById(R.id.switchTTSQ)
+    private fun setTTSElements(){
+        /* 버튼 설정 */
+        ttsStopBtn.setOnClickListener {
+            myService?.stopTTS()
+        }
+        ttsShutdownBtn.setOnClickListener {
+            myService?.shutdownTTS()
+        }
+        ttsPauseBtn.setOnClickListener {
+            myService?.pauseTTS()
+        }
+        ttsRestartBtn.setOnClickListener {
+            myService?.restartTTS()
+        }
+        /* 스위치 설정 */
+        ttsQSwitch?.setOnCheckedChangeListener { CompoundButton, value ->
+            SettingManager.ttsQueueDelete = value
+        }
+    }
 
-        setButton()
-        setSwitch()
+    private fun setWhiteList(){
+        val listIntent = Intent(this, ListActivity::class.java)
+        whitelistBttnWrap.setOnClickListener(){
+            listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(listIntent)
+        }
+    }
 
-        sttSwitch = findViewById(R.id.switchNotiAssistant)
+    private fun setNotiAssistant(){
         val sttintent = Intent(this, SpeechToTextService::class.java)
         sttSwitch.setOnCheckedChangeListener{ CompoundButton, value ->
             if(value){
@@ -100,20 +139,7 @@ class UsefulActivity : AppCompatActivity() {
             }
         }
 
-        val listIntent = Intent(this, ListActivity::class.java)
-//        whitelistButton = findViewById<Button>(R.id.btnList)
-//        whitelistButton.setOnClickListener {
-//            listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            startActivity(listIntent)
-//        }
-        whitelistBttnWrap=findViewById<FrameLayout>(R.id.btnListWrap)
-        whitelistBttnWrap.setOnClickListener(){
-            listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(listIntent)
-        }
-
         val helpIntent=Intent(this,ListActivity::class.java)
-        btnNotiHelpWrap=findViewById<FrameLayout>(R.id.btnNotiHelpWrap)
         btnNotiHelpWrap.setOnClickListener(){
             val view=LayoutInflater.from(this).inflate(R.layout.activity_dialog,null)
             val builder=AlertDialog.Builder(this).setView(view)
@@ -126,65 +152,32 @@ class UsefulActivity : AppCompatActivity() {
             btnShutdown.setOnClickListener{
                 alertDialog.dismiss()
             }
-
-        }
-
-        //setwhitelistSpinner()
-    }
-
-    private fun setButton() {
-        ttsStopBtn.setOnClickListener {
-            myService?.stopTTS()
-            //myTestFunc()
-        }
-        ttsShutdownBtn.setOnClickListener {
-            myService?.shutdownTTS()
-        }
-        ttsPauseBtn.setOnClickListener {
-            myService?.pauseTTS()
-        }
-        ttsRestartBtn.setOnClickListener {
-            myService?.restartTTS()
         }
     }
-
-    private fun setSwitch() {
-        ttsQSwitch?.setOnCheckedChangeListener { CompoundButton, value ->
-            SettingManager.ttsQueueDelete = value
-        }
+    fun stopTTSforSTT(){
+        myService?.pauseTTS()
     }
-
-    /*
-    private fun setwhitelistSpinner(){
-        var _item : ArrayList<String> = ArrayList<String>()
-        for((key, value) in SettingManager.whiteList)
-            _item.add(key)
-        val _adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, _item)
-        whitelistSpinner.adapter = _adapter
-        whitelistSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }
+    fun restartTTSforSTT(){
+        myService?.restartTTS()
     }
-    */
-
+    fun recentsenderForStt() : String? {
+        return myService?.recentsender()
+    }
+    fun replyForStt(message : String){
+        myService?.reply(message)
+    }
 
     fun saveState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         val editor=pref.edit()
 
-        val keys=arrayOf<String>("isRunning","ttsVolume","ttsSpeed","ttsEngine","isReadingSender","isReadingText","isReadingTime", "isSttActivate")
-        editor.putInt(keys[1], SettingManager.ttsVolume)
-        editor.putFloat(keys[2], SettingManager.ttsSpeed)
-        editor.putInt(keys[3], SettingManager.ttsEngine)
-        editor.putBoolean(keys[4], SettingManager.isReadingSender)
-        editor.putBoolean(keys[5], SettingManager.isReadingText)
-        editor.putBoolean(keys[6], SettingManager.isReadingTime)
-        editor.putBoolean(keys[7], SettingManager.isSttActivate)
+        editor.putInt("ttsVolume", SettingManager.ttsVolume)
+        editor.putFloat("ttsSpeed", SettingManager.ttsSpeed)
+        editor.putInt("ttsEngine", SettingManager.ttsEngine)
+        editor.putBoolean("isReadingSender", SettingManager.isReadingSender)
+        editor.putBoolean("isReadingText", SettingManager.isReadingText)
+        editor.putBoolean("isReadingTime", SettingManager.isReadingTime)
+        editor.putBoolean("isSttActivate", SettingManager.isSttActivate)
         editor.putBoolean("isNotificationServiceRunning", SettingManager.isNotibarRunning);
         editor.putBoolean("ttsQueueDelete", SettingManager.ttsQueueDelete)
         editor.commit()
@@ -219,36 +212,16 @@ class UsefulActivity : AppCompatActivity() {
         }
     }
 
-    fun recentsenderForStt() : String? {
-        return myService?.recentsender()
-    }
-
-    fun replyForStt(message : String){
-        myService?.reply(message)
-    }
-
     override fun onResume() {
-        Log.d("myTEST", "useful - onResume")
         super.onResume()
-        //setwhitelistSpinner()
         serviceBind()
         restoreState()
         initState()
     }
 
     override fun onPause() {
-        Log.d("myTEST", "useful - onPause")
         super.onPause()
         saveState()
         serviceUnBind()
     }
-
-    fun stopTTSforSTT(){
-        Log.d("myTEST", "stopTTS22")
-        myService?.pauseTTS()
-    }
-    fun restartTTSforSTT(){
-        myService?.restartTTS()
-    }
-
 }

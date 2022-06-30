@@ -17,7 +17,7 @@ import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 class AppWidget : AppWidgetProvider() {
 
-    // when widget is clicked
+    // 위젯 클릭시 브로드캐스트
     private fun getPendingIntent(context: Context, id: Int): PendingIntent? {
         val intent = Intent(context, AppWidget::class.java)
         intent.action = WIDGET_CLICKED
@@ -32,24 +32,22 @@ class AppWidget : AppWidgetProvider() {
         val views = RemoteViews(context.packageName, R.layout.app_widget)
 
         when(action){
-            // when widget is created
+            // 위젯 생성시
             WIDGET_CREATE->updateWidget(context,views,SettingManager.isRunning)
-
-            // when widget is clicked
+            // 위젯 클릭시 설정값 변경
             WIDGET_CLICKED-> {
                 val viewId = intent.getIntExtra("viewId", 0)
                 val isRunning=(viewId == R.id.bttn_on)
                 updateIsRunning(isRunning)
                 updateWidget(context,views,isRunning)
-
-                // update Notibar and Preferences
+                // 노티바 및 pref 동기화
                 updateNotibar(context)
                 updatePreferences()
             }
         }
     }
 
-    //  update widget appearance
+    //  위젯 UI 변경
     private fun updateWidget(context: Context, views: RemoteViews,isRunning:Boolean) {
         if(isRunning){
             views.setInt(R.id.bttn_on, "setTextColor", Color.BLACK);
