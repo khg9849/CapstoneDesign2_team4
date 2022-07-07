@@ -23,6 +23,7 @@ class KakaoNotificationListener : NotificationListenerService() {
     private lateinit var tts: TextToSpeech
     private lateinit var ttsList : List<TextToSpeech.EngineInfo>
     private var ttsQ: LinkedList<String> = LinkedList()
+    private var ttsCount : Int = 0
     private var isPause : Boolean = false
     private lateinit var audioManager : AudioManager
     private var preAudio : Int = -1
@@ -146,22 +147,29 @@ class KakaoNotificationListener : NotificationListenerService() {
         tts.setOnUtteranceProgressListener(speechListener)
 
 
+        val curEngine : Int = SettingManager.ttsEngine
+        ttsCount = (ttsCount+1)%20000
+        val curCount : Int = ttsCount
         Timer().schedule(2000){
-            getFocusAndSpeak("테스트 음성입니다")
+            if(curEngine == SettingManager.ttsEngine && curCount == ttsCount) {
+                getFocusAndSpeak("테스트 음성입니다", true)
+            }
         }
         if(SettingManager.ttsQueueDelete){
             deleteQueue()
         }
         else {
-            Timer().schedule(5000) {
-                speakQueue()
+            Timer().schedule(10000) {
+                if(curEngine == SettingManager.ttsEngine && curCount == ttsCount) {
+                    speakQueue()
+                }
             }
         }
     }
 
     private fun speakQueue(){
         for(i in ttsQ){
-            getFocusAndSpeak(i)
+            getFocusAndSpeak(i, false)
         }
     }
 
@@ -259,7 +267,7 @@ class KakaoNotificationListener : NotificationListenerService() {
                         if(tts != null) {
                             ttsQ.add(text)
                             if(!isPause) {
-                                getFocusAndSpeak(text)
+                                getFocusAndSpeak(text, false)
                             }
                         }
                     }
@@ -271,7 +279,7 @@ class KakaoNotificationListener : NotificationListenerService() {
         }
     }
 
-    private fun getFocusAndSpeak(text : String){
+    private fun getFocusAndSpeak(text : String, test : Boolean){
         if(preAudio == -1) {
             preAudio = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         }
@@ -280,7 +288,12 @@ class KakaoNotificationListener : NotificationListenerService() {
             val requestResult = audioManager.requestAudioFocus(audioFocusRequest)
             if(requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
                 tts!!.setSpeechRate(SettingManager.ttsSpeed)
-                tts!!.speak(text, TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID)
+                if(!test){
+                    tts!!.speak(text, TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID)
+                }
+                else{
+                    tts!!.speak(text, TextToSpeech.QUEUE_ADD, null, null)
+                }
             }
         }
     }
