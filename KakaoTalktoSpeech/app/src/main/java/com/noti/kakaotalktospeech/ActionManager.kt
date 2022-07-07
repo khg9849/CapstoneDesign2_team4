@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.app.Activity
 import android.content.Context
@@ -14,7 +14,7 @@ class ActionManager {
         val NOTIBAR_UPDATE_STOP="UPDATE_STOP"
 
         fun updateIsRunning(isRunning:Boolean){
-            SettingManager.isRunning=isRunning
+            SettingManager.isRunning =isRunning
 
             // Update pref
             val pref =
@@ -28,7 +28,7 @@ class ActionManager {
         fun sendUpdateWidgetIntent(context: Context){
             val intent = Intent(context, AppWidget::class.java)
             intent.setAction(WIDGET_CREATE)
-            intent.putExtra("isRunning",SettingManager.isRunning)
+            intent.putExtra("isRunning", SettingManager.isRunning)
             context.sendBroadcast(intent)
         }
 

@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -8,11 +8,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.widget.RemoteViews
-import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_CREATE
-import com.example.kakaotalktospeech.ActionManager.Companion.WIDGET_CLICKED
-import com.example.kakaotalktospeech.ActionManager.Companion.updateIsRunning
-import com.example.kakaotalktospeech.ActionManager.Companion.updateNotibar
-import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
+import com.example.kakaotalktospeech.R
+import com.noti.kakaotalktospeech.ActionManager.Companion.WIDGET_CREATE
+import com.noti.kakaotalktospeech.ActionManager.Companion.WIDGET_CLICKED
+import com.noti.kakaotalktospeech.ActionManager.Companion.updateIsRunning
+import com.noti.kakaotalktospeech.ActionManager.Companion.updateNotibar
+import com.noti.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 
 class AppWidget : AppWidgetProvider() {
@@ -33,7 +34,7 @@ class AppWidget : AppWidgetProvider() {
 
         when(action){
             // 위젯 생성시
-            WIDGET_CREATE->updateWidget(context,views,SettingManager.isRunning)
+            WIDGET_CREATE->updateWidget(context,views, SettingManager.isRunning)
             // 위젯 클릭시 설정값 변경
             WIDGET_CLICKED-> {
                 val viewId = intent.getIntExtra("viewId", 0)

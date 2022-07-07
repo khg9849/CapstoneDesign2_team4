@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.Manifest
 import android.app.Activity
@@ -13,9 +13,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
-import com.example.kakaotalktospeech.ActionManager.Companion.updateNotibar
+import com.noti.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
+import com.noti.kakaotalktospeech.ActionManager.Companion.updateNotibar
 import androidx.core.content.ContextCompat
+import com.example.kakaotalktospeech.R
 
 class MainActivity : AppCompatActivity() {
     companion object{
@@ -64,17 +65,6 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.RECORD_AUDIO), 0)
-        }
-
-        //메시지 전송 권한 요청
-        val MY_PERMISSION_ACCESS_ALL = 100
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            var permissions = arrayOf(
-                android.Manifest.permission.SEND_SMS
-            )
-            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
         }
     }
 
@@ -162,7 +152,7 @@ class MainActivity : AppCompatActivity() {
     private fun restoreState() {
         val pref = getSharedPreferences("pref", Activity.MODE_PRIVATE)
         if(pref!=null){
-            SettingManager.isRunning=pref.getBoolean("isRunning", false);
+            SettingManager.isRunning =pref.getBoolean("isRunning", false);
             runningSwitch.isChecked = SettingManager.isRunning
         }
     }

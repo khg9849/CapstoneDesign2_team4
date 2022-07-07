@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.app.Application
 import android.content.Context
@@ -35,7 +35,7 @@ class ContactsManager : Application() {
     companion object{
         fun putWhiteList(name : String){
             if(SettingManager.whiteList.containsKey(name)){
-                if(!ContactsManager.checkWhiteList(name)) return
+                if(!checkWhiteList(name)) return
 
                 var list: ArrayList<Int>? = SettingManager.whiteList.get(name)
                 var idx1 = list!!.get(0) //연락을 수신한 횟수

@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kakaotalktospeech.R
 
 
 class ListActivity: AppCompatActivity() {
@@ -46,7 +47,8 @@ class ListActivity: AppCompatActivity() {
         orderbySpinner.adapter = ArrayAdapter.createFromResource(
             this,
             R.array.itemList,
-            R.layout.spinner_item)
+            R.layout.spinner_item
+        )
         orderbySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
 

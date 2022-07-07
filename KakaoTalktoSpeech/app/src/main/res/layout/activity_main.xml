@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/background0"
-    tools:context="com.example.kakaotalktospeech.MainActivity">
+    tools:context="com.example.kakaotalktospeech.com.noti.kakaotalktospeech.MainActivity">
 
 
     <RelativeLayout

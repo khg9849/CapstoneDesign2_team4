@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.app.Activity
 import android.content.ComponentName
@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kakaotalktospeech.R
 
 class OptionActivity : AppCompatActivity() {
 
@@ -23,7 +24,7 @@ class OptionActivity : AppCompatActivity() {
     private lateinit var textSwitch : Switch
     private lateinit var timeSwitch : Switch
     private var ttsItem : ArrayList<String> = arrayListOf<String>()
-    private var myService:KakaoNotificationListener? = null
+    private var myService: KakaoNotificationListener? = null
     private var isConService = false
 
     private val serviceConnection = object : ServiceConnection {
@@ -69,7 +70,7 @@ class OptionActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                SettingManager.ttsVolume= seekBar.progress
+                SettingManager.ttsVolume = seekBar.progress
             }
         })
 
@@ -79,7 +80,7 @@ class OptionActivity : AppCompatActivity() {
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                SettingManager.ttsSpeed=(seekBar.progress+3)*0.2f
+                SettingManager.ttsSpeed =(seekBar.progress+3)*0.2f
             }
         })
     }
@@ -102,13 +103,13 @@ class OptionActivity : AppCompatActivity() {
 
     private fun setSwitch(){
         senderSwitch?.setOnCheckedChangeListener{ CompoundButton, value ->
-            SettingManager.isReadingSender=value
+            SettingManager.isReadingSender =value
         }
         textSwitch?.setOnCheckedChangeListener{ CompoundButton, value ->
-            SettingManager.isReadingText=value
+            SettingManager.isReadingText =value
         }
         timeSwitch?.setOnCheckedChangeListener{ CompoundButton, value ->
-            SettingManager.isReadingTime=value
+            SettingManager.isReadingTime =value
         }
     }
 
@@ -129,16 +130,16 @@ class OptionActivity : AppCompatActivity() {
         val ttsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ttsItem)
         ttsEngineSpinner.adapter = ttsAdapter
         soundSeekbar?.progress = SettingManager.ttsVolume
-        speedSeekbar?.progress = (SettingManager.ttsSpeed/0.2).toInt()-3
+        speedSeekbar?.progress = (SettingManager.ttsSpeed /0.2).toInt()-3
         speedTextView?.text = String.format("%.1f", SettingManager.ttsSpeed)+"배속"
         ttsEngineSpinner.setSelection(SettingManager.ttsEngine)
         /*
         Timer().schedule(5000){
             myService?.changeTTS()
         }*/ // 저장된 tts로 생성되게 만들어야됨
-        senderSwitch?.isChecked=SettingManager.isReadingSender
-        textSwitch?.isChecked=SettingManager.isReadingText
-        timeSwitch?.isChecked=SettingManager.isReadingTime
+        senderSwitch?.isChecked= SettingManager.isReadingSender
+        textSwitch?.isChecked= SettingManager.isReadingText
+        timeSwitch?.isChecked= SettingManager.isReadingTime
     }
 
     private fun saveState() {
@@ -161,8 +162,8 @@ class OptionActivity : AppCompatActivity() {
             SettingManager.ttsSpeed =pref.getFloat("ttsSpeed", 1.0f)
             SettingManager.ttsEngine =pref.getInt("ttsEngine", SettingManager.ttsEngine)
             SettingManager.isReadingSender =pref.getBoolean("isReadingSender", true)
-            SettingManager.isReadingText  =pref.getBoolean("isReadingText", true)
-            SettingManager.isReadingTime  =pref.getBoolean("isReadingTime", false)
+            SettingManager.isReadingText =pref.getBoolean("isReadingText", true)
+            SettingManager.isReadingTime =pref.getBoolean("isReadingTime", false)
         }
     }
 

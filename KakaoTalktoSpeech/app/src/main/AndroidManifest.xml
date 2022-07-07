@@ -24,16 +24,16 @@
         android:theme="@style/Theme.KakaoTalktoSpeech">
 
         <service
-            android:name=".NotibarService"
+            android:name="com.noti.kakaotalktospeech.NotibarService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".SpeechToTextService"
+            android:name="com.noti.kakaotalktospeech.SpeechToTextService"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".AppWidget"
+            android:name="com.noti.kakaotalktospeech.AppWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -45,7 +45,7 @@
         </receiver>
 
         <activity
-            android:name=".LoadingActivity"
+            android:name="com.noti.kakaotalktospeech.LoadingActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -55,20 +55,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.noti.kakaotalktospeech.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".OptionActivity"
+            android:name="com.noti.kakaotalktospeech.OptionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UsefulActivity"
+            android:name="com.noti.kakaotalktospeech.UsefulActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ListActivity"
+            android:name="com.noti.kakaotalktospeech.ListActivity"
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".KakaoNotificationListener"
+            android:name="com.noti.kakaotalktospeech.KakaoNotificationListener"
             android:exported="false"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>

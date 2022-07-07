@@ -1,16 +1,17 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.app.*
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_START
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_STOP
-import com.example.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
-import com.example.kakaotalktospeech.ActionManager.Companion.updateIsRunning
-import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
+import com.example.kakaotalktospeech.R
+import com.noti.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
+import com.noti.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_START
+import com.noti.kakaotalktospeech.ActionManager.Companion.NOTIBAR_UPDATE_STOP
+import com.noti.kakaotalktospeech.ActionManager.Companion.sendUpdateWidgetIntent
+import com.noti.kakaotalktospeech.ActionManager.Companion.updateIsRunning
+import com.noti.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 
 class NotibarService : Service() {
@@ -62,7 +63,7 @@ class NotibarService : Service() {
         intent.setAction(action)
         val pendingIntent =
             PendingIntent.getService(baseContext, 1, intent, PendingIntent.FLAG_IMMUTABLE)
-        val iconId=R.drawable.ic_megaphone
+        val iconId= R.drawable.ic_megaphone
         return NotificationCompat.Action.Builder(iconId,btnTitle,pendingIntent).build()
     }
 

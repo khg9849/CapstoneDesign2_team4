@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.app.Service
 import android.content.Intent
@@ -16,7 +16,7 @@ class SpeechToTextService : Service(){
     private var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
     lateinit var tts: TextToSpeech
     lateinit var audioManager: AudioManager
-    var stt:SpeechToText? = null
+    var stt: SpeechToText? = null
 
     override fun onBind(p0: Intent?): IBinder {
         throw UnsupportedOperationException("Not yet")
@@ -52,7 +52,7 @@ class SpeechToTextService : Service(){
     }
 
     private fun waitGuest(){
-        Log.d("myService", "WaitGuest "+SettingManager.isSttWorking)
+        Log.d("myService", "WaitGuest "+ SettingManager.isSttWorking)
         if(SettingManager.isSttWorking)
             mDelayHandler.postDelayed(::runningGuest, 1000)
         else

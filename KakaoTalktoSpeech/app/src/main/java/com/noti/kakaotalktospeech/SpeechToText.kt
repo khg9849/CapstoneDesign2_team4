@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
@@ -12,7 +12,7 @@ import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kakaotalktospeech.ActionManager.Companion.updatePreferences
+import com.noti.kakaotalktospeech.ActionManager.Companion.updatePreferences
 
 class SpeechToText : AppCompatActivity {
 
@@ -34,7 +34,6 @@ class SpeechToText : AppCompatActivity {
     private var sttCounter : Int = 3
 
     private var myTTS: TextToSpeech? = null
-    val myContext = this
 
     constructor(intent: Intent, context: Context, audioManager:AudioManager, tts:TextToSpeech){
         Log.e("myTEST", "const")
@@ -213,7 +212,7 @@ class SpeechToText : AppCompatActivity {
         ActivaterecognitionListener = object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
                 Log.d("myTEST", "onReady Activate")
-                SettingManager.isSttWorking=true
+                SettingManager.isSttWorking =true
                 muteRecognition(false)
             }
 
@@ -342,7 +341,7 @@ class SpeechToText : AppCompatActivity {
                                 if(replySender == null || !replySender!!.isNotEmpty()){
                                     speakTTS( "최근에 메세지를 보낸 사람이 없어요")
                                     doActivate = 0;
-                                    SettingManager.isSttWorking=false
+                                    SettingManager.isSttWorking =false
                                 }
                                 else {
                                     SettingManager.isReplying = true
@@ -405,7 +404,7 @@ class SpeechToText : AppCompatActivity {
                                     speakTTS("볼륨을 낮출게요")
                                 }
                                 doActivate = 0
-                                SettingManager.isSttWorking=false
+                                SettingManager.isSttWorking =false
                             }
                             4->{
                                 if(txt.contains("그래") || txt.contains("응")) {
@@ -415,7 +414,7 @@ class SpeechToText : AppCompatActivity {
                                         )
                                     }
                                 }
-                                SettingManager.isSttWorking=false
+                                SettingManager.isSttWorking =false
                                 doActivate = 0
                             }
                         }

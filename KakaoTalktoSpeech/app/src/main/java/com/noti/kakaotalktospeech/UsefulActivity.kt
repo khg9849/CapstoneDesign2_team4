@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -18,7 +18,8 @@ import android.widget.FrameLayout
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
+import com.example.kakaotalktospeech.R
+import com.noti.kakaotalktospeech.ActionManager.Companion.NOTIBAR_CREATE
 
 
 class UsefulActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class UsefulActivity : AppCompatActivity() {
     private lateinit var sttSwitch : Switch
     private lateinit var btnNotiHelpWrap:FrameLayout
 
-    private var myService:KakaoNotificationListener? = null
+    private var myService: KakaoNotificationListener? = null
     private var isConService = false
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -86,10 +87,10 @@ class UsefulActivity : AppCompatActivity() {
         val intent = Intent(this, NotibarService::class.java)
         notibar_switch.isChecked = SettingManager.isNotibarRunning
         notibar_switch.setOnCheckedChangeListener{ CompoundButton, value ->
-            SettingManager.isNotibarRunning=value
+            SettingManager.isNotibarRunning =value
             if(value){
                 intent.action=NOTIBAR_CREATE
-                intent.putExtra("isRunning",SettingManager.isRunning)
+                intent.putExtra("isRunning", SettingManager.isRunning)
                 startService(intent)
             }
             else{
@@ -139,7 +140,7 @@ class UsefulActivity : AppCompatActivity() {
             }
         }
 
-        val helpIntent=Intent(this,ListActivity::class.java)
+        val helpIntent=Intent(this, ListActivity::class.java)
         btnNotiHelpWrap.setOnClickListener(){
             val view=LayoutInflater.from(this).inflate(R.layout.activity_dialog,null)
             val builder=AlertDialog.Builder(this).setView(view)
@@ -194,7 +195,7 @@ class UsefulActivity : AppCompatActivity() {
 
     private fun initState(){
         notibar_switch.isChecked = SettingManager.isNotibarRunning
-        ttsQSwitch?.isChecked=SettingManager.ttsQueueDelete
+        ttsQSwitch?.isChecked= SettingManager.ttsQueueDelete
         sttSwitch.isChecked = SettingManager.isSttActivate
     }
 

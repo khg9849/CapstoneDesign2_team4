@@ -1,4 +1,4 @@
-package com.example.kakaotalktospeech
+package com.noti.kakaotalktospeech
 
 import android.content.Context
 import android.util.Log
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kakaotalktospeech.R
 
 //코틀린 RecycleView Click event 처리:
 //https://blog.yena.io/studynote/2017/12/07/Android-Kotlin-RecyclerView2.html
